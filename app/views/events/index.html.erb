@@ -1,69 +1,64 @@
 <h1>Events</h1>
-<table border="1" cellpadding="6" cellspacing="0">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Category</th>
-			<th>Location</th>
-			<th>Event time</th>
-			<th>Age Range</th>
-			<th>Description</th>
-			<th>Show</th>
-			<th>Edit</th>
-			<th>Delete</th>
-		</tr>
-	</thead>
-<tbody>
+
+<table border="1" cellpadding="8" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Event Info</th>
+      <th>Details</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
     <% @events.each do |event| %>
       <tr>
-        <!-- Category -->
-        <td><%= event.category.titleize %></td>
-
-        <!-- Location -->
-        <td><%= event.city.presence || "Online / N/A" %></td>
-
-        <!-- Start Time -->
+        <!-- Event Info -->
         <td>
-          <%= event.starts_at.strftime("%Y-%m-%d %I:%M %p") if event.starts_at %>
+          <p><strong>Title:</strong> <%= event.title %></p>
+          <p><strong>Category:</strong> <%= event.category.titleize %></p>
+          <p><strong>Organizer:</strong> <%= event.organizer&.name || event.organizer&.email %></p>
         </td>
 
-        <!-- Age Range -->
+        <!-- Details -->
         <td>
-          <% if event.age_min.present? || event.age_max.present? %>
-            <%= event.age_min || "?" %> – <%= event.age_max || "?" %>
-          <% else %>
-            Any
-          <% end %>
+          <p>
+            <strong>Location:</strong>
+            <%= event.city.presence || "Online / N/A" %>
+          </p>
+
+          <p>
+            <strong>Event Time:</strong>
+            <%= event.starts_at.strftime("%Y-%m-%d %I:%M %p") if event.starts_at %>
+          </p>
+
+          <p>
+            <strong>Age Range:</strong>
+            <% if event.age_min.present? || event.age_max.present? %>
+              <%= event.age_min || "?" %> – <%= event.age_max || "?" %>
+            <% else %>
+              Any
+            <% end %>
+          </p>
+
+          <p>
+            <strong>Description:</strong><br>
+            <%= truncate(event.description, length: 100) %>
+          </p>
         </td>
 
-        <!-- Organizer -->
-        <td><%= event.organizer&.name || event.organizer&.email %></td>
-
-        <!-- Description -->
-        <td><%= truncate(event.description, length: 40) %></td>
-
-        <!-- Show -->
+        <!-- Actions -->
         <td>
-          <%= link_to "Show", event_path(event) %>
-        </td>
+          <p><%= link_to "Show", event_path(event) %></p>
 
-        <!-- Edit -->
-        <td>
           <% if current_user&.admin? || current_user&.id == event.organizer_id %>
-            <%= link_to "Edit", edit_event_path(event) %>
+            <p><%= link_to "Edit", edit_event_path(event) %></p>
+            <p>
+              <%= link_to "Delete", event_path(event),
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure you want to delete this event?" } %>
+            </p>
           <% else %>
-            <span style="color: gray;">Not allowed</span>
-          <% end %>
-        </td>
-
-        <!-- Delete -->
-        <td>
-          <% if current_user&.admin? || current_user&.id == event.organizer_id %>
-            <%= button_to "Delete", event_path(event),
-                  method: :delete,
-                  data: { turbo_confirm: "Are you sure you want to delete this event?" } %>
-          <% else %>
-            <span style="color: gray;">Not allowed</span>
+            <p style="color: gray;">Not allowed</p>
           <% end %>
         </td>
       </tr>
@@ -73,6 +68,6 @@
 
 <br>
 
-<div style="margin-bottom: 16px;">
+<div>
   <%= link_to "Create New Event", new_event_path %>
-</div>	
+</div>
