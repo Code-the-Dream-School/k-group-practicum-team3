@@ -69,22 +69,32 @@ class User < ApplicationRecord
 
   #Returns true if the user can create, edit, or delete the given event.
   def can_manage_event?(event, user)
-    #TODO
+    if event.user_id == user.id 
+      return true       
+
+    return false
+
   end
 
   #Returns true if the user is allowed to create new events.
   def can_create_events?(user)
     #TODO
+    if user.id == "organizer"
+      return true
+
+    return false
   end
 
   #Returns the correct dashboard path based on the user’s role.
   def dashboard_path_for(user)
     #TODO: No dashboard yet
+    return "TODO: dashboard_path(user)"
   end
 
   #Returns a list of navigation links appropriate to the user’s role.
   def navigation_links_for(user)
     #TODO
+    return "TODO: navigation_links_for(user)"
   end
 
   #Returns the best name to show for a user (name or email fallback).
