@@ -6,13 +6,6 @@ class User < ApplicationRecord
 
   has_many :events
 
-  #Returns true if there is a currently authenticated user.
-  #Note: I think this method isn't needed since devise already creates a helper method
-  def logged_in?
-    if user_signed_in?
-      return true
-  end
-
   def organizer?(user)
     if user.has_role? :organizer
       return true
@@ -78,8 +71,7 @@ class User < ApplicationRecord
 
   #Returns true if the user is allowed to create new events.
   def can_create_events?(user)
-    #TODO
-    if user.id == "organizer"
+    if user.has_role? :organizer
       return true
 
     return false
