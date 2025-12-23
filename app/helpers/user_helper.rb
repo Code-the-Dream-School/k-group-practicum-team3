@@ -51,10 +51,10 @@ module UserHelper
 
   # Returns true if the user can create, edit, or delete the given event.
   def can_manage_event?(event, user)
-    if event.user_id == user.id 
-      return true       
+    if event.user_id == user.id
+      true
     end
-    return false
+    false
   end
 
   # Returns true if the user is allowed to create new events.
