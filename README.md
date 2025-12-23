@@ -108,12 +108,13 @@ bin/rails db:seed
 ## 6) Run the app
 
 ```bash
-bin/rails s
+bin/dev
 ```
-
-Then visit: [http://localhost:3000](http://localhost:3000)
-
----
+or
+```bash
+bin/rails s
+./bin/rails tailwindcss:install # in another terminal
+```
 
 # Development Commands
 
@@ -194,7 +195,7 @@ git commit -m "Implement <ticket>"
 4. Push and open PR to `dev`:
 
 ```bash
-git push 
+git push
 ```
 
 5. In the PR description include:
