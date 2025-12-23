@@ -6,50 +6,12 @@ class User < ApplicationRecord
 
   has_many :events
 
-  def organizer?(user)
-    if user.has_role? :organizer
-      return true
-    else 
-      false
+  #Returns initials for avatar placeholders.
+  def user_initials(user)
+    return "#{User.first_name[0]}.#{User.last_name[0]}" 
   end
 
-  #Returns true if the user has the student role.
-  def student?(user)
-    if user.has_role? :student
-      return true
-    else 
-      false
-  end
-
-  #Returns true if the user has the parent role.
-  def parent?(user)
-    if user.has_role? :parent
-      return true
-    else 
-      false
-  end
-
-  def admin?(user)
-    if user.has_role? :admin
-      return true
-    else 
-      false
-  end
-
-  #Returns a human-friendly version of the user’s role (e.g. “Organizer”).
-  def display_role(user)
-    if admin?(user)
-      return "Admin"
-    elsif organizer?(user)
-      return "Organizer"
-    elsif parent?(user)
-      return "Parent"
-    elsif student?(user)
-      return "Student"
-    else
-      return ""
-  end
-
+  #Note: This provides two ways of accessing the data
   #Returns the user full name
   def name
     return "#{User.first_name} #{User.last_name}"
@@ -58,50 +20,6 @@ class User < ApplicationRecord
   #Returns the users full name given a user
   def name(user)
     return "#{user.first_name} #{user.last_name}"
-  end
-
-  #Returns true if the user can create, edit, or delete the given event.
-  def can_manage_event?(event, user)
-    if event.user_id == user.id 
-      return true       
-
-    return false
-
-  end
-
-  #Returns true if the user is allowed to create new events.
-  def can_create_events?(user)
-    if user.has_role? :organizer
-      return true
-
-    return false
-  end
-
-  #Returns the correct dashboard path based on the user’s role.
-  def dashboard_path_for(user)
-    #TODO: No dashboard yet
-    return "TODO: dashboard_path(user)"
-  end
-
-  #Returns a list of navigation links appropriate to the user’s role.
-  def navigation_links_for(user)
-    #TODO
-    return "TODO: navigation_links_for(user)"
-  end
-
-  #Returns the best name to show for a user (name or email fallback).
-  def user_display_name(user)
-    if user.name.present?
-      return user.name
-    elsif user.email.present?
-      return user.email
-    else
-      return ""
-  end
-
-  #Returns initials for avatar placeholders.
-  def user_initials(user)
-    return "#{User.first_name[0]}.#{User.last_name[0]}" 
   end
 
 end
