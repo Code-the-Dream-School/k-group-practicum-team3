@@ -2,39 +2,39 @@ module UserHelper
     def organizer?(user)
         if user.has_role? :organizer
             return true
-        else 
-            false
+        else
+            return false
         end
     end
 
-  #Returns true if the user has the student role.
+  # Returns true if the user has the student role.
   def student?(user)
     if user.has_role? :student
       return true
-    else 
+    else
       false
     end
   end
 
-  #Returns true if the user has the parent role.
+  # Returns true if the user has the parent role.
   def parent?(user)
     if user.has_role? :parent
       return true
-    else 
+    else
       false
     end
   end
 
-  #Returns true if the user has the admin role.
+  # Returns true if the user has the admin role.
   def admin?(user)
     if user.has_role? :admin
       return true
-    else 
-      false
+    else
+      return false
     end
   end
 
-  #Returns a human-friendly version of the user’s role (e.g. “Organizer”).
+  # Returns a human-friendly version of the user’s role (e.g. “Organizer”).
   def display_role(user)
     if admin?(user)
       return "Admin"
@@ -49,7 +49,7 @@ module UserHelper
     end
   end
 
-  #Returns true if the user can create, edit, or delete the given event.
+  # Returns true if the user can create, edit, or delete the given event.
   def can_manage_event?(event, user)
     if event.user_id == user.id 
       return true       
@@ -58,7 +58,7 @@ module UserHelper
 
   end
 
-  #Returns true if the user is allowed to create new events.
+  # Returns true if the user is allowed to create new events.
   def can_create_events?(user)
     if user.has_role? :organizer
       return true
@@ -66,13 +66,13 @@ module UserHelper
     return false
   end
 
-  #Returns the correct dashboard path based on the user’s role.
+  # Returns the correct dashboard path based on the user’s role.
   def dashboard_path_for(user)
-    #TODO: No dashboard yet
+    # TODO: No dashboard yet
     return "TODO: dashboard_path(user)"
   end
 
-  #Returns a list of navigation links appropriate to the user’s role.
+  # Returns a list of navigation links appropriate to the user’s role.
   def navigation_links_for(user)
     #TODO: No navigation pages yet
     if admin?(user)
@@ -88,7 +88,7 @@ module UserHelper
     end
   end
 
-  #Returns the best name to show for a user (name or email fallback).
+  # Returns the best name to show for a user (name or email fallback).
   def user_display_name(user)
     if user.name.present?
       return user.name
