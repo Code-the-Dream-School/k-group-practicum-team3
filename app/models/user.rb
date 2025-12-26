@@ -5,4 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :events
+  has_many :enrollments, dependent: :destroy
+  has_many :enrolled_events, through: :enrollments, source: :event
+
 end
