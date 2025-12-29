@@ -1,37 +1,26 @@
 require "rails_helper"
 
-RSpec.describe Event, type: :model do
-  let(:user) do
-    User.create!(
-      email: "test@example.com",
-      password: "password123",
-      password_confirmation: "password123"
-    )
-  end
+RSpec.describe "Events", type: :request do
+  let(:user) { User.create!(email: "organizer@example.com", password: "password123") }
 
-  it "is valid with required fields" do
-    event = Event.new(
-      title: "Soccer",
+  let(:event) do
+    Event.create!(
+      title: "Soccer Practice",
       category: :sports,
       starts_at: 1.day.from_now,
       allowed_gender: :any,
       rsvp: :public_event,
       user: user
     )
-
-    expect(event).to be_valid
   end
 
-  it "is invalid without a title" do
-    event = Event.new(
-      title: nil,
-      category: :sports,
-      starts_at: 1.day.from_now,
-      allowed_gender: :any,
-      rsvp: :public_event,
-      user: user
-    )
+  it "renders the index page" do
+    get events_path
+    expect(response).to have_http_status(:ok)
+  end
 
-    expect(event).not_to be_valid
+  it "renders the show page" do
+    get event_path(event)
+    expect(response).to have_http_status(:ok)
   end
 end
