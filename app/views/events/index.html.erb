@@ -39,7 +39,9 @@
               Any
             <% end %>
           </p>
-
+		
+          <p><strong>Gender:</strong> <%= event.allowed_gender.humanize %></p>
+			 
           <p>
             <strong>Description:</strong><br>
             <%= truncate(event.description, length: 100) %>
