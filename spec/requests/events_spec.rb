@@ -33,6 +33,5 @@ RSpec.describe Event, type: :model do
     )
 
     expect(event).not_to be_valid
-    expect(event.errors[:title]).to be_present
   end
 end

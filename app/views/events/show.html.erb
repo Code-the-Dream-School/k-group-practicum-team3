@@ -11,10 +11,20 @@
     <strong>Category:</strong>
     <%= @event.category.titleize %>
   </p>
-
+  <p>
+    <strong>RSVP:</strong> <%= @event.rsvp.humanize %>
+  </p>
+  <p>
+    <strong>Organizer:</strong>
+    <% if @event.user.present? %>
+      <%= [@event.user.first_name, @event.user.last_name].compact.join(" ").presence || @event.user.email %>
+    <% else %>
+      N/A
+    <% end %>
+  </p>
   <p>
     <strong>Location:</strong>
-    <%= @event.city.presence || "Online / N/A" %>
+     <%= [@event.location, @event.city, @event.state].compact_blank.join(", ").presence || "Online / N/A" %>
   </p>
 
   <p>
@@ -31,8 +41,8 @@
 
   <p>
     <strong>Age Range:</strong>
-    <% if @event.age_min.present? || @event.age_max.present? %>
-      <%= @event.age_min || "?" %> – <%= @event.age_max || "?" %>
+    <% if @event.min_age.present? || @event.max_age.present? %>
+      <%= @event.min_age || "?" %> – <%= @event.max_age || "?" %>
     <% else %>
       Any
     <% end %>
@@ -46,28 +56,21 @@
   <% if @event.price.present? %>
     <p>
       <strong>Price:</strong>
-      <%= @event.price.zero? ? "Free" : "$#{@event.price}" %>
+      <%= @event.price.to_i == 0 ? "Free" : "$#{@event.price}" %>
     </p>
   <% end %>
-
-  <p>
-    <strong>Organizer:</strong>
-    <%= @event.organizer&.name || @event.organizer&.email %>
-  </p>
-
-  <% if @event.description.present? %>
+   <% if @event.description.present? %>
     <p>
       <strong>Description:</strong><br>
       <%= simple_format(@event.description) %>
     </p>
   <% end %>
 
-  <hr>
-
+    <hr>
   <p>
     <%= link_to "Back to Events", events_path %>
 
-    <% if current_user&.admin? || current_user&.id == @event.organizer_id %>
+    <% if current_user&.admin? || current_user&.id == @event.user_id %>
       | <%= link_to "Edit", edit_event_path(@event) %>
       | <%= link_to "Delete", event_path(@event),
             method: :delete,

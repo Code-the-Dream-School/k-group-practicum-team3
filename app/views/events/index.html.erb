@@ -16,14 +16,16 @@
         <td>
           <p><strong>Title:</strong> <%= event.title %></p>
           <p><strong>Category:</strong> <%= event.category.titleize %></p>
-          <p><strong>Organizer:</strong> <%= event.organizer&.name || event.organizer&.email %></p>
+          <p><strong>RSVP:</strong> <%= event.rsvp.humanize %></p>
+
+          <p><strong>Organizer:</strong> <%= [event.user&.first_name, event.user&.last_name].compact.join(" ").presence || event.user&.email %></p>
         </td>
 
         <!-- Details -->
         <td>
           <p>
             <strong>Location:</strong>
-            <%= event.city.presence || "Online / N/A" %>
+            <%= [event.location, event.city, event.state].compact_blank.join(", ").presence || "Online / N/A" %>
           </p>
 
           <p>
@@ -33,26 +35,28 @@
 
           <p>
             <strong>Age Range:</strong>
-            <% if event.age_min.present? || event.age_max.present? %>
-              <%= event.age_min || "?" %> – <%= event.age_max || "?" %>
-            <% else %>
-              Any
-            <% end %>
+              <% if event.min_age.present? || event.max_age.present? %>
+                <%= event.min_age || "?" %> – <%= event.max_age || "?" %>
+              <% else %>
+                Any
+              <% end %>
           </p>
 		
           <p><strong>Gender:</strong> <%= event.allowed_gender.humanize %></p>
-			 
-          <p>
-            <strong>Description:</strong><br>
-            <%= truncate(event.description, length: 100) %>
-          </p>
+          
+          <% if event.description.present? %>
+            <p>
+              <strong>Description:</strong><br>
+              <%= truncate(event.description, length: 100) %>
+            </p>
+          <% end %>
         </td>
 
         <!-- Actions -->
         <td>
           <p><%= link_to "Show", event_path(event) %></p>
 
-          <% if current_user&.admin? || current_user&.id == event.organizer_id %>
+          <% if current_user&.admin? || current_user&.id == event.user_id %>
             <p><%= link_to "Edit", edit_event_path(event) %></p>
             <p>
               <%= link_to "Delete", event_path(event),
