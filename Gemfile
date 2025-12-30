@@ -70,3 +70,4 @@ gem "rubocop-rspec", "~> 3.8", groups: [ :development, :test ], require: false
 gem "devise", "~> 4.9"
 gem "pundit"
 gem "faker", group: [ :development, :test ]
+gem "rolify"
