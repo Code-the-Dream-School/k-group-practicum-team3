@@ -30,23 +30,37 @@
   <body>
     <header>
       <!-- TODO: Hide based on Sessions/Role -->
-      <nav class="flex border-0 border-b-2 border-solid border-b-gray-600 justify-between">
-        <a href="#">
-          <span class="flex flex-row p-2">Logo</span>
+      <nav class="flex items-center justify-between gap-4 border-b-2 border-gray-300 bg-white px-4 py-3 sm:px-6">
+        <a href="#" class="shrink-0">
+          <span class="inline-flex items-center rounded border border-black px-3 py-2 text-sm font-semibold text-black">Logo</span>
         </a>
+
         <!-- Search bar -->
-        <div class="sm border border-gray-300 flex flex-row w-full">
-          <form class="flex flex-row p-4 w-auto" action="" method="post">
-            <input type="text" name="search" placeholder="Search..." />
-            <button type="submit" alt="search button">Search</button>
+        <div class="flex w-full max-w-md flex-1">
+          <form class="flex w-full items-center gap-2" action="#" method="get" role="search" aria-label="Site search">
+            <label class="sr-only" for="nav-search">Search</label>
+            <input
+              id="nav-search"
+              type="search"
+              name="search"
+              placeholder="Search..."
+              class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus:border-black focus:outline-none focus:ring-2 focus:ring-black"
+            />
+            <button
+              type="submit"
+              class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            >
+              Search
+            </button>
           </form>
         </div>
-        <ul class="flex flex-row w-full gap-4">
+
+        <ul class="flex flex-wrap items-center justify-end gap-2 text-sm font-medium text-black">
           <li>
-            <a href="#">About</a>
+            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">About</a>
           </li>
           <li>
-            <a href="#">Browse</a>
+            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Browse</a>
             <!-- Browse by category instead  -->
             <ul>
               <!-- TODO: Link to pages with the filter applied -->
@@ -54,29 +68,29 @@
           </li>
           <!-- These might get merged into one dashboard  -->
           <li>
-            <a href="#">Dashboard</a>
+            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Dashboard</a>
           </li>
           <!-- These might get merged into one dashboard  -->
           <li>
-            <a href="#">Events</a>
+            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Events</a>
           </li>
           <li>
-            <a href="#">Sign out</a>
+            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Sign out</a>
           </li>
           <li>
-            <a href="#">Sign in</a>
+            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Sign in</a>
           </li>
           <li>
-            <a href="#">Create Account</a>
+            <a class="rounded bg-black px-3 py-2 text-white hover:bg-gray-800" href="#">Create Account</a>
           </li>
           <li>
-            <a href="#">Account</a>
+            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Account</a>
           </li>
         </ul>
       </nav>
     </header>
 
-    <main class="container mx-auto mt-28 px-5 flex">        
+    <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
   </body>
