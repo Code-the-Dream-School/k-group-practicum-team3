@@ -55,7 +55,7 @@ class User < ApplicationRecord
 
   def requires_location?
     in_person? || hybrid?
-  has_many :events
+  end
 
   # Returns initials for avatar placeholders.
   def user_initials(user)
