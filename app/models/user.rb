@@ -28,7 +28,6 @@ class User < ApplicationRecord
 
   validates :bio, length: { maximum: 5000 }, allow_blank: true
 
-  validates :location_type, presence: true
   validates :city, :state, :zip, presence: true, if: :requires_location?
 
   # Instance methods
