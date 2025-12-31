@@ -14,8 +14,8 @@ class Event < ApplicationRecord
             numericality: { only_integer: true, greater_than: 0 },
             allow_nil: true
 
-    validate :ends_at_after_starts_at      
-    
+    validate :ends_at_after_starts_at
+
     private
 
   def ends_at_after_starts_at
