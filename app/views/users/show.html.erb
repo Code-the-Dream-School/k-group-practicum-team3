@@ -1,0 +1,58 @@
+<div class="max-w-3xl mx-auto mt-10 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm">
+  <div class="px-6 py-4 border-b border-gray-300">
+    <h2 class="text-2xl font-semibold">Profile</h2>
+  </div>
+
+  <div class="px-6 py-6">
+    <div class="flex items-center gap-6 mb-6">
+      <% if @user.profile_picture.attached? %>
+        <%= image_tag @user.profile_picture.variant(resize_to_limit: [120, 120]),
+          class: "rounded-full border border-gray-300" %>
+      <% else %>
+        <div class="w-28 h-28 bg-gray-100 border border-gray-300 rounded-full flex items-center justify-center text-sm text-gray-500">
+          No Image
+        </div>
+      <% end %>
+
+      <div>
+        <p class="text-lg font-medium"><%= @user.full_name %></p>
+        <p class="text-sm text-gray-600"><%= @user.email %></p>
+      </div>
+    </div>
+
+    <table class="w-full text-sm">
+      <tbody>
+        <tr class="border-t">
+          <th class="py-2 pr-4 text-left text-gray-700 font-medium">Age</th>
+          <td class="py-2"><%= @user.age.presence || "Not specified" %></td>
+        </tr>
+
+        <tr class="border-t">
+          <th class="py-2 pr-4 text-left text-gray-700 font-medium">Gender</th>
+          <td class="py-2"><%= @user.gender.humanize %></td>
+        </tr>
+
+        <tr class="border-t">
+          <th class="py-2 pr-4 text-left text-gray-700 font-medium">Location</th>
+          <td class="py-2"><%= [@user.city, @user.state, @user.zip].compact.join(', ') %></td>
+        </tr>
+
+        <tr class="border-t">
+          <th class="py-2 pr-4 text-left text-gray-700 font-medium">Bio</th>
+          <td class="py-2"><%= @user.bio.presence || "No bio yet" %></td>
+        </tr>
+
+        <tr class="border-t">
+          <th class="py-2 pr-4 text-left text-gray-700 font-medium">Roles</th>
+          <td class="py-2"><%= @user.roles.map(&:name).join(', ') %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="mt-6 border-t pt-4">
+      <%= link_to "Edit Profile",
+        edit_user_registration_path,
+        class: "px-4 py-2 border border-gray-400 rounded text-sm hover:bg-gray-100" %>
+    </div>
+  </div>
+</div>
