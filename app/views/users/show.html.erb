@@ -29,7 +29,7 @@
 
         <tr class="border-t">
           <th class="py-2 pr-4 text-left text-gray-700 font-medium">Gender</th>
-          <td class="py-2"><%= @user.gender.humanize %></td>
+          <td class="py-2"><%= @user.gender.humanize || "Not specified" %></td>
         </tr>
 
         <tr class="border-t">
