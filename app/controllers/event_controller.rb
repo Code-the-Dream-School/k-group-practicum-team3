@@ -1,5 +1,5 @@
 class EventController < ApplicationController
-  #TODO: Test these functions in view
+  # TODO: Test these functions in view
   def index
     @events = Event.all
   end
@@ -46,7 +46,7 @@ class EventController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      format.html {redirect_to events_path, status: :see_other, notice: "Event successfully destroyed." }
+      format.html { redirect_to events_path, status: :see_other, notice: "Event successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -59,6 +59,6 @@ class EventController < ApplicationController
   end
 
   def event_params
-    params.expects( event: [ :title, :starts_at, :category, :allowed_gender, :rsvp, :min_age, :max_age, :max_capacity ] )
+    params.expects(event: [ :title, :starts_at, :category, :allowed_gender, :rsvp, :min_age, :max_age, :max_capacity ])
   end
 end
