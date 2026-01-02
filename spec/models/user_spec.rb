@@ -8,7 +8,8 @@ RSpec.describe User, type: :model do
     )
 
     expect(user).to be_valid
-  end  
+  end
+
   describe 'validations' do
     it 'validates presence of first_name' do
       user = described_class.new(first_name: nil, last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online)
