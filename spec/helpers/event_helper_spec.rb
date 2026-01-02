@@ -10,5 +10,3 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe EventHelper, type: :helper do
-end

@@ -10,5 +10,3 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe UserHelper, type: :helper do
-end
