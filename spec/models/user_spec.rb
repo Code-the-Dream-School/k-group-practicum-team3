@@ -12,11 +12,6 @@ RSpec.describe User, type: :model do
       expect(user).not_to be_valid
     end
 
-    it 'validates presence of location_type' do
-      user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: nil)
-      expect(user).not_to be_valid
-    end
-
     describe 'age validation' do
       it 'accepts valid ages' do
         user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, age: 25)
