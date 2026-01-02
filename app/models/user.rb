@@ -4,12 +4,27 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  # Rolify
+  rolify
+
   # Enums
   enum :location_type, { in_person: 0, online: 1, hybrid: 2 }
   enum :gender, { male: 0, female: 1, non_binary: 2, prefer_not_to_say: 3 }
 
   # Active Storage
   has_one_attached :profile_picture
+
+  # Associations for Events
+  # As organizer
+  has_many :organized_events, class_name: "Event", foreign_key: "organizer_id", dependent: :destroy
+
+  # As participant
+  has_many :event_registrations, dependent: :destroy
+  has_many :events, through: :event_registrations
+
+  # Favorites
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_events, through: :favorites, source: :event
 
   # Validations
   validates :first_name, :last_name, presence: true
@@ -40,8 +55,6 @@ class User < ApplicationRecord
   def requires_location?
     in_person? || hybrid?
   end
-
-  has_many :events
 
   # Returns initials for avatar placeholders.
   def user_initials(user)
