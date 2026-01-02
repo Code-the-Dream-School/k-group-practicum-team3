@@ -1,8 +1,10 @@
 require "rails_helper"
 
 RSpec.describe EnrollmentsHelper, type: :helper do
-  let!(:organizer) { User.create!(email: "org@example.com", password: "test123") }
-  let!(:user)      { User.create!(email: "user@example.com", password: "test123") }
+  let!(:organizer) { User.create!(email: "org@example.com", password: "test123", first_name: "org",
+    last_name: "lastname") }
+  let!(:user)      { User.create!(email: "user@example.com", password: "test123", first_name: "firstname",
+    last_name: "lastname") }
 
   let!(:event) do
     attrs = { user: organizer,
@@ -27,13 +29,14 @@ RSpec.describe EnrollmentsHelper, type: :helper do
 
   describe "#event_full?" do
     it "returns false when event has no max capacity field" do
-      skip "Event has max capacity in this app" if Event.new.respond_to?(:max_apacity)
+      skip "Event has max capacity in this app" if Event.new.respond_to?(:max_capacity)
       expect(helper.event_full?(event)).to be(false)
     end
   end
 
   describe "#can_enroll?" do
     it "returns false for organizer" do
+      organizer.add_role :organizer
       expect(helper.can_enroll?(event, organizer)).to be(false)
     end
 
@@ -46,12 +49,14 @@ RSpec.describe EnrollmentsHelper, type: :helper do
       event.update!(max_capacity: 1)
       Enrollment.create!(event: event, user: user)
 
-      another_user = User.create!(email: "u2@example.com", password: "password123")
+      another_user = User.create!(email: "u2@example.com", password: "password123", first_name: "U2",
+  last_name: "User")
       expect(helper.can_enroll?(event, another_user)).to be(false)
     end
 
     it "returns true when user is not organizer, not enrolled, and event not full" do
-      another_user = User.create!(email: "u3@example.com", password: "password123")
+      another_user = User.create!(email: "u3@example.com", password: "password123", first_name: "U2",
+  last_name: "User")
       expect(helper.can_enroll?(event, another_user)).to be(true)
     end
   end
@@ -71,6 +76,7 @@ RSpec.describe EnrollmentsHelper, type: :helper do
 
   describe "#show_enroll_button?" do
     it "delegates to can_enroll?" do
+      organizer.add_role :organizer
       expect(helper.show_enroll_button?(event, organizer)).to be(false)
     end
   end
@@ -92,6 +98,7 @@ RSpec.describe EnrollmentsHelper, type: :helper do
     end
 
     it "returns Organizer for organizer" do
+      organizer.add_role :organizer
       expect(helper.enrollment_status_label(event, organizer)).to eq("Organizer")
     end
 
@@ -103,6 +110,7 @@ RSpec.describe EnrollmentsHelper, type: :helper do
 
   describe "#can_view_participants?" do
     it "returns true for organizer" do
+      organizer.add_role :organizer
       expect(helper.can_view_participants?(event, organizer)).to be(true)
     end
 

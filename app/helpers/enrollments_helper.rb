@@ -14,7 +14,7 @@ module EnrollmentsHelper
   end
 
   def can_enroll?(event, user)
-    return false if organizer?(event, user)
+    return false if organizer?(user)
     return false if enrolled_in?(event, user)
     return false if event_full?(event)
 
@@ -41,7 +41,7 @@ module EnrollmentsHelper
 
 
   def show_leave_button?(event, user)
-    return false if organizer?(event, user)
+    return false if organizer?(user)
 
     enrolled_in?(event, user)
   end
@@ -49,7 +49,7 @@ module EnrollmentsHelper
 
   def enrollment_status_label(event, user)
     return "Login required" if user.blank?
-    return "Organizer" if organizer?(event, user)
+    return "Organizer" if organizer?(user)
     return "Enrolled" if enrolled_in?(event, user)
     return "Full" if event_full?(event)
 
@@ -58,12 +58,6 @@ module EnrollmentsHelper
 
 
   def can_view_participants?(event, user)
-    organizer?(event, user)
-  end
-
-  private
-
-  def organizer?(event, user)
-    event.respond_to?(:user_id) && event.user_id == user.id
+    organizer?(user)
   end
 end
