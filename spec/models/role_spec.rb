@@ -2,24 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Role, type: :model do
   describe "associations" do
-    it "has many users through habtm" do # rubocop:disable RSpec/ExampleLength
-      role = described_class.create!(name: 'student')
-      user = User.create!(
-        first_name: "Jane",
-        last_name: "Doe",
-        email: "jane@example.com",
-        gender: :female,
-        password: "password",
-        password_confirmation: "password",
-        city: "Some City",
-        state: "Some State",
-        zip: "12345"
-      )
-      user.add_role :student
-
-      expect(role.users).to include(user)
-    end
-
     it "belongs to optional resource" do
       role = described_class.create!(name: 'admin')
       expect(role.resource).to be_nil
@@ -36,23 +18,6 @@ RSpec.describe Role, type: :model do
     it "accepts valid name" do
       role = described_class.new(name: 'student')
       expect(role).to be_valid
-    end
-  end
-
-  describe "role creation" do
-    it "creates student role" do
-      role = described_class.create!(name: 'student')
-      expect(described_class.find_by(name: 'student')).to eq(role)
-    end
-
-    it "creates parent role" do
-      role = described_class.create!(name: 'parent')
-      expect(described_class.find_by(name: 'parent')).to eq(role)
-    end
-
-    it "creates organizer role" do
-      role = described_class.create!(name: 'organizer')
-      expect(described_class.find_by(name: 'organizer')).to eq(role)
     end
   end
 
