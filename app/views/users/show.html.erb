@@ -5,7 +5,7 @@
 
   <div class="px-6 py-6">
     <div class="flex items-center gap-6 mb-6">
-      <% if @user.profile_picture.attached? %>
+      <% if @user&.profile_picture&.attached? %>
         <%= image_tag @user.profile_picture.variant(resize_to_limit: [120, 120]),
           class: "rounded-full border border-gray-300" %>
       <% else %>
@@ -15,10 +15,11 @@
       <% end %>
 
       <div>
-        <p class="text-lg font-medium"><%= @user.full_name %></p>
-        <p class="text-sm text-gray-600"><%= @user.email %></p>
+        <p class="text-lg font-medium"><%= @user&.full_name || "User" %></p>
+        <p class="text-sm text-gray-600"><%= @user&.email || "" %></p>
       </div>
     </div>
+
 
     <table class="w-full text-sm">
       <tbody>
@@ -29,7 +30,7 @@
 
         <tr class="border-t">
           <th class="py-2 pr-4 text-left text-gray-700 font-medium">Gender</th>
-          <td class="py-2"><%= @user.gender.humanize || "Not specified" %></td>
+          <td class="py-2"><%= @user.gender&.humanize || "Not specified" %></td>
         </tr>
 
         <tr class="border-t">
