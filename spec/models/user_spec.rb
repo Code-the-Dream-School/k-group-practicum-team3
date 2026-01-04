@@ -1,6 +1,18 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
+  it "is valid with email and password" do
+    user = described_class.new(
+      email: "user@example.com",
+      password: "password123",
+      first_name: "Test",
+      last_name: "User",
+      location_type: :online
+    )
+
+    expect(user).to be_valid
+  end
+
   describe 'validations' do
     it 'validates presence of first_name' do
       user = described_class.new(first_name: nil, last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online)
