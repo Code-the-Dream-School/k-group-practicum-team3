@@ -14,6 +14,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_23_015818) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "enrollments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_enrollments_on_event_id"
+    t.index ["user_id", "event_id"], name: "index_enrollments_on_user_id_and_event_id", unique: true
+    t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
@@ -68,6 +78,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_23_015818) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "enrollments", "events"
+  add_foreign_key "enrollments", "users"
   create_table "users_roles", id: false, force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "role_id"
