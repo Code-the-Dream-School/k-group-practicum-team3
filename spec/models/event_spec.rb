@@ -39,5 +39,22 @@ RSpec.describe Event, type: :model do
       event.validate
       expect(event.errors[:ends_at]).to include("must be after starts_at")
     end
+
+    it "is valid when event crosses midnight (ends the next day)" do
+  starts = Time.zone.local(2026, 1, 5, 22, 0, 0)
+  ends   = Time.zone.local(2026, 1, 6, 2, 0, 0)
+
+  event = described_class.new(base_attrs.merge(starts_at: starts, ends_at: ends))
+  expect(event).to be_valid
+end
+
+it "is valid for an all-day style event (start of day to end of day)" do
+  day = Date.new(2026, 1, 5)
+  starts = day.in_time_zone.beginning_of_day
+  ends   = day.in_time_zone.end_of_day
+
+  event = described_class.new(base_attrs.merge(starts_at: starts, ends_at: ends))
+  expect(event).to be_valid
+end
   end
 end
