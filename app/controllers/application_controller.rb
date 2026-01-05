@@ -9,5 +9,19 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     redirect_to(root_path, alert: "You are not authorized to perform this action.")
+    before_action :configure_permitted_parameters, if: :devise_controller?
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    added_attrs = [
+      :first_name, :last_name, :age, :gender, :bio,
+      :city, :state, :zip, :location_type,
+      :profile_picture
+    ]
+
+    devise_parameter_sanitizer.permit(:sign_up, keys: added_attrs)
+    devise_parameter_sanitizer.permit(:account_update, keys: added_attrs)
   end
 end
