@@ -46,28 +46,45 @@ RSpec.describe EventPolicy, type: :policy do
     organizer.add_role(:organizer)
   end
 
-  it "allows organizers to access new/create" do
-    policy = described_class.new(organizer, event)
-    expect(policy.new?).to eq(true)
-    expect(policy.create?).to eq(true)
-  end
+  it "allows organizers to access new" do
+  policy = described_class.new(organizer, event)
+  expect(policy.new?).to be(true)
+end
 
-  it "denies non-organizers to access new/create" do
-    policy = described_class.new(non_organizer, event)
-    expect(policy.new?).to eq(false)
-    expect(policy.create?).to eq(false)
-  end
+it "allows organizers to access create" do
+  policy = described_class.new(organizer, event)
+  expect(policy.create?).to be(true)
+end
 
-  it "allows organizers to edit/update their own events" do
-    event.user = organizer
-    policy = described_class.new(organizer, event)
-    expect(policy.edit?).to eq(true)
-    expect(policy.update?).to eq(true)
-  end
+it "denies non-organizers to access new" do
+  policy = described_class.new(non_organizer, event)
+  expect(policy.new?).to be(false)
+end
 
-  it "denies organizers from editing/updating events they do not own" do
-    policy = described_class.new(organizer, event) # owner != organizer
-    expect(policy.edit?).to eq(false)
-    expect(policy.update?).to eq(false)
-  end
+it "denies non-organizers to access create" do
+  policy = described_class.new(non_organizer, event)
+  expect(policy.create?).to be(false)
+end
+
+it "allows organizers to edit their own events" do
+  event.user = organizer
+  policy = described_class.new(organizer, event)
+  expect(policy.edit?).to be(true)
+end
+
+it "allows organizers to update their own events" do
+  event.user = organizer
+  policy = described_class.new(organizer, event)
+  expect(policy.update?).to be(true)
+end
+
+it "denies organizers from editing events they do not own" do
+  policy = described_class.new(organizer, event) # owner != organizer
+  expect(policy.edit?).to be(false)
+end
+
+it "denies organizers from updating events they do not own" do
+  policy = described_class.new(organizer, event) # owner != organizer
+  expect(policy.update?).to be(false)
+end
 end
