@@ -16,4 +16,8 @@ class Event < ApplicationRecord
     validates :max_capacity,
             numericality: { only_integer: true, greater_than: 0 },
             allow_nil: true
+
+    def past?
+  (ends_at || starts_at) < Time.current
+end
 end
