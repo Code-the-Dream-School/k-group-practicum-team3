@@ -32,13 +32,6 @@
     <%= @event.starts_at.strftime("%Y-%m-%d %I:%M %p") if @event.starts_at %>
   </p>
 
-  <% if @event.ends_at.present? %>
-    <p>
-      <strong>End Time:</strong>
-      <%= @event.ends_at.strftime("%Y-%m-%d %I:%M %p") %>
-    </p>
-  <% end %>
-
   <p>
     <strong>Age Range:</strong>
     <% if @event.min_age.present? || @event.max_age.present? %>

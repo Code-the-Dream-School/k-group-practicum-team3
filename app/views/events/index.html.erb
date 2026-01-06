@@ -42,7 +42,7 @@
               <% end %>
           </p>
 		
-          <p><strong>Gender:</strong> <%= event.allowed_gender.humanize %></p>
+          <p><strong>Gender:</strong> <%= event.allowed_gender.humanize || "Any" %></p>
           
           <% if event.description.present? %>
             <p>
@@ -64,7 +64,7 @@
                     data: { turbo_confirm: "Are you sure you want to delete this event?" } %>
             </p>
           <% else %>
-            <p style="color: gray;">Not allowed</p>
+            <p style="color: gray; font-style: italic;">Not allowed</p>
           <% end %>
         </td>
       </tr>
