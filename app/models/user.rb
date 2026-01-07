@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :events
+  has_many :enrollments, dependent: :destroy
+  has_many :enrolled_events, through: :enrollments, source: :event
   # Rolify
   rolify
 
@@ -43,7 +46,6 @@ class User < ApplicationRecord
 
   validates :bio, length: { maximum: 5000 }, allow_blank: true
 
-  validates :location_type, presence: true
   validates :city, :state, :zip, presence: true, if: :requires_location?
 
   # Instance methods

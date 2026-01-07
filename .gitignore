@@ -41,4 +41,9 @@
 !/app/assets/builds/.keep
 
 .DS_Store
+
+# Brian
+# Ignore database.yml and docker-compose.yml files
 /config/database.yml
+/config/secrets.yml
+docker-compose.yml
