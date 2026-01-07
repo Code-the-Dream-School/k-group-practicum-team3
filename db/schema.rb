@@ -96,6 +96,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_02_032134) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "enrollments", "events"
+  add_foreign_key "enrollments", "users"
   create_table "users_roles", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "role_id", null: false
