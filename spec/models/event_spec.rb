@@ -30,14 +30,14 @@ RSpec.describe Event, type: :model do
     it "is invalid when ends_at is before starts_at" do
       event = described_class.new(base_attrs.merge(starts_at: 1.day.from_now, ends_at: 1.hour.from_now))
       event.validate
-      expect(event.errors[:ends_at]).to include("must be after starts_at")
+      expect(event.errors[:ends_at]).to include("must be later than the start time")
     end
 
     it "is invalid when ends_at equals starts_at" do
-      t = 1.day.from_now
-      event = described_class.new(base_attrs.merge(starts_at: t, ends_at: t))
+      time = 1.day.from_now
+      event = described_class.new(base_attrs.merge(starts_at: time, ends_at: time))
       event.validate
-      expect(event.errors[:ends_at]).to include("must be after starts_at")
+      expect(event.errors[:ends_at]).to include("must be later than the start time")
     end
 
     it "is valid when event crosses midnight (ends the next day)" do
@@ -49,9 +49,9 @@ RSpec.describe Event, type: :model do
 end
 
 it "is valid for an all-day style event (start of day to end of day)" do
-  day = Date.new(2026, 1, 5)
-  starts = day.in_time_zone.beginning_of_day
-  ends   = day.in_time_zone.end_of_day
+  day = Date.new(2026, 1, 5).in_time_zone
+  starts = day.beginning_of_day
+  ends   = day.end_of_day
 
   event = described_class.new(base_attrs.merge(starts_at: starts, ends_at: ends))
   expect(event).to be_valid
