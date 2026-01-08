@@ -71,6 +71,6 @@ gem "devise", "~> 4.9"
 gem "pundit"
 gem "faker", group: [ :development, :test ]
 gem "rolify"
-group :test do
+group :development, :test do
   gem "factory_bot_rails"
 end
