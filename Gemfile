@@ -72,5 +72,5 @@ gem "pundit"
 gem "faker", group: [ :development, :test ]
 gem "rolify"
 group :test do
-  gem 'factory_bot_rails'
+  gem "factory_bot_rails"
 end

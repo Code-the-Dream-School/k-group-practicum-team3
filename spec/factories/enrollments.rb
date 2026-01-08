@@ -1,4 +1,3 @@
-# spec/factories/enrollments.rb
 FactoryBot.define do
   factory :enrollment do
     association :user
