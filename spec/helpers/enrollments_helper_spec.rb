@@ -1,18 +1,38 @@
 require "rails_helper"
 
 RSpec.describe EnrollmentsHelper, type: :helper do
-  let!(:organizer) { User.create!(email: "org@example.com", password: "test123", first_name: "org",
-    last_name: "lastname") }
-  let!(:user)      { User.create!(email: "user@example.com", password: "test123", first_name: "firstname",
-    last_name: "lastname") }
+  let!(:organizer) do
+    User.create!(
+      email: "org@example.com",
+      password: "test123",
+      first_name: "org",
+      last_name: "lastname",
+      city: "City",
+      state: "State",
+      zip: "12345"
+    )
+  end
+
+  let!(:user) do
+    User.create!(
+      email: "user@example.com",
+      password: "test123",
+      first_name: "firstname",
+      last_name: "lastname",
+      city: "City",
+      state: "State",
+      zip: "12345"
+    )
+  end
 
   let!(:event) do
-    attrs = { user: organizer,
-              title: "Test Event",
-              category: :other
-        }
+    attrs = {
+      user: organizer,
+      title: "Test Event",
+      category: :other
+    }
     attrs[:starts_at] = 1.day.from_now if Event.new.respond_to?(:starts_at)
-    attrs[:max_capacity]  = 2 if Event.new.respond_to?(:max_capacity)
+    attrs[:max_capacity] = 2 if Event.new.respond_to?(:max_capacity)
     Event.create!(attrs)
   end
 
@@ -49,14 +69,28 @@ RSpec.describe EnrollmentsHelper, type: :helper do
       event.update!(max_capacity: 1)
       Enrollment.create!(event: event, user: user)
 
-      another_user = User.create!(email: "u2@example.com", password: "password123", first_name: "U2",
-  last_name: "User")
+      another_user = User.create!(
+        email: "u2@example.com",
+        password: "password123",
+        first_name: "U2",
+        last_name: "User",
+        city: "City",
+        state: "State",
+        zip: "12345"
+      )
       expect(helper.can_enroll?(event, another_user)).to be(false)
     end
 
     it "returns true when user is not organizer, not enrolled, and event not full" do
-      another_user = User.create!(email: "u3@example.com", password: "password123", first_name: "U2",
-  last_name: "User")
+      another_user = User.create!(
+        email: "u3@example.com",
+        password: "password123",
+        first_name: "U3",
+        last_name: "User",
+        city: "City",
+        state: "State",
+        zip: "12345"
+      )
       expect(helper.can_enroll?(event, another_user)).to be(true)
     end
   end
