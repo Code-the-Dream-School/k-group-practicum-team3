@@ -16,4 +16,13 @@ class Event < ApplicationRecord
     validates :max_capacity,
             numericality: { only_integer: true, greater_than: 0 },
             allow_nil: true
+
+    validate :ends_at_after_starts_at
+
+    private
+
+  def ends_at_after_starts_at
+    return if ends_at.blank? || starts_at.blank?
+    errors.add(:ends_at, "must be later than the start time") if ends_at <= starts_at
+  end
 end
