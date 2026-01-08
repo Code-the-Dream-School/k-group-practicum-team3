@@ -1,5 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Enrollment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "associates user and event" do
+    enrollment = build(:enrollment)
+    expect(enrollment).to respond_to(:event)
+  end
 end
