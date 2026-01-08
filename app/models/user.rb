@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :events
   has_many :enrollments, dependent: :destroy
   has_many :enrolled_events, through: :enrollments, source: :event
   # Rolify
@@ -19,11 +18,11 @@ class User < ApplicationRecord
 
   # Associations for Events
   # As organizer
-  has_many :organized_events, class_name: "Event", foreign_key: "organizer_id", dependent: :destroy
+  has_many :organized_events, class_name: "Event", foreign_key: "user_id", dependent: :destroy
 
   # As participant
   has_many :event_registrations, dependent: :destroy
-  has_many :events, through: :event_registrations
+  has_many :registered_events, through: :event_registrations, source: :event
 
   # Favorites
   has_many :favorites, dependent: :destroy
@@ -61,13 +60,13 @@ class User < ApplicationRecord
 
   # Returns initials for avatar placeholders.
   def user_initials(user)
-    "#{User.first_name[0]}.#{User.last_name[0]}"
+    "#{first_name.first}.#{last_name.first}"
   end
 
   # Note: This provides two ways of accessing the data
   # Returns the user full name
   def name
-    "#{User.first_name} #{User.last_name}"
+    "#{first_name.first} #{last_name.first}"
   end
 
   # Returns the users full name given a user
