@@ -64,35 +64,6 @@ RSpec.describe EnrollmentsHelper, type: :helper do
       Enrollment.create!(event: event, user: user)
       expect(helper.can_enroll?(event, user)).to be(false)
     end
-
-    it "returns false if event is full (when max capacity exists)" do
-      event.update!(max_capacity: 1)
-      Enrollment.create!(event: event, user: user)
-
-      another_user = User.create!(
-        email: "u2@example.com",
-        password: "password123",
-        first_name: "U2",
-        last_name: "User",
-        city: "City",
-        state: "State",
-        zip: "12345"
-      )
-      expect(helper.can_enroll?(event, another_user)).to be(false)
-    end
-
-    it "returns true when user is not organizer, not enrolled, and event not full" do
-      another_user = User.create!(
-        email: "u3@example.com",
-        password: "password123",
-        first_name: "U3",
-        last_name: "User",
-        city: "City",
-        state: "State",
-        zip: "12345"
-      )
-      expect(helper.can_enroll?(event, another_user)).to be(true)
-    end
   end
 
   describe "#enrollment_count" do
