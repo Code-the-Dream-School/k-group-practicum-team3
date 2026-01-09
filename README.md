@@ -2,6 +2,12 @@
 ## Problem
 Information about after-school programs is scattered across flyers, websites, and social media. It’s difficult for parents/students to discover, evaluate, and join the right activities.
 
+## Design tokens
+- Base font size: 14px
+- Primary color: Blue
+- Secondary color: Gold
+- Color Palette Link: https://coolors.co/palette/000000-14213d-fca311-e5e5e5-ffffff
+
 ## Target Users
 - **Students (grades 1–12):** tutoring, clubs, sports
 - **Parents/Guardians:** safe, age-appropriate activities (local or online)
@@ -108,12 +114,13 @@ bin/rails db:seed
 ## 6) Run the app
 
 ```bash
-bin/rails s
+bin/dev
 ```
-
-Then visit: [http://localhost:3000](http://localhost:3000)
-
----
+or
+```bash
+bin/rails s
+./bin/rails tailwindcss:install # in another terminal
+```
 
 # Development Commands
 
@@ -194,7 +201,7 @@ git commit -m "Implement <ticket>"
 4. Push and open PR to `dev`:
 
 ```bash
-git push 
+git push
 ```
 
 5. In the PR description include:
