@@ -11,5 +11,19 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe UserHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#can_manage_event?" do
+    it "returns true when event user_id matches user id" do
+      user = instance_double(User, id: 1)
+      event = instance_double(Event, user_id: 1)
+
+      expect(helper.can_manage_event?(event, user)).to be(true)
+    end
+
+    it "returns false when event user_id does not match user id" do
+      user = instance_double(User, id: 1)
+      event = instance_double(Event, user_id: 2)
+
+      expect(helper.can_manage_event?(event, user)).to be(false)
+    end
+  end
 end

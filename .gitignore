@@ -47,3 +47,4 @@
 /config/database.yml
 /config/secrets.yml
 docker-compose.yml
+config/database.yml

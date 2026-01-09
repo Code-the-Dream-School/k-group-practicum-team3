@@ -13,3 +13,34 @@
  *= require_tree .
  *= require_self
  */
+/* Events table */
+.events-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 0.375rem;
+}
+
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.events-table th,
+.events-table td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.events-table thead {
+  background-color: #f3f4f6; /* gray-100 */
+}
+
+.events-table tbody tr:nth-child(even) {
+  background-color: #f9fafb; /* gray-50 */
+}
+
+.events-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}

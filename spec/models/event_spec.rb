@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Event, type: :model do
    describe "date/time edge cases" do
@@ -41,20 +41,20 @@ RSpec.describe Event, type: :model do
     end
 
     it "is valid when event crosses midnight (ends the next day)" do
-  starts = Time.zone.local(2026, 1, 5, 22, 0, 0)
-  ends   = Time.zone.local(2026, 1, 6, 2, 0, 0)
+      starts = Time.zone.local(2026, 1, 5, 22, 0, 0)
+      ends   = Time.zone.local(2026, 1, 6, 2, 0, 0)
 
-  event = described_class.new(base_attrs.merge(starts_at: starts, ends_at: ends))
-  expect(event).to be_valid
-end
+      event = described_class.new(base_attrs.merge(starts_at: starts, ends_at: ends))
+      expect(event).to be_valid
+    end
 
-it "is valid for an all-day style event (start of day to end of day)" do
-  day = Date.new(2026, 1, 5).in_time_zone
-  starts = day.beginning_of_day
-  ends   = day.end_of_day
+    it "is valid for an all-day style event (start of day to end of day)" do
+      day = Date.new(2026, 1, 5).in_time_zone
+      starts = day.beginning_of_day
+      ends   = day.end_of_day
 
-  event = described_class.new(base_attrs.merge(starts_at: starts, ends_at: ends))
-  expect(event).to be_valid
-end
+      event = described_class.new(base_attrs.merge(starts_at: starts, ends_at: ends))
+      expect(event).to be_valid
+    end
   end
 end
