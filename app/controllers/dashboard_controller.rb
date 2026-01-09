@@ -1,18 +1,7 @@
 class DashboardController < ApplicationController
-    before_action :set_user
-    
+    before_action :authenticate_user!
+    # Displays only the events associated with the current user
     def index
-        @events = Event.where(@user)
+        @events = Event.where(params(current_user.id))
     end
-
-    private
-        #set the user of this dashboard that also has the role of organizer
-        def set_user
-            @user = User.find_by(user_params).with_role :organizer
-        end
-        
-        # Only allow a list of trusted parameters through.
-        def user_params
-            #params.expect(user: [ ])
-        end
 end
