@@ -28,8 +28,23 @@ RSpec.describe EnrollmentsHelper, type: :helper do
   end
 
   describe "#event_full?" do
-    it "returns false when event has no max capacity field" do
-      skip "Event has max capacity in this app" if Event.new.respond_to?(:max_capacity)
+  it "returns false when enrollments are below max_capacity" do
+    event.update!(max_capacity: 2)
+    Enrollment.create!(event: event, user: user)
+
+    expect(helper.event_full?(event)).to be(false)
+  end
+
+  it "returns true when enrollments reach max_capacity" do
+    event.update!(max_capacity: 1)
+    Enrollment.create!(event: event, user: user)
+
+    expect(helper.event_full?(event)).to be(true)
+  end
+
+  it "returns false when max_capacity is nil (unlimited)" do
+      event.update!(max_capacity: nil)
+
       expect(helper.event_full?(event)).to be(false)
     end
   end
