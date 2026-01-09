@@ -1,4 +1,4 @@
-module UserHelper
+module UsersHelper
     def organizer?(user)
         if user.has_role? :organizer
             true
@@ -89,8 +89,8 @@ module UserHelper
 
   # Returns the best name to show for a user (name or email fallback).
   def user_display_name(user)
-    if user.name.present?
-      user.name
+    if user.full_name.present?
+      user.full_name
     elsif user.email.present?
       user.email
     else
