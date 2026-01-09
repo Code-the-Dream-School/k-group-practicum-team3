@@ -39,7 +39,7 @@ RSpec.describe "Events", type: :request do
   describe "/index displays the event titles" do
     it "returns the first event title in events#index" do
       get "/events/index"
-      expect(response.body).to includes("Test One")
+      expect(response.body).to include("Test One")
     end
 
     it "returns the second event title in events#index" do
