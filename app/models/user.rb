@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :events
+  has_many :enrollments, dependent: :destroy
+  has_many :enrolled_events, through: :enrollments, source: :event
   # Rolify
   rolify
 
