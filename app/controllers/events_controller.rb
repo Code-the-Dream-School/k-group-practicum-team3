@@ -1,20 +1,11 @@
 class EventsController < ApplicationController
-
   def index
     @events = Event.includes(:user).order(starts_at: :asc)
   end
   def show
     @event = Event.find(params[:id])
   end
-  def new
-    @event = Event.new
-  end
 
-  def create
-    @event = Event.new
-    redirect_to new_event_path, notice: "Event submitted"
-
-  before_action :authenticate_user!
   def new
     @event = Event.new
     authorize @event
@@ -39,6 +30,5 @@ class EventsController < ApplicationController
       :starts_at, :ends_at, :category, :price, :min_age, :max_age,
       :allowed_gender, :rsvp, :accessible, :max_capacity
     )
-
   end
 end
