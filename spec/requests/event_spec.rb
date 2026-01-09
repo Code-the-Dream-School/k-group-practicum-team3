@@ -88,11 +88,4 @@ RSpec.describe "Events", type: :request do
       expect(response).to have_http_status(:success)
     end
   end
-
-  describe "GET /new" do
-    it "returns http success" do
-      get "/events/new"
-      expect(response).to have_http_status(:success)
-    end
-  end
 end

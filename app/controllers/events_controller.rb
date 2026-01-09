@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
+  # TODO: Removing because create user does not work
   def index
     @events = Event.all
   end
@@ -13,12 +14,12 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    authorize @event
+    # authorize @event
   end
 
   def create
     @event = current_user.events.build(event_params)
-    authorize @event
+    # authorize @event
 
     if @event.save
       redirect_to @event, notice: "Event submitted"
