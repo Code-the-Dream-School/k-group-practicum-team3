@@ -2,12 +2,12 @@ class EventsController < ApplicationController
   #before_action :authenticate_user!
   def new
     @event = Event.new
-    #authorize @event
+    authorize @event
   end
 
   def create
     @event = current_user.events.build(event_params)
-    #authorize @event
+    authorize @event
 
     if @event.save
       redirect_to @event, notice: "Event submitted"
