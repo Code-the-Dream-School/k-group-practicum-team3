@@ -66,26 +66,27 @@
               <!-- TODO: Link to pages with the filter applied -->
             </ul>
           </li>
-          <!-- These might get merged into one dashboard  -->
-          <li>
-            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Dashboard</a>
-          </li>
-          <!-- These might get merged into one dashboard  -->
           <li>
             <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Events</a>
           </li>
-          <li>
-            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Sign out</a>
-          </li>
-          <li>
-            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Sign in</a>
-          </li>
-          <li>
-            <a class="rounded bg-black px-3 py-2 text-white hover:bg-gray-800" href="#">Create Account</a>
-          </li>
-          <li>
-            <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Account</a>
-          </li>
+          <% if user_signed_in? %>
+            <li>
+              <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Dashboard</a>
+            </li>
+            <li>
+              <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
+            </li>
+            <li>
+              <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Account</a>
+            </li>
+            <% else %>
+              <li>
+                <a class="rounded px-3 py-2 hover:bg-gray-100" href="#">Sign in</a>
+              </li>
+              <li>
+                <a class="rounded bg-black px-3 py-2 text-white hover:bg-gray-800" href="#">Create Account</a>
+              </li>
+            <% end %>
         </ul>
       </nav>
     </header>
