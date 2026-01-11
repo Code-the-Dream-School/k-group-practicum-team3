@@ -48,60 +48,79 @@ RSpec.describe EventPolicy, type: :policy do
   end
 
   it "allows organizers to access new" do
-  policy = described_class.new(organizer, event)
-  expect(policy.new?).to be(true)
-end
+    policy = described_class.new(organizer, event)
+    expect(policy.new?).to be(true)
+  end
 
-it "allows organizers to access create" do
-  policy = described_class.new(organizer, event)
-  expect(policy.create?).to be(true)
-end
+  it "allows organizers to access create" do
+    policy = described_class.new(organizer, event)
+    expect(policy.create?).to be(true)
+  end
 
-it "denies non-organizers to access new" do
-  policy = described_class.new(non_organizer, event)
-  expect(policy.new?).to be(false)
-end
+  it "denies non-organizers to access new" do
+    policy = described_class.new(non_organizer, event)
+    expect(policy.new?).to be(false)
+  end
 
-it "denies non-organizers to access create" do
-  policy = described_class.new(non_organizer, event)
-  expect(policy.create?).to be(false)
-end
+  it "denies non-organizers to access create" do
+    policy = described_class.new(non_organizer, event)
+    expect(policy.create?).to be(false)
+  end
 
-it "allows organizers to edit their own events" do
-  event.user = organizer
-  policy = described_class.new(organizer, event)
-  expect(policy.edit?).to be(true)
-end
+  it "allows organizers to edit their own future events" do
+    event.user = organizer
+    policy = described_class.new(organizer, event)
+    expect(policy.edit?).to be(true)
+  end
 
-it "allows organizers to update their own events" do
-  event.user = organizer
-  policy = described_class.new(organizer, event)
-  expect(policy.update?).to be(true)
-end
+  it "allows organizers to update their own future events" do
+    event.user = organizer
+    policy = described_class.new(organizer, event)
+    expect(policy.update?).to be(true)
+  end
 
-it "denies organizers from editing events they do not own" do
-  policy = described_class.new(organizer, event) # owner != organizer
-  expect(policy.edit?).to be(false)
-end
+  it "allows organizers to destroy their own future events" do
+    event.user = organizer
+    policy = described_class.new(organizer, event)
+    expect(policy.destroy?).to be(true)
+  end
 
-it "denies organizers from updating events they do not own" do
-  policy = described_class.new(organizer, event) # owner != organizer
-  expect(policy.update?).to be(false)
-end
+  it "denies organizers from editing events they do not own" do
+    policy = described_class.new(organizer, event) # owner != organizer
+    expect(policy.edit?).to be(false)
+  end
 
-it "denies organizers from editing past events even if they own them" do
-  event.user = organizer
-  event.ends_at = 1.day.ago
+  it "denies organizers from updating events they do not own" do
+    policy = described_class.new(organizer, event) # owner != organizer
+    expect(policy.update?).to be(false)
+  end
 
-  policy = described_class.new(organizer, event)
-  expect(policy.edit?).to be(false)
-end
+  it "denies organizers from destroying events they do not own" do
+    policy = described_class.new(organizer, event) # owner != organizer
+    expect(policy.destroy?).to be(false)
+  end
 
-it "denies organizers from updating past events even if they own them" do
-  event.user = organizer
-  event.ends_at = 1.day.ago
+  it "denies organizers from editing past events even if they own them" do
+    event.user = organizer
+    event.ends_at = 1.day.ago
 
-  policy = described_class.new(organizer, event)
-  expect(policy.update?).to be(false)
-end
+    policy = described_class.new(organizer, event)
+    expect(policy.edit?).to be(false)
+  end
+
+  it "denies organizers from updating past events even if they own them" do
+    event.user = organizer
+    event.ends_at = 1.day.ago
+
+    policy = described_class.new(organizer, event)
+    expect(policy.update?).to be(false)
+  end
+
+  it "denies organizers from destroying past events even if they own them" do
+    event.user = organizer
+    event.ends_at = 1.day.ago
+
+    policy = described_class.new(organizer, event)
+    expect(policy.destroy?).to be(false)
+  end
 end
