@@ -1,9 +1,7 @@
 class EventsController < ApplicationController
-  # before_action :authenticate_user!
-  # TODO: Bypassing authentication for purposes of testing
+  before_action :authenticate_user!, except: [:index, :show]
   def index
     @events = Event.all
-    skip_authorization
   end
 
   def show
@@ -15,7 +13,7 @@ class EventsController < ApplicationController
 
   def update
     @event = current_user.events.find(params[:id])
-    # authorize @event
+    authorize @event
 
     if @event.update(event_params)
       redirect_to @event, notice: 'Event updated successfully'
@@ -26,12 +24,12 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    # authorize @event
+    authorize @event
   end
 
   def create
     @event = current_user.events.build(event_params)
-    # authorize @event
+    authorize @event
 
     if @event.save
       redirect_to @event, notice: "Event submitted"
