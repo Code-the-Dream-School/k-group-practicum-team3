@@ -123,4 +123,14 @@ RSpec.describe EventPolicy, type: :policy do
     policy = described_class.new(organizer, event)
     expect(policy.destroy?).to be(false)
   end
+
+  it "denies non-organizers from editing events" do
+    policy = described_class.new(non_organizer, event)
+    expect(policy.edit?).to be(false)
+  end
+
+  it "denies non-organizers from updating events" do
+    policy = described_class.new(non_organizer, event)
+    expect(policy.update?).to be(false)
+  end
 end
