@@ -36,6 +36,7 @@ RSpec.describe EventPolicy, type: :policy do
       user: owner,
       title: "Test event",
       starts_at: 1.day.from_now,
+      ends_at: 2.days.from_now,
       category: :sports,
       allowed_gender: :any,
       rsvp: :public_event
@@ -66,16 +67,22 @@ RSpec.describe EventPolicy, type: :policy do
     expect(policy.create?).to be(false)
   end
 
-  it "allows organizers to edit their own events" do
+  it "allows organizers to edit their own future events" do
     event.user = organizer
     policy = described_class.new(organizer, event)
     expect(policy.edit?).to be(true)
   end
 
-  it "allows organizers to update their own events" do
+  it "allows organizers to update their own future events" do
     event.user = organizer
     policy = described_class.new(organizer, event)
     expect(policy.update?).to be(true)
+  end
+
+  it "allows organizers to destroy their own future events" do
+    event.user = organizer
+    policy = described_class.new(organizer, event)
+    expect(policy.destroy?).to be(true)
   end
 
   it "denies organizers from editing events they do not own" do
@@ -86,5 +93,34 @@ RSpec.describe EventPolicy, type: :policy do
   it "denies organizers from updating events they do not own" do
     policy = described_class.new(organizer, event) # owner != organizer
     expect(policy.update?).to be(false)
+  end
+
+  it "denies organizers from destroying events they do not own" do
+    policy = described_class.new(organizer, event) # owner != organizer
+    expect(policy.destroy?).to be(false)
+  end
+
+  it "denies organizers from editing past events even if they own them" do
+    event.user = organizer
+    event.ends_at = 1.day.ago
+
+    policy = described_class.new(organizer, event)
+    expect(policy.edit?).to be(false)
+  end
+
+  it "denies organizers from updating past events even if they own them" do
+    event.user = organizer
+    event.ends_at = 1.day.ago
+
+    policy = described_class.new(organizer, event)
+    expect(policy.update?).to be(false)
+  end
+
+  it "denies organizers from destroying past events even if they own them" do
+    event.user = organizer
+    event.ends_at = 1.day.ago
+
+    policy = described_class.new(organizer, event)
+    expect(policy.destroy?).to be(false)
   end
 end
