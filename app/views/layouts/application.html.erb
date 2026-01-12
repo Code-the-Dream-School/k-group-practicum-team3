@@ -23,14 +23,96 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <header>
+      <nav class="flex items-center justify-between gap-4 border-b-2 border-gray-300 bg-white px-4 py-3 sm:px-6">
+        <a href="/" class="shrink-0">
+          <span class="inline-flex items-center rounded border border-black px-3 py-2 text-sm font-semibold text-black">Logo</span>
+        </a>
 
+        <!-- Search bar -->
+        <div class="flex w-full max-w-md flex-1">
+          <form class="flex w-full items-center gap-2" action="#" method="get" role="search" aria-label="Site search">
+            <label class="sr-only" for="nav-search">Search</label>
+            <input
+              id="nav-search"
+              type="search"
+              name="search"
+              placeholder="Search..."
+              class="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-black placeholder:text-gray-500 focus:border-black focus:outline-none focus:ring-2 focus:ring-black"
+            />
+            <button
+              type="submit"
+              class="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+            >
+              Search
+            </button>
+          </form>
+        </div>
+
+        <ul class="flex flex-wrap items-center justify-end gap-2 text-sm font-medium text-black">
+          <li>
+            <!-- TODO: Delete or link to About page -->
+            <div class="rounded px-3 py-2 hover:bg-gray-100">
+              <%= link_to "About", "#" %>
+            </div>
+          </li>
+          <li>
+            <!-- TODO: Link/delete based on categories -->
+            <div class="rounded px-3 py-2 hover:bg-gray-100">
+              <%= link_to "Browse", "#" %>
+            </div>
+            <!-- Browse by category instead  -->
+            <ul>
+              <!-- TODO: Link to pages with the filter applied -->
+            </ul>
+          </li>
+          <li>
+            <div class="rounded px-3 py-2 hover:bg-gray-100">
+              <%= link_to "Events", events_path %>
+            </div>
+          </li>
+          <% if user_signed_in? %>
+            <li>
+              <!-- TODO: Link to user dashboard -->
+              <div class="rounded px-3 py-2 hover:bg-gray-100">
+                <%= link_to "Dashboard", "#" %>
+              </div>
+            </li>
+            <li>
+              <!-- TODO: Add user sign out -->
+              <div class="rounded px-3 py-2 hover:bg-gray-100">
+                  <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %>
+              </div>
+            </li>
+            <li>
+              <!-- TODO: Link to current user profile -->
+              <div class="rounded px-3 py-2 hover:bg-gray-100">
+                  <%= link_to "Account", "#" %>
+              </div>
+            </li>
+            <% else %>
+              <li>
+                <div class="rounded px-3 py-2 hover:bg-gray-100">
+                  <%= link_to "Sign in", new_user_session_path %>
+                </div>
+              </li>
+              <li>
+                <div class="rounded bg-black px-3 py-2 text-white hover:bg-gray-800">
+                  <%= link_to "Create Account", new_user_registration_path %>
+                </div>
+              </li>
+            <% end %>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
-      
     </main>
   </body>
 </html>
