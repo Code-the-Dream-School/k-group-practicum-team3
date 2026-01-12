@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [ :index, :show ]
   def index
     @events = Event.all
   end
@@ -16,7 +16,7 @@ class EventsController < ApplicationController
     authorize @event
 
     if @event.update(event_params)
-      redirect_to @event, notice: 'Event updated successfully'
+      redirect_to @event, notice: "Event updated successfully"
     else
       render :edit
     end
