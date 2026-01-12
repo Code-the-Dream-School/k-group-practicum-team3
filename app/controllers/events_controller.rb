@@ -19,8 +19,8 @@ class EventsController < ApplicationController
   def destroy
     @event = Event.find(params[:id])
     authorize @event
-    @event.destroy
 
+    @event.destroy
     redirect_to root_path
   end
 
