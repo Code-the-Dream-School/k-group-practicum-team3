@@ -1,7 +1,10 @@
 require "rails_helper"
 
 RSpec.describe "Events", type: :request do
-  let(:user) { User.create!(email: "organizer@example.com", password: "password123", first_name: "John", last_name: "Doe") }
+  let(:user) { User.create!(email: "organizer@example.com", password: "password123", first_name: "John", last_name: "Doe", city: "Chicago",
+    state: "IL",
+    zip: "60601",
+    location_type: :online) }
 
   let(:event) do
     Event.create!(

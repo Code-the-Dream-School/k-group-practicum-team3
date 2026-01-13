@@ -8,7 +8,11 @@ RSpec.describe Enrollment, type: :model do
       email: "org@example.com",
       password: "test123",
       first_name: "Org",
-      last_name: "User"
+      last_name: "User",
+      city: "Chicago",
+      state: "IL",
+      zip: "60601",
+      location_type: :online
     )
   end
 
@@ -17,7 +21,11 @@ RSpec.describe Enrollment, type: :model do
       email: "user@example.com",
       password: "test123",
       first_name: "Test",
-      last_name: "User"
+      last_name: "User",
+      city: "Chicago",
+      state: "IL",
+      zip: "60601",
+      location_type: :online
     )
   end
 

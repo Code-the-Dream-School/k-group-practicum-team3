@@ -7,16 +7,6 @@ class Event < ApplicationRecord
   enum :allowed_gender, { any: 0, male_only: 1, female_only: 2 }
   enum :rsvp, { public_event: 0, private_event: 1 }
 
-    enum :allowed_gender, { any: 0, male_only: 1, female_only: 2 }
-    attribute :rsvp, :integer
-    enum :rsvp, { public_event: 0, private_event: 1 }
-
-    validates :title, :starts_at, :category, :allowed_gender, :rsvp, presence: true
-    validates :min_age, numericality: { only_integer: true, allow_nil: true }
-    validates :max_age, numericality: { only_integer: true, allow_nil: true }
-
-    validates :max_capacity,
-
   validates :title, :starts_at, :category, :allowed_gender, :rsvp, presence: true
   validates :min_age, numericality: { only_integer: true, allow_nil: true }
   validates :max_age, numericality: { only_integer: true, allow_nil: true }
