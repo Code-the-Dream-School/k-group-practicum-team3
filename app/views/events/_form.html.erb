@@ -94,25 +94,24 @@
           </div>
         </div>
 
-        <!-- TODO: Fix enum selection for the following -->
         <div class="col-span-full">
           <%= form.label :allowed_gender, class:"block text-sm/6 font-medium text-gray-900" %>
           <div class="mt-2 grid grid-cols-1">
-            <%= form.select :allowed_gender, options_for_select([['Any','0'],['Male Only','1'],['Female Only', '2']]), class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+            <%= form.select :allowed_gender,  Event.allowed_genders.keys.map { |key| [key.humanize.titleize, key] }, class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
           </div>
         </div>
 
         <div class="col-span-full">
           <%= form.label :rsvp, class:"block text-sm/6 font-medium text-gray-900" %>
           <div class="mt-2 grid grid-cols-1">
-            <%= form.select :rsvp, options_for_select([['Public','0'],['Private','1']]), class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %> 
+            <%= form.select :rsvp,  Event.rsvps.keys.map { |key| [key.humanize.titleize, key] }, class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
           </div>
         </div>
 
         <div class="col-span-full">
           <%= form.label :category, class:"block text-sm/6 font-medium text-gray-900" %>
           <div class="mt-2 grid grid-cols-1">
-            <%= form.select :category, options_for_select([['Sports',0],['Tutoring', '1'],['Music', '2'],['Arts', '3'],['Dance', '4'],['Language', '5'],['STEM', '6'],['Outdoor', '7'], ['Other', '8']]), class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+            <%= form.select :category,  Event.categories.keys.map { |key| [key.humanize.titleize, key] }, class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
           </div>
         </div>
 
