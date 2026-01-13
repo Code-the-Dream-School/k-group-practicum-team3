@@ -1,0 +1,131 @@
+<%= form_with(model: @event) do |form|%>
+  <div class="space-y-12">
+    <% if event.errors.any? %>
+        <div style="color: red">
+            <h2><%= pluralize(event.errors.count, "error") %> prevented this event from being saved:</h2>
+            <ul>
+                <% event.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <div class="border-b border-gray-900/10 pb-12">
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-4">
+          <%= form.label :title, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+              <%= form.text_field :title, placeholder:"Name of your event...", class:"block min-w-0 grow bg-white py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-full">
+          <%= form.label :description, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.text_field :description, placeholder:"Write a few sentences about the event!", class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+      </div>
+
+      <div class="col-span-full">
+        <%= form.label :price, class:"block text-sm/6 font-medium text-gray-900" %>
+        <div class="mt-2">
+            <%= form.text_field :price, class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+        </div>
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-3">
+          <%= form.label :city, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.text_field :city, placeholder:"City", class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <%= form.label :state, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.text_field :state, placeholder:"State", class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <%= form.label :location, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2 grid grid-cols-1">
+            <%= form.select :location, options_for_select([['Online','online'],['In-person','in-person'],['Hybrid','hybrid']]), class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %> 
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <%= form.label :starts_at, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.datetime_field :starts_at, placeholder:"Start date", class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <%= form.label :ends_at, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.datetime_field :ends_at, placeholder:"End date", class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2 sm:col-start-1">
+          <%= form.label :min_age, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :min_age, class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :max_age, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :max_age, class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <%= form.label :max_participants, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2">
+            <%= form.number_field :max_participants, class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <%= form.label :allowed_gender, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2 grid grid-cols-1">
+            <%= form.select :allowed_gender,  Event.allowed_genders.keys.map { |key| [key.humanize.titleize, key] }, class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <%= form.label :rsvp, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2 grid grid-cols-1">
+            <%= form.select :rsvp,  Event.rsvps.keys.map { |key| [key.humanize.titleize, key] }, class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <%= form.label :category, class:"block text-sm/6 font-medium text-gray-900" %>
+          <div class="mt-2 grid grid-cols-1">
+            <%= form.select :category,  Event.categories.keys.map { |key| [key.humanize.titleize, key] }, class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+          </div>
+        </div>
+
+        <div class="text-sm/6">
+          <%= form.label :accessible, class:"font-medium text-gray-900 justify-inline" %>
+          <%= form.check_box :accessible %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-end gap-x-6">
+    <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
+    <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+  </div>
+<% end %>
+
