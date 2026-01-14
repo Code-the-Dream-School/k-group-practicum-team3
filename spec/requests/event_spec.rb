@@ -36,8 +36,6 @@ RSpec.describe "Events", type: :request do
     )
   }
 
-
-
   describe "/index displays the event titles" do
     before do
       post user_session_path, params: {
