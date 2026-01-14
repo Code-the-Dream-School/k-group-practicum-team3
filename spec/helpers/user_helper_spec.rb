@@ -11,7 +11,6 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe UserHelper, type: :helper do
-
   describe "#can_manage_event?" do
     it "returns true when event user_id matches user id" do
       user = instance_double(User, id: 1)
