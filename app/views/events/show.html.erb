@@ -1,0 +1,10 @@
+<div class="columns-1">
+    <h1><%= @event.title %></h1>
+    <ul>
+        <li><p>Description: <%= @event.description %></p></li>
+        <li><p>Starts at: <%= @event.starts_at %></p></li>
+        <li><p>Ends at: <%= @event.ends_at %></p></li>
+        <li><p>Location: <%= @event.location %></p></li>
+    </ul>
+    <%= link_to "Return to events page", events_path %>
+</div>
