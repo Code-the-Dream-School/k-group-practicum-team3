@@ -1,108 +1,54 @@
-<h1 class="text-2xl font-bold mb-4">Events</h1>
+<div class="events-page">
+  <!-- Header -->
+  <div class="events-header">
+    <h1 class="events-title">
+      Events near
+      <span class="events-location">
+        here City, state
+      </span>
+      <span class="events-edit">✎</span>
+    </h1>
 
-<div class="events-table-wrapper">
-  <table class="events-table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Date & Time</th>
-        <th>Location</th>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Price</th>
-        <th>Capacity</th>
-        <th>RSVP</th>
-        <th>Accessible</th>
-        <th>Show</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
+    <%= link_to "See all events", events_path, class: "events-see-all" %>
+  </div>
 
-    <tbody>
-      <% if @events.blank? %>
-        <tr>
-          <td colspan="13" style="text-align:center; padding:1rem;">
-            No events yet.
-          </td>
-        </tr>
-      <% else %>
-        <% @events.each do |event| %>
-          <tr>
-            <td><%= event.title %></td>
-            <td><%= event.category&.titleize %></td>
+  <!-- Grid -->
+  <div class="events-grid">
+    <% @events.each do |event| %>
+      <article class="event-card">
+        <%= link_to event_path(event), class: "event-card-link" do %>
 
-            <td>
-              <% if event.starts_at && event.ends_at %>
-                <%= event.starts_at.strftime("%b %d, %Y %-I:%M %p") %> –
-                <%= event.ends_at.strftime("%-I:%M %p") %>
-              <% elsif event.starts_at %>
-                <%= event.starts_at.strftime("%b %d, %Y %-I:%M %p") %>
+          <div class="event-image-wrap">
+            <%= image_tag "event-placeholder.jpg",
+                  class: "event-image",
+                  alt: event.title %>
+
+            <span class="event-badge">
+              <%= event.price.present? ? "$#{event.price}" : "Free" %>
+            </span>
+          </div>
+
+          <div class="event-content">
+            <h2 class="event-name"><%= event.title %></h2>
+
+            <div class="event-time">
+              <% if event.starts_at.present? %>
+                <%= event.starts_at.strftime("%a, %b %-d · %-I:%M %p %Z") %>
               <% else %>
-                N/A
+                Date & time TBD
               <% end %>
-            </td>
+            </div>
 
-            <td>
-              <%= [event.location, event.city, event.state]
-                    .compact_blank
-                    .join(", ")
-                    .presence || "Online / N/A" %>
-            </td>
+            <div class="event-by">
+              by
+              <%= event.user.present? ?
+                    [event.user.first_name, event.user.last_name].compact.join(" ").presence || event.user.email
+                    : "Unknown" %>
+            </div>
+          </div>
 
-            <td>
-              <% if event.min_age || event.max_age %>
-                <%= event.min_age || "Any" %> – <%= event.max_age || "Any" %>
-              <% else %>
-                Any
-              <% end %>
-            </td>
-
-            <td><%= event.allowed_gender&.humanize || "Any" %></td>
-            <td><%= event.price.present? ? "$#{event.price}" : "Free" %></td>
-            <td><%= event.max_capacity || "Unlimited" %></td>
-            <td><%= event.rsvp&.humanize || "N/A" %></td>
-            <td><%= event.accessible ? "Yes" : "No" %></td>
-
-            <!-- Show -->
-            <td>
-              <%= link_to "Show", event_path(event), class: "text-blue-600 hover:underline" %>
-            </td>
-
-            <!-- Edit -->
-            <td>
-              <% if current_user&.admin? || current_user&.id == event.host_id %>
-                <%= link_to "Edit", edit_event_path(event), class: "text-green-600 hover:underline" %>
-              <% else %>
-                <span class="text-gray-400">Not allowed</span>
-              <% end %>
-            </td>
-
-            <!-- Delete -->
-            <td>
-              <% if current_user&.admin? || current_user&.id == event.host_id %>
-                <%= button_to "Delete",
-                      event_path(event),
-                      method: :delete,
-                      data: { turbo_confirm: "Are you sure you want to delete this event?" },
-                      class: "text-red-600 hover:underline",
-                      form: { class: "inline" } %>
-              <% else %>
-                <button disabled class="text-gray-400 cursor-not-allowed">
-                  Delete
-                </button>
-              <% end %>
-            </td>
-          </tr>
         <% end %>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-<div class="mt-4">
-  <%= link_to "Create New Event",
-        new_event_path,
-        class: "inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" %>
+      </article>
+    <% end %>
+  </div>
 </div>

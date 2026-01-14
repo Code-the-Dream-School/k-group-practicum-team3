@@ -1,74 +1,91 @@
-<h1>Event Details</h1>
+<div class="event-show-page">
+  <div class="event-show-header">
+    <h1 class="event-show-title"><%= @event.title %></h1>
 
-<div style="border: 1px solid #333; padding: 16px; max-width: 700px;">
+    <div class="event-show-actions">
+      <%= link_to "Back to Events", events_path, class: "event-show-link" %>
 
-  <p>
-    <strong>Title:</strong>
-    <%= @event.title %>
-  </p>
+      <% if current_user&.admin? || current_user&.id == @event.user_id %>
+        <%= link_to "Edit", edit_event_path(@event), class: "event-show-link event-show-link-edit" %>
 
-  <p>
-    <strong>Category:</strong>
-    <%= @event.category.titleize %>
-  </p>
-  <p>
-    <strong>RSVP:</strong> <%= @event.rsvp.humanize %>
-  </p>
-  <p>
-    <strong>Organizer:</strong>
-    <% if @event.user.present? %>
-      <%= [@event.user.first_name, @event.user.last_name].compact.join(" ").presence || @event.user.email %>
-    <% else %>
-      N/A
+        <%= button_to "Delete",
+              event_path(@event),
+              method: :delete,
+              data: { turbo_confirm: "Are you sure you want to delete this event?" },
+              class: "event-show-link event-show-link-delete",
+              form: { class: "event-show-delete-form" } %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="event-show-card">
+    <div class="event-show-row">
+      <span class="event-show-label">Category</span>
+      <span class="event-show-value"><%= @event.category&.titleize || "N/A" %></span>
+    </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">RSVP</span>
+      <span class="event-show-value"><%= @event.rsvp&.humanize || "N/A" %></span>
+    </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">Organizer</span>
+      <span class="event-show-value">
+        <% if @event.user.present? %>
+          <%= [@event.user.first_name, @event.user.last_name].compact.join(" ").presence || @event.user.email %>
+        <% else %>
+          N/A
+        <% end %>
+      </span>
+    </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">Location</span>
+      <span class="event-show-value">
+        <%= [@event.location, @event.city, @event.state].compact_blank.join(", ").presence || "Online / N/A" %>
+      </span>
+    </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">Event Time</span>
+      <span class="event-show-value">
+        <%= @event.starts_at.present? ? @event.starts_at.strftime("%b %-d, %Y · %-I:%M %p") : "TBD" %>
+      </span>
+    </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">Age Range</span>
+      <span class="event-show-value">
+        <% if @event.min_age.present? || @event.max_age.present? %>
+          <%= @event.min_age || "Any" %> – <%= @event.max_age || "Any" %>
+        <% else %>
+          Any
+        <% end %>
+      </span>
+    </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">Allowed Gender</span>
+      <span class="event-show-value"><%= @event.allowed_gender&.humanize || "Any" %></span>
+    </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">Price</span>
+      <span class="event-show-value">
+        <% if @event.price.present? %>
+          <%= @event.price.to_f == 0 ? "Free" : "$#{@event.price}" %>
+        <% else %>
+          Free
+        <% end %>
+      </span>
+    </div>
+
+    <% if @event.description.present? %>
+      <div class="event-show-desc">
+        <div class="event-show-label">Description</div>
+        <div class="event-show-value"><%= simple_format(@event.description) %></div>
+      </div>
     <% end %>
-  </p>
-  <p>
-    <strong>Location:</strong>
-     <%= [@event.location, @event.city, @event.state].compact_blank.join(", ").presence || "Online / N/A" %>
-  </p>
-
-  <p>
-    <strong>Event Time:</strong>
-    <%= @event.starts_at.strftime("%Y-%m-%d %I:%M %p") if @event.starts_at %>
-  </p>
-
-  <p>
-    <strong>Age Range:</strong>
-    <% if @event.min_age.present? || @event.max_age.present? %>
-      <%= @event.min_age || "?" %> – <%= @event.max_age || "?" %>
-    <% else %>
-      Any
-    <% end %>
-  </p>
-
-  <p>
-    <strong>Allowed Gender:</strong>
-    <%= @event.allowed_gender.humanize %>
-  </p>
-
-  <% if @event.price.present? %>
-    <p>
-      <strong>Price:</strong>
-      <%= @event.price.to_i == 0 ? "Free" : "$#{@event.price}" %>
-    </p>
-  <% end %>
-   <% if @event.description.present? %>
-    <p>
-      <strong>Description:</strong><br>
-      <%= simple_format(@event.description) %>
-    </p>
-  <% end %>
-
-    <hr>
-  <p>
-    <%= link_to "Back to Events", events_path %>
-
-    <% if current_user&.admin? || current_user&.id == @event.user_id %>
-      | <%= link_to "Edit", edit_event_path(@event) %>
-      | <%= link_to "Delete", event_path(@event),
-            method: :delete,
-            data: { turbo_confirm: "Are you sure you want to delete this event?" } %>
-    <% end %>
-  </p>
-
+  </div>
 </div>
