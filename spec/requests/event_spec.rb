@@ -36,7 +36,19 @@ RSpec.describe "Events", type: :request do
     )
   }
 
+  
+
   describe "/index displays the event titles" do
+  
+    before do
+      post user_session_path, params: { 
+        user: { 
+          email: user.email, 
+          password: user.password 
+        } 
+      }
+    end
+
     it "returns the first event title in events#index" do
       get "/events/index"
       expect(response.body).to include("Test One")
@@ -49,18 +61,38 @@ RSpec.describe "Events", type: :request do
   end
 
   describe "/show/1 displays event information" do
+    before do
+      post user_session_path, params: { 
+        user: { 
+          email: user.email, 
+          password: user.password 
+        } 
+      }
+    end
+
     it "return the title for the event id" do
       get "/events/1"
       expect(response.body).to include("Test One")
     end
 
     it "returns the location for the event id" do
+      
+      
       get "/events/1"
       expect(response.body).to include("online")
     end
   end
 
   describe "/1/edit displays the edit page" do
+    before do
+      post user_session_path, params: { 
+        user: { 
+          email: user.email, 
+          password: user.password 
+        } 
+      }
+    end
+    
     it "returns the page title" do
       get "/events/1/edit"
       expect(response.body).to include("Edit Event")
@@ -69,13 +101,30 @@ RSpec.describe "Events", type: :request do
 
   # Pages can be accessed
   describe "GET /index" do
-    it "returns http success" do
+    before do
+      post user_session_path, params: { 
+        user: { 
+          email: user.email, 
+          password: user.password 
+        } 
+      }
+    end
+    it "returns http success" do  
       get "/events"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /show" do
+    before do
+      post user_session_path, params: { 
+        user: { 
+          email: user.email, 
+          password: user.password 
+        } 
+      }
+    end
+
     it "returns http success" do
       get "/events/#{event1.id}"
       expect(response).to have_http_status(:success)
@@ -83,6 +132,15 @@ RSpec.describe "Events", type: :request do
   end
 
   describe "GET /edit" do
+    before do
+      post user_session_path, params: { 
+        user: { 
+          email: user.email, 
+          password: user.password 
+        } 
+      }
+    end
+    
     it "returns http success" do
       get "/events/#{event1.id}/edit"
       expect(response).to have_http_status(:success)
