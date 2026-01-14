@@ -2,9 +2,15 @@ require "rails_helper"
 
 RSpec.describe EnrollmentsHelper, type: :helper do
   let!(:organizer) { User.create!(email: "org@example.com", password: "test123", first_name: "org",
+<<<<<<< HEAD
     last_name: "lastname", city: "Chicago", state: "IL", zip: "60601", location_type: :online) }
   let!(:user) { User.create!(email: "user@example.com", password: "test123", first_name: "firstname",
     last_name: "lastname", city: "Chicago", state: "IL", zip: "60601", location_type: :online) }
+=======
+    last_name: "lastname") }
+  let!(:user)      { User.create!(email: "user@example.com", password: "test123", first_name: "firstname",
+    last_name: "lastname") }
+>>>>>>> dev
 
   let!(:event) do
     attrs = { user: organizer,
@@ -50,13 +56,21 @@ RSpec.describe EnrollmentsHelper, type: :helper do
       Enrollment.create!(event: event, user: user)
 
       another_user = User.create!(email: "u2@example.com", password: "password123", first_name: "U2",
+<<<<<<< HEAD
   last_name: "User", city: "Chicago", state: "IL", zip: "60601", location_type: :online)
+=======
+  last_name: "User")
+>>>>>>> dev
       expect(helper.can_enroll?(event, another_user)).to be(false)
     end
 
     it "returns true when user is not organizer, not enrolled, and event not full" do
       another_user = User.create!(email: "u3@example.com", password: "password123", first_name: "U2",
+<<<<<<< HEAD
   last_name: "User", city: "Chicago", state: "IL", zip: "60601", location_type: :online)
+=======
+  last_name: "User")
+>>>>>>> dev
       expect(helper.can_enroll?(event, another_user)).to be(true)
     end
   end

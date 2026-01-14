@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-require "rails_helper"
-
 RSpec.describe Enrollment, type: :model do
   let!(:organizer) do
     User.create!(
