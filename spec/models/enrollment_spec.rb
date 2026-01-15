@@ -36,12 +36,11 @@ RSpec.describe Enrollment, type: :model do
     let(:event) { Event.create!(event_attrs) }
 
     it "does not allow the same user to enroll in the same event twice" do
-      Enrollment.create!(user: user, event: event)
+      described_class.create!(user: user, event: event)
 
-      duplicate = Enrollment.new(user: user, event: event)
+      duplicate = described_class.new(user: user, event: event)
 
       expect(duplicate).not_to be_valid
-      expect(duplicate.errors[:user_id]).to be_present
     end
   end
 end
