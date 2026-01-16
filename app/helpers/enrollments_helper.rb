@@ -62,5 +62,4 @@ module EnrollmentsHelper
   def event_owner?(user, event)
   user.present? && event.present? && event.user_id == user.id
 end
-
 end
