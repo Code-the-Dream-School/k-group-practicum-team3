@@ -48,8 +48,22 @@ RSpec.describe EnrollmentsHelper, type: :helper do
 
   describe "#event_full?" do
     it "returns false when event has no max capacity field" do
-      skip "Event has max capacity in this app" if Event.new.respond_to?(:max_capacity)
+      eventNoCap = Event.create!(user: user, title: "No limit", category: :other, max_capacity: nil, starts_at: Date.new(2026, 1, 16))
+
       expect(helper.event_full?(event)).to be(false)
+    end
+
+    it "returns false when capacity exists but not yet full" do
+      Enrollment.create!(user: user, event: event)
+
+      expect(helper.event_full?(event)).to be(false)
+    end
+
+    it "returns true when capacity exists and enrollment count reaches max" do
+      Enrollment.create!(user: user, event: event)
+      Enrollment.create!(user: User.create!(email: "u2@example.com", password: "test123", first_name: "f2", last_name: "l2", city: "c", state: "s", zip: 456), event: event)
+
+      expect(helper.event_full?(event)).to be(true)
     end
   end
 
