@@ -5,16 +5,14 @@ module EnrollmentsHelper
   end
 
   def event_full?(event)
-    return false unless event.respond_to?(:max_capacity)
+    return false if event.nil?
+    return false if event.max_capacity.nil?
 
-    capacity = event.max_capacity
-    return false if capacity.blank?
-
-    Enrollment.where(event_id: event.id).count >= capacity
+    event.enrollments.count >= event.max_capacity
   end
 
   def can_enroll?(event, user)
-    return false if organizer?(user)
+    return false if event_owner?(user, event)
     return false if enrolled_in?(event, user)
     return false if event_full?(event)
 
@@ -41,7 +39,7 @@ module EnrollmentsHelper
 
 
   def show_leave_button?(event, user)
-    return false if organizer?(user)
+    return false if event_owner?(user, event)
 
     enrolled_in?(event, user)
   end
@@ -49,7 +47,7 @@ module EnrollmentsHelper
 
   def enrollment_status_label(event, user)
     return "Login required" if user.blank?
-    return "Organizer" if organizer?(user)
+    return "Organizer" if event_owner?(user, event)
     return "Enrolled" if enrolled_in?(event, user)
     return "Full" if event_full?(event)
 
@@ -58,6 +56,10 @@ module EnrollmentsHelper
 
 
   def can_view_participants?(event, user)
-    organizer?(user)
+    event_owner?(user, event)
   end
+
+  def event_owner?(user, event)
+  user.present? && event.present? && event.user_id == user.id
+end
 end
