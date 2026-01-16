@@ -1,30 +1,107 @@
-<div class="page">
-  <h1>Create Event</h1>
+<div class="event-form-page">
+  <div class="event-form-header">
+    <h1>Create New Event</h1>
+    <%= link_to "Back to Events", events_path, class: "event-show-link" %>
+  </div>
 
-  <%= form_with url: events_path, method: :post, class: "event-form" do %>
-    <div class="form-group">
-      <label for="title">Event Title:</label>
-      <input
-        type="text"
-        name="title"
-        id="title"
-        placeholder="enter title"
-        required
-      >
-      <label for="title">Event Location:</label>
-      <input
-        type="text"
-        name="title"
-        id="title"
-        placeholder="enter location"
-        required
-      >
-    </div>
+  <div class="event-form-card">
+    <%= form_with model: @event, local: true do |f| %>
 
-    <div class="form-actions">
-      <button type="submit">Create Event</button>
-    </div>
-    <%= notice %>
+      <% if @event.errors.any? %>
+        <div class="event-form-errors">
+          <strong><%= pluralize(@event.errors.count, "error") %> prevented saving:</strong>
+          <ul>
+            <% @event.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <% end %>
+      <div class="form-group">
+        <%= f.label :title %>
+        <%= f.text_field :title, required: true %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :category %>
+        <%= f.select :category, Event.categories.keys.map { |c| [c.titleize, c] } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :starts_at, "Event Time" %>
+        <%= f.datetime_local_field :starts_at %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :ends_at, "End Time" %>
+        <%= f.datetime_local_field :ends_at %>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <%= f.label :location %>
+          <%= f.text_field :location %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :city %>
+          <%= f.text_field :city %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :state %>
+          <%= f.text_field :state %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <%= f.label :min_age %>
+          <%= f.number_field :min_age %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :max_age %>
+          <%= f.number_field :max_age %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :allowed_gender %>
+          <%= f.select :allowed_gender, Event.allowed_genders.keys.map { |g| [g.humanize, g] } %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <%= f.label :price %>
+          <%= f.number_field :price, step: 0.01 %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :max_capacity %>
+          <%= f.number_field :max_capacity %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :rsvp %>
+          <%= f.select :rsvp, Event.rsvps.keys.map { |r| [r.humanize, r] } %>
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <%= f.check_box :accessible %>
+        <%= f.label :accessible, "Accessible Event" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, rows: 4 %>
+      </div>
+
+      <%= f.submit(@event.new_record? ? "Create Event" : "Update Event",
+             class: "event-primary-btn") %>
+
+    <% end %>
+  </div>
 </div>

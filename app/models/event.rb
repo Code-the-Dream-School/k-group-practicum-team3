@@ -11,6 +11,7 @@ class Event < ApplicationRecord
   validates :min_age, numericality: { only_integer: true, allow_nil: true }
   validates :max_age, numericality: { only_integer: true, allow_nil: true }
   validates :max_capacity,
+
             numericality: { only_integer: true, greater_than: 0 },
             allow_nil: true
 

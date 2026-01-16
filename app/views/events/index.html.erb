@@ -1,0 +1,54 @@
+<div class="events-page">
+  <!-- Header -->
+  <div class="events-header">
+    <h1 class="events-title">
+      Events near
+      <span class="events-location">
+        here City, state
+      </span>
+      <span class="events-edit">✎</span>
+    </h1>
+
+    <%= link_to "See all events", events_path, class: "events-see-all" %>
+  </div>
+
+  <!-- Grid -->
+  <div class="events-grid">
+    <% @events.each do |event| %>
+      <article class="event-card">
+        <%= link_to event_path(event), class: "event-card-link" do %>
+
+          <div class="event-image-wrap">
+            <%= image_tag "event-placeholder.jpg",
+                  class: "event-image",
+                  alt: event.title %>
+
+            <span class="event-badge">
+              <%= event.price.present? ? "$#{event.price}" : "Free" %>
+            </span>
+          </div>
+
+          <div class="event-content">
+            <h2 class="event-name"><%= event.title %></h2>
+
+            <div class="event-time">
+              <% if event.starts_at.present? %>
+                <%= event.starts_at.strftime("%a, %b %-d · %-I:%M %p %Z") %>
+              <% else %>
+                Date & time TBD
+              <% end %>
+            </div>
+
+            <div class="event-by">
+              by
+              <%= event.user.present? ?
+                    [event.user.first_name, event.user.last_name].compact.join(" ").presence || event.user.email
+                    : "Unknown" %>
+            </div>
+          </div>
+
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+</div>

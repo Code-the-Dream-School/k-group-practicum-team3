@@ -4,10 +4,13 @@ RSpec.describe Event, type: :model do
   describe "date/time edge cases" do
     let(:user) do
       User.create!(
+        email: "organizer@example.com",
+        password: "password123",
         first_name: "John",
         last_name: "Doe",
-        email: "user@test.com",
-        password: "pass123",
+        city: "Chicago",
+        state: "IL",
+        zip: "60601",
         location_type: :online
       )
     end
@@ -61,10 +64,13 @@ RSpec.describe Event, type: :model do
   describe "#past?" do
     let(:user) do
       User.create!(
+        email: "organizer@example.com",
+        password: "password123",
         first_name: "John",
         last_name: "Doe",
-        email: "past@test.com",
-        password: "pass123",
+        city: "Chicago",
+        state: "IL",
+        zip: "60601",
         location_type: :online
       )
     end

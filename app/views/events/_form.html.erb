@@ -1,0 +1,93 @@
+<div class="event-form-card">
+  <%= form_with model: @event, local: true do |f| %>
+
+    <% if @event.errors.any? %>
+      <div class="event-form-errors">
+        <strong><%= pluralize(@event.errors.count, "error") %> prevented saving:</strong>
+        <ul>
+          <% @event.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :title %>
+      <%= f.text_field :title, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :category %>
+      <%= f.select :category, Event.categories.keys.map { |c| [c.titleize, c] } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :starts_at, "Event Time" %>
+      <%= f.datetime_local_field :starts_at %>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <%= f.label :location %>
+        <%= f.text_field :location %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :city %>
+        <%= f.text_field :city %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :state %>
+        <%= f.text_field :state %>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <%= f.label :min_age %>
+        <%= f.number_field :min_age %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :max_age %>
+        <%= f.number_field :max_age %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :allowed_gender %>
+        <%= f.select :allowed_gender, Event.allowed_genders.keys.map { |g| [g.humanize, g] } %>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <%= f.label :price %>
+        <%= f.number_field :price, step: 0.01 %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :max_capacity %>
+        <%= f.number_field :max_capacity %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :rsvp %>
+        <%= f.select :rsvp, Event.rsvps.keys.map { |r| [r.humanize, r] } %>
+      </div>
+    </div>
+
+    <div class="form-group checkbox-group">
+      <%= f.check_box :accessible %>
+      <%= f.label :accessible, "Accessible Event" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, rows: 4 %>
+    </div>
+
+    <%= f.submit class: "event-primary-btn" %>
+  <% end %>
+</div>

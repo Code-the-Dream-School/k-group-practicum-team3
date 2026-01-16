@@ -1,5 +1,11 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!
+  def index
+    @events = Event.includes(:user).order(starts_at: :asc)
+  end
+  def show
+    @event = Event.find(params[:id])
+  end
+
   def new
     @event = Event.new
     authorize @event
