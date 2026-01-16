@@ -10,6 +10,10 @@ class User < ApplicationRecord
   # Rolify
   rolify
 
+  # Virtual attribute (signup only)
+  attr_accessor :requested_role
+  after_create :assign_role_from_signup
+
   # Enums
   enum :location_type, { in_person: 0, online: 1, hybrid: 2 }
   enum :gender, { male: 0, female: 1, non_binary: 2, prefer_not_to_say: 3 }
@@ -46,8 +50,6 @@ class User < ApplicationRecord
 
   validates :bio, length: { maximum: 5000 }, allow_blank: true
 
-  validates :city, :state, :zip, presence: true, if: :requires_location?
-
   # Instance methods
   def full_name
     "#{first_name} #{last_name}"
@@ -55,19 +57,28 @@ class User < ApplicationRecord
 
   private
 
-  def requires_location?
-    in_person? || hybrid?
+  def assign_role_from_signup
+    allowed_roles = %w[participant organizer]
+
+    role =
+      if requested_role.present? && allowed_roles.include?(requested_role)
+        requested_role
+      else
+        "participant"
+      end
+
+    add_role(role)
   end
 
   # Returns initials for avatar placeholders.
   def user_initials(user)
-    "#{User.first_name[0]}.#{User.last_name[0]}"
+    "#{first_name.first}.#{last_name.first}."
   end
 
   # Note: This provides two ways of accessing the data
   # Returns the user full name
   def name
-    "#{User.first_name} #{User.last_name}"
+    "#{first_name} #{last_name}"
   end
 
   # Returns the users full name given a user
