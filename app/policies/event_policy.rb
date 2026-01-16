@@ -8,11 +8,15 @@ class EventPolicy < ApplicationPolicy
   end
 
   def edit?
-    organizer? && owns_record?
+    organizer? && owns_record? && not_past?
   end
 
   def update?
-    organizer? && owns_record?
+    organizer? && owns_record? && not_past?
+  end
+
+  def destroy?
+    organizer? && owns_record? && not_past?
   end
 
   private
@@ -23,5 +27,9 @@ class EventPolicy < ApplicationPolicy
 
   def owns_record?
     record.user_id == user.id
+  end
+
+  def not_past?
+    !record.past?
   end
 end
