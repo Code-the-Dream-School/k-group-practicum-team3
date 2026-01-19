@@ -9,8 +9,8 @@ RSpec.describe UsersHelper, type: :helper do
       gender: :male,
       password: "password",
       password_confirmation: "password",
-      city: "City",
-      state: "State",
+      city: "Some City",
+      state: "Some State",
       zip: "12345"
     )
   end

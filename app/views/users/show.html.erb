@@ -6,10 +6,10 @@
   <div class="px-6 py-6">
     <div class="flex items-center gap-6 mb-6">
       <% if @user&.profile_picture&.attached? %>
-        <%= image_tag @user.profile_picture.variant(resize_to_limit: [120, 120]),
-          class: "rounded-full border border-gray-300" %>
+        <%= image_tag @user.profile_picture,
+          class: "rounded-full border border-gray-300 w-32 h-32 object-cover" %>
       <% else %>
-        <div class="w-28 h-28 bg-gray-100 border border-gray-300 rounded-full flex items-center justify-center text-sm text-gray-500">
+        <div class="w-32 h-32 bg-gray-100 border border-gray-300 rounded-full flex items-center justify-center text-sm text-gray-500">
           No Image
         </div>
       <% end %>
