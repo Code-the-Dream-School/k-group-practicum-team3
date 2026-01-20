@@ -50,7 +50,7 @@ RSpec.describe EnrollmentsHelper, type: :helper do
     it "returns false when event has no max capacity field" do
       eventNoCap = Event.create!(user: user, title: "No limit", category: :other, max_capacity: nil, starts_at: Date.new(2026, 1, 16))
 
-      expect(helper.event_full?(event)).to be(false)
+      expect(helper.event_full?(eventNoCap)).to be(false)
     end
 
     it "returns false when capacity exists but not yet full" do
@@ -68,9 +68,15 @@ RSpec.describe EnrollmentsHelper, type: :helper do
   end
 
   describe "#can_enroll?" do
-    it "returns false for organizer" do
+    it "returns false for event owner" do
       organizer.add_role :organizer
       expect(helper.can_enroll?(event, organizer)).to be(false)
+    end
+
+    it "allows organizer but NOT owner to enroll" do
+      user.add_role :organizer
+
+      expect(helper.can_enroll?(event, user)).to be(true)
     end
 
     it "returns false if already enrolled" do
@@ -131,10 +137,15 @@ RSpec.describe EnrollmentsHelper, type: :helper do
       expect(helper.enrollment_status_label(event, nil)).to eq("Login required")
     end
 
-    it "returns Organizer for organizer" do
+    it "returns Organizer for event owner" do
       organizer.add_role :organizer
       expect(helper.enrollment_status_label(event, organizer)).to eq("Organizer")
     end
+
+    it "does not show 'Organizer' for a non-owner organizer" do
+    user.add_role :organizer
+    expect(helper.enrollment_status_label(event, user)).not_to eq("Organizer")
+  end
 
     it "returns Enrolled when enrolled" do
       Enrollment.create!(event: event, user: user)
@@ -143,12 +154,13 @@ RSpec.describe EnrollmentsHelper, type: :helper do
   end
 
   describe "#can_view_participants?" do
-    it "returns true for organizer" do
+    it "returns true for event organizer" do
       organizer.add_role :organizer
       expect(helper.can_view_participants?(event, organizer)).to be(true)
     end
 
-    it "returns false for non-organizer" do
+    it "returns false for non-owner organizer" do
+      user.add_role :organizer
       expect(helper.can_view_participants?(event, user)).to be(false)
     end
   end
