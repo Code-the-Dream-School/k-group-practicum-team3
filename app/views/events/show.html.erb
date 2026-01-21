@@ -1,0 +1,17 @@
+<div class="columns-1">
+    <h1><%= @event.title %></h1>
+    <ul>
+        <li><p>Description: <%= @event.description %></p></li>
+        <li><p>Starts at: <%= @event.starts_at %></p></li>
+        <li><p>Ends at: <%= @event.ends_at %></p></li>
+        <li><p>Location: <%= @event.location %></p></li>
+    </ul>
+    <% if user_signed_in? %>
+        <%= button_to "Join", event_enrollments_path(@event), method: :post, data: { turbo: false } %>
+    <% else %>
+        <p> Please sign in to register for this event.</p>
+    <% end %>
+    <% if notice %>
+        <p class="notice"><%= notice %></p>
+    <% end %>
+</div>
