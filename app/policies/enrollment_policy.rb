@@ -6,7 +6,7 @@ class EnrollmentPolicy < ApplicationPolicy
             false
         end
     end
-    
+
     def create?
         if user && !owns_record?
             !enrolled? && not_past?
@@ -14,7 +14,7 @@ class EnrollmentPolicy < ApplicationPolicy
             false
         end
     end
-    
+
     def destroy?
         if user
             enrolled? && not_past?
