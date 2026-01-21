@@ -34,7 +34,7 @@
 
         <tr class="border-t">
           <th class="py-2 pr-4 text-left text-gray-700 font-medium">Location</th>
-          <td class="py-2"><%= [@user.city, @user.state, @user.zip].compact.join(', ') %></td>
+          <td class="py-2"><%= [@user.city.presence, @user.state.presence, @user.zip.presence].compact.join(', ').presence || "Not specified" %></td>
         </tr>
 
         <tr class="border-t">
