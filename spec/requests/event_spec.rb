@@ -67,13 +67,13 @@ RSpec.describe "Events", type: :request do
       }
     end
 
-    it "return the title for the event id" do
-      get "/events/1"
+    it "returns the title for the event id" do
+      get "/events/#{event1.id}"
       expect(response.body).to include("Test One")
     end
 
     it "returns the location for the event id" do
-      get "/events/1"
+      get "/events/#{event1.id}"
       expect(response.body).to include("online")
     end
   end
@@ -89,7 +89,7 @@ RSpec.describe "Events", type: :request do
     end
 
     it "returns the page title" do
-      get "/events/1/edit"
+      get "/events/#{event1.id}/edit"
       expect(response.body).to include("Edit Event")
     end
   end
