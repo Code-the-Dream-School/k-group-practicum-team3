@@ -1,0 +1,11 @@
+<div class= "columns-1">
+    <h1> All Events </h1>
+    <% @events.each do |event| %>
+        <li>
+            <%= event.title %> |
+            <%= link_to "Show", event_path(event) %> |
+            <%= link_to "Edit", edit_event_path(event) %>
+        </li>
+    <% end %>
+    <h2> <%= link_to "Create Event", new_event_path %> </h2>
+</div>
