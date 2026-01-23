@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Role, type: :model do
   describe "associations" do
@@ -11,6 +11,7 @@ RSpec.describe Role, type: :model do
   describe "validations" do
     it "validates presence of name" do # rubocop:disable RSpec/MultipleExpectations
       role = described_class.new(name: nil)
+
       expect(role).not_to be_valid
       expect(role.errors[:name]).to include("can't be blank")
     end
