@@ -1,4 +1,4 @@
-module UserHelper
+module UsersHelper
   def organizer?(user)
     user.has_role?(:organizer)
   end

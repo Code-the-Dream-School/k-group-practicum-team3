@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Enrollment, type: :model do
   let!(:organizer) do
@@ -36,5 +36,11 @@ RSpec.describe Enrollment, type: :model do
   it "is valid with a user and an event" do
     enrollment = described_class.new(user: user, event: event)
     expect(enrollment).to be_valid
+  end
+
+
+  it "associates user and event" do
+    enrollment = build(:enrollment)
+    expect(enrollment).to respond_to(:event)
   end
 end
