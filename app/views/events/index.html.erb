@@ -19,9 +19,11 @@
         <%= link_to event_path(event), class: "event-card-link" do %>
 
           <div class="event-image-wrap">
-            <%= image_tag "event-placeholder.jpg",
-                  class: "event-image",
-                  alt: event.title %>
+            <% if Rails.root.join("app/assets/images/event-placeholder.jpg").exist? %>
+              <%= image_tag "event-placeholder.jpg",
+                    class: "event-image",
+                    alt: event.title %>
+            <% end %>
 
             <span class="event-badge">
               <%= event.price.present? ? "$#{event.price}" : "Free" %>
