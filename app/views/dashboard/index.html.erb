@@ -1,0 +1,83 @@
+<div class="container">
+<% if organizer?(current_user) %>
+<h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+    <div class="events-table-wrapper">
+    <table class="events-table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date & Time</th>
+            <th>Location</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Price</th>
+            <th>Capacity</th>
+            <th>RSVP</th>
+            <th>Accessible</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% if @events.blank? %>
+            <tr>
+            <td colspan="13" style="text-align:center; padding:1rem;">
+                No events yet.
+            </td>
+            </tr>
+        <% else %>
+            <% @events.each do |event| %>
+            <tr>
+                <!-- TODO: Add proper link once other branches are merged -->
+                <td><%= link_to "#{event.title}", "#", class: "text-blue-600 hover:underline" %></td>
+                <td><%= event.category&.titleize %></td>
+
+                <td>
+                <% if event.starts_at && event.ends_at %>
+                    <%= event.starts_at.strftime("%b %d, %Y %-I:%M %p") %> –
+                    <%= event.ends_at.strftime("%-I:%M %p") %>
+                <% elsif event.starts_at %>
+                    <%= event.starts_at.strftime("%b %d, %Y %-I:%M %p") %>
+                <% else %>
+                    N/A
+                <% end %>
+                </td>
+
+                <td>
+                <%= [event.location, event.city, event.state]
+                        .compact_blank
+                        .join(", ")
+                        .presence || "Online / N/A" %>
+                </td>
+
+                <td>
+                <% if event.min_age || event.max_age %>
+                    <%= event.min_age || "Any" %> – <%= event.max_age || "Any" %>
+                <% else %>
+                    Any
+                <% end %>
+                </td>
+
+                <td><%= event.allowed_gender&.humanize || "Any" %></td>
+                <td><%= event.price.present? ? "$#{event.price}" : "Free" %></td>
+                <td><%= event.max_capacity || "Unlimited" %></td>
+                <td><%= event.rsvp&.humanize || "N/A" %></td>
+                <td><%= event.accessible ? "Yes" : "No" %></td>
+                <td><%= link_to "Edit", edit_event_path(event), class:"inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" %></td>
+                <td><%= link_to "Delete", event_path(event), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class:"inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" %></td>
+            </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+    </table>
+    </div>
+
+    <div class="mt-4">
+    <%= link_to "Create New Event",
+            new_event_path,
+            class: "inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" %>
+    </div>
+    <% end %>
+</div>

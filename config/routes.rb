@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
   resources :events
   devise_for :users
-
+  resources :events
   resource :user, only: [ :show ], controller: "users"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
+  get "/dashboard", to: "dashboard#index"
 
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
@@ -15,6 +16,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :events, only: [ :new, :create ]
+  resources :events, only: [ :new, :create ] do
+    resources :enrollments, only: [ :create ]
+  end
   root "home#index"
 end
