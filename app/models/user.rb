@@ -53,6 +53,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def admin?
+    has_role?(:admin)
+  end
+
   private
 
   def assign_role_from_signup

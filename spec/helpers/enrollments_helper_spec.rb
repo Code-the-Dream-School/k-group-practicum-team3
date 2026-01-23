@@ -6,6 +6,7 @@ RSpec.describe EnrollmentsHelper, type: :helper do
   let!(:user) { User.create!(email: "user@example.com", password: "test123", first_name: "firstname",
     last_name: "lastname", city: "Chicago", state: "IL", zip: "60601", location_type: :online) }
 
+
   let!(:event) do
     attrs = {
       user: organizer,

@@ -3,13 +3,7 @@ require "rails_helper"
 RSpec.describe Event, type: :model do
   describe "date/time edge cases" do
     let(:user) do
-      User.create!(
-        first_name: "John",
-        last_name: "Doe",
-        email: "user@test.com",
-        password: "pass123",
-        location_type: :online
-      )
+      create(:user, :with_organizer_role)
     end
 
     let(:base_attrs) do
@@ -60,13 +54,7 @@ RSpec.describe Event, type: :model do
 
   describe "#past?" do
     let(:user) do
-      User.create!(
-        first_name: "John",
-        last_name: "Doe",
-        email: "past@test.com",
-        password: "pass123",
-        location_type: :online
-      )
+      create(:user, :with_organizer_role)
     end
 
     let(:base_attrs) do
