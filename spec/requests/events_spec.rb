@@ -5,7 +5,6 @@ RSpec.describe "Events", type: :request do
   let(:user) { create(:user, :with_organizer_role, password: password) }
 
   let!(:first_event) { create(:event, user: user, title: "Test One", starts_at: 1.day.from_now, location: "online") }
-  let!(:second_event) { create(:event, user: user, title: "Test Two", starts_at: 2.days.from_now) }
 
   def sign_in_via_post!(user, password)
     post user_session_path, params: {
@@ -22,9 +21,15 @@ RSpec.describe "Events", type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it "includes event titles" do
+    it "includes the first event title" do
       get events_path
       expect(response.body).to include("Test One")
+    end
+
+    it "includes the second event title" do
+      create(:event, user: user, title: "Test Two", starts_at: 2.days.from_now)
+
+      get events_path
       expect(response.body).to include("Test Two")
     end
   end
@@ -35,9 +40,13 @@ RSpec.describe "Events", type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it "includes basic event information" do
+    it "includes the event title" do
       get event_path(first_event)
       expect(response.body).to include("Test One")
+    end
+
+    it "includes the event location" do
+      get event_path(first_event)
       expect(response.body).to include("online")
     end
   end
