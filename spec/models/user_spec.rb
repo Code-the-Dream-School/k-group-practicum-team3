@@ -30,7 +30,7 @@ RSpec.describe User, type: :model do
         expect(user.errors[:bio]).to be_empty
       end
     end
-  end
+
     it "rejects negative age" do
       user = build(:user, age: -1)
       expect(user).not_to be_valid
