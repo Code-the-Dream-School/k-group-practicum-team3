@@ -98,11 +98,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_08_023743) do
     t.integer "age"
     t.string "phone"
     t.text "bio"
-    t.integer "location_type", default: 0
     t.integer "gender"
     t.string "city"
     t.string "state"
     t.string "zip"
+    t.integer "location_type", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

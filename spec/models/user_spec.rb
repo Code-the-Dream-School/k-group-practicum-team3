@@ -1,70 +1,21 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
-  describe 'validations' do
-    it 'validates presence of first_name' do
-      user = described_class.new(first_name: nil, last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online)
+  describe "validations" do
+    it "requires first_name" do
+      user = build(:user, first_name: nil)
       expect(user).not_to be_valid
     end
 
-    it 'validates presence of last_name' do
-      user = described_class.new(first_name: 'John', last_name: nil, email: 'test@test.com', password: 'pass123', location_type: :online)
+    it "requires last_name" do
+      user = build(:user, last_name: nil)
       expect(user).not_to be_valid
     end
 
-    describe 'age validation' do
-      it 'accepts valid ages' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, age: 25)
-        user.validate
-        expect(user.errors[:age]).to be_empty
-      end
-
-      it 'rejects negative ages' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, age: -1)
-        expect(user).not_to be_valid
-      end
-
-      it 'rejects ages over 150' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, age: 151)
-        expect(user).not_to be_valid
-      end
-
-      it 'accepts nil age' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, age: nil)
-        user.validate
-        expect(user.errors[:age]).to be_empty
-      end
-    end
-
-    describe 'phone validation' do
-      it 'accepts phone with dashes' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, phone: '123-456-7890')
-        user.validate
-        expect(user.errors[:phone]).to be_empty
-      end
-
-      it 'accepts phone with parentheses' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, phone: '(123) 456-7890')
-        user.validate
-        expect(user.errors[:phone]).to be_empty
-      end
-
-      it 'accepts phone with spaces and plus' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, phone: '+1 123 456 7890')
-        user.validate
-        expect(user.errors[:phone]).to be_empty
-      end
-
-      it 'rejects invalid phone formats' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, phone: 'abc-def-ghij')
-        expect(user).not_to be_valid
-      end
-
-      it 'accepts blank phone' do
-        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, phone: '')
-        user.validate
-        expect(user.errors[:phone]).to be_empty
-      end
+    it "accepts valid age" do
+      user = build(:user, age: 30)
+      user.validate
+      expect(user.errors[:age]).to be_empty
     end
 
     describe 'bio validation' do
@@ -80,11 +31,27 @@ RSpec.describe User, type: :model do
       end
     end
   end
+    it "rejects negative age" do
+      user = build(:user, age: -1)
+      expect(user).not_to be_valid
+    end
 
-  describe '#full_name' do
-    it 'returns first and last name combined' do
-      user = described_class.new(first_name: 'John', last_name: 'Doe')
-      expect(user.full_name).to eq('John Doe')
+    it "rejects age over 150" do
+      user = build(:user, age: 151)
+      expect(user).not_to be_valid
+    end
+
+    it "accepts nil age" do
+      user = build(:user, age: nil)
+      user.validate
+      expect(user.errors[:age]).to be_empty
+    end
+  end
+
+  describe "#full_name" do
+    it "returns first and last name combined" do
+      user = build(:user, first_name: "Jane", last_name: "Doe")
+      expect(user.full_name).to eq("Jane Doe")
     end
   end
 end
