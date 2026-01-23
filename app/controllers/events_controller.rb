@@ -1,18 +1,20 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
-  def index
-    @events = Event.all
-  end
 
+  def index
+    @events = Event.includes(:user).order(starts_at: :asc)
+  end
   def show
     @event = Event.find(params[:id])
   end
 
   def edit
+    @event = Event.find(params[:id])
+    authorize @event
   end
 
   def update
-    @event = current_user.events.find(params[:id])
+    @event = Event.find(params[:id])
     authorize @event
 
     if @event.update(event_params)
@@ -28,7 +30,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_user.events.build(event_params)
+    @event = current_user.organized_events.build(event_params)
     authorize @event
 
     if @event.save
