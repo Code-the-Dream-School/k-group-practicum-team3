@@ -15,7 +15,7 @@ RSpec.describe "Events", type: :request do
     ).tap { |u| u.add_role(:organizer) }
   }
 
-  let!(:event1) {
+  let(:first_event) {
     Event.create!(
       title: "Test One",
       starts_at: 1.day.from_now,
@@ -27,7 +27,7 @@ RSpec.describe "Events", type: :request do
     )
   }
 
-  let!(:event2) {
+  let(:second_event) {
     Event.create!(
       title: "Test Two",
       starts_at: 2.days.from_now,
@@ -40,6 +40,9 @@ RSpec.describe "Events", type: :request do
 
   describe "/index displays the event titles" do
     before do
+      first_event
+      second_event
+
       post user_session_path, params: {
         user: {
           email: user.email,
@@ -70,12 +73,12 @@ RSpec.describe "Events", type: :request do
     end
 
     it "returns the title for the event id" do
-      get "/events/#{event1.id}"
+      get "/events/#{first_event.id}"
       expect(response.body).to include("Test One")
     end
 
     it "returns the location for the event id" do
-      get "/events/#{event1.id}"
+      get "/events/#{first_event.id}"
       expect(response.body).to include("online")
     end
   end
@@ -91,7 +94,7 @@ RSpec.describe "Events", type: :request do
     end
 
     it "returns the page title" do
-      get "/events/#{event1.id}/edit"
+      get "/events/#{first_event.id}/edit"
       expect(response.body).to include("Edit Event")
     end
   end
@@ -124,7 +127,7 @@ RSpec.describe "Events", type: :request do
     end
 
     it "returns http success" do
-      get "/events/#{event1.id}"
+      get "/events/#{first_event.id}"
       expect(response).to have_http_status(:success)
     end
   end
@@ -140,7 +143,7 @@ RSpec.describe "Events", type: :request do
     end
 
     it "returns http success" do
-      get "/events/#{event1.id}/edit"
+      get "/events/#{first_event.id}/edit"
       expect(response).to have_http_status(:success)
     end
   end
