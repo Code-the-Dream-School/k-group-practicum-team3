@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Events", type: :request do
+  let(:password) { "password" }
+
   let(:user) {
     User.create!(
       first_name: "Test",
@@ -9,14 +11,14 @@ RSpec.describe "Events", type: :request do
       state: "TX",
       zip: "11111",
       email: "testemail@email.com",
-      password: "password"
-    )
+      password: password
+    ).tap { |u| u.add_role(:organizer) }
   }
 
-  let (:event1) {
+  let!(:event1) {
     Event.create!(
       title: "Test One",
-      starts_at: "12/1/26",
+      starts_at: 1.day.from_now,
       category: 1,
       allowed_gender: 1,
       rsvp: 1,
@@ -25,10 +27,10 @@ RSpec.describe "Events", type: :request do
     )
   }
 
-  let (:event2) {
+  let!(:event2) {
     Event.create!(
       title: "Test Two",
-      starts_at: "12/1/26",
+      starts_at: 2.days.from_now,
       category: 3,
       allowed_gender: 0,
       rsvp: 0,
@@ -41,18 +43,18 @@ RSpec.describe "Events", type: :request do
       post user_session_path, params: {
         user: {
           email: user.email,
-          password: user.password
+          password: password
         }
       }
     end
 
     it "returns the first event title in events#index" do
-      get "/events/index"
+      get "/events"
       expect(response.body).to include("Test One")
     end
 
     it "returns the second event title in events#index" do
-      get "/events/index"
+      get "/events"
       expect(response.body).to include("Test Two")
     end
   end
@@ -62,7 +64,7 @@ RSpec.describe "Events", type: :request do
       post user_session_path, params: {
         user: {
           email: user.email,
-          password: user.password
+          password: password
         }
       }
     end
@@ -83,7 +85,7 @@ RSpec.describe "Events", type: :request do
       post user_session_path, params: {
         user: {
           email: user.email,
-          password: user.password
+            password: password
         }
       }
     end
@@ -100,7 +102,7 @@ RSpec.describe "Events", type: :request do
       post user_session_path, params: {
         user: {
           email: user.email,
-          password: user.password
+            password: password
         }
       }
     end
@@ -116,7 +118,7 @@ RSpec.describe "Events", type: :request do
       post user_session_path, params: {
         user: {
           email: user.email,
-          password: user.password
+            password: password
         }
       }
     end
@@ -132,7 +134,7 @@ RSpec.describe "Events", type: :request do
       post user_session_path, params: {
         user: {
           email: user.email,
-          password: user.password
+            password: password
         }
       }
     end

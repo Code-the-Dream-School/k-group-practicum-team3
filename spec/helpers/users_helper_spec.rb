@@ -15,6 +15,22 @@ RSpec.describe UsersHelper, type: :helper do
     )
   end
 
+  describe "#can_manage_event?" do
+    it "returns true when event user_id matches user id" do
+      user = instance_double(User, id: 1)
+      event = instance_double(Event, user_id: 1)
+
+      expect(helper.can_manage_event?(event, user)).to be(true)
+    end
+
+    it "returns false when event user_id does not match user id" do
+      user = instance_double(User, id: 1)
+      event = instance_double(Event, user_id: 2)
+
+      expect(helper.can_manage_event?(event, user)).to be(false)
+    end
+  end
+
   describe "#user_display_name" do
     it "returns the name if present" do
       expect(helper.user_display_name(user)).to eq("John Doe")
