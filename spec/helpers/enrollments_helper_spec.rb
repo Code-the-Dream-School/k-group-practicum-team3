@@ -97,7 +97,7 @@ RSpec.describe EnrollmentsHelper, type: :helper do
       another_user = User.create!(email: "u3@example.com", password: "password123", first_name: "U2",
   last_name: "User", city: "some city",
       state: "some state",
-      zip:"12345")
+      zip: "12345")
       expect(helper.can_enroll?(event, another_user)).to be(true)
     end
   end
