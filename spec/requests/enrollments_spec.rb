@@ -44,4 +44,14 @@ RSpec.describe "Enrollments", type: :request do
       }.to change(Enrollment, :count).by(1)
     end
   end
+
+  describe "DELETE /events/:event_id/enrollments/:id" do
+    let!(:enrollment) { Enrollment.create!(user: user, event: event) }
+
+    it "removes the enrollment for the current user" do
+      expect {
+        delete event_enrollment_path(event, enrollment)
+      }.to change(Enrollment, :count).by(-1)
+    end
+  end
 end
