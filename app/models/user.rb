@@ -14,6 +14,7 @@ class User < ApplicationRecord
   after_create :assign_role_from_signup
 
   # Enums
+  enum :location_type, { in_person: 0, online: 1, hybrid: 2 }
   enum :gender, { male: 0, female: 1, non_binary: 2, prefer_not_to_say: 3 }
 
   # Active Storage
@@ -48,6 +49,8 @@ class User < ApplicationRecord
 
   validates :bio, length: { maximum: 5000 }, allow_blank: true
 
+  validates :city, :state, :zip, presence: true, if: :requires_location?
+
   # Instance methods
   def full_name
     "#{first_name} #{last_name}"
@@ -58,6 +61,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def requires_location?
+    in_person? || hybrid?
+  end
 
   def assign_role_from_signup
     allowed_roles = %w[participant organizer]
