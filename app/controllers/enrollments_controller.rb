@@ -6,9 +6,9 @@ class EnrollmentsController < ApplicationController
     @enrollment = @event.enrollments.build(user: current_user)
 
     if @enrollment.save
-      puts "Enrolled successfully."
+      redirect_to @event, notice: "You have joined the event."
     else
-      puts "Error Enrolling"
+      redirect_to @event, alert: "Unable to join the event."
     end
   end
 
