@@ -92,6 +92,32 @@
       </span>
     </div>
 
+    <div class="event-show-row">
+      <span class="event-show-label">Participants</span>
+      <span class="event-show-value"><%= @event.participants.count %></span>
+    </div>
+
+    <% can_view_participants =
+         user_signed_in? &&
+         (current_user.id == @event.user_id || @event.enrollments.exists?(user_id: current_user.id)) %>
+
+    <% if can_view_participants %>
+      <div class="event-show-desc">
+        <div class="event-show-label">Participants list</div>
+        <div class="event-show-value">
+          <% if @participants.any? %>
+            <ul>
+              <% @participants.each do |participant| %>
+                <li><%= [participant.first_name, participant.last_name].compact.join(" ").presence || participant.email %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            No participants yet.
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <% if @event.description.present? %>
       <div class="event-show-desc">
         <div class="event-show-label">Description</div>
