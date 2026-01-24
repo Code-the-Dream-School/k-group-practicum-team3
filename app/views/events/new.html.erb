@@ -1,30 +1,7 @@
 <div class="page">
-  <h1>Create Event</h1>
+    <h2 class="text-base/7 font-semibold text-gray-900">Create Event</h2>
+    <p class="mt-1 text-sm/6 text-gray-600">Please enter the event information.</p>
 
-  <%= form_with url: events_path, method: :post, class: "event-form" do %>
-    <div class="form-group">
-      <label for="title">Event Title:</label>
-      <input
-        type="text"
-        name="title"
-        id="title"
-        placeholder="enter title"
-        required
-      >
-      <label for="title">Event Location:</label>
-      <input
-        type="text"
-        name="title"
-        id="title"
-        placeholder="enter location"
-        required
-      >
-    </div>
+  <%= render "form", event: @event %>
 
-    <div class="form-actions">
-      <button type="submit">Create Event</button>
-    </div>
-    <%= notice %>
-
-  <% end %>
 </div>
