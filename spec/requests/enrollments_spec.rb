@@ -25,6 +25,18 @@ RSpec.describe "Enrollments", type: :request do
     )
   end
 
+  let!(:another_user) do
+    User.create!(
+      email: "another_user@example.com",
+      password: "test123",
+      first_name: "firstname",
+      last_name: "lastname",
+      city: "some city",
+      state: "some state",
+      zip: 123
+    )
+  end
+
   let!(:event) do
     attrs = { user: organizer,
               title: "Test Event",
@@ -52,6 +64,13 @@ RSpec.describe "Enrollments", type: :request do
       expect {
         delete event_enrollment_path(event, enrollment)
       }.to change(Enrollment, :count).by(-1)
+    end
+
+    it "does not allow a user to delete another user's enrollment" do
+      other_enrollment = Enrollment.create!(user: another_user, event: event)
+      delete event_enrollment_path(event, other_enrollment)
+
+      expect(Enrollment.exists?(other_enrollment.id)).to be(true)
     end
   end
 end
