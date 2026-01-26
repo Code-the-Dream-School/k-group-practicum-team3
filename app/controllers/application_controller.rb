@@ -24,4 +24,12 @@ class ApplicationController < ActionController::Base
   def user_not_authorized
     redirect_to(root_path, alert: "You are not authorized to perform this action.")
   end
+
+  def after_sign_in_path_for(_resource)
+    events_path
+  end
+
+  def after_sign_out_path_for(_resource_or_scope)
+    new_user_session_path
+  end
 end
