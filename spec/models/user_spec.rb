@@ -18,6 +18,19 @@ RSpec.describe User, type: :model do
       expect(user.errors[:age]).to be_empty
     end
 
+    describe 'bio validation' do
+      it 'rejects bio over 5000 characters' do
+        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, bio: 'a' * 5001)
+        expect(user).not_to be_valid
+      end
+
+      it 'accepts bio under 5000 characters' do
+        user = described_class.new(first_name: 'John', last_name: 'Doe', email: 'test@test.com', password: 'pass123', location_type: :online, bio: 'a' * 5000)
+        user.validate
+        expect(user.errors[:bio]).to be_empty
+      end
+    end
+
     it "rejects negative age" do
       user = build(:user, age: -1)
       expect(user).not_to be_valid

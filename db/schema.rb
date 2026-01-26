@@ -80,6 +80,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_22_235959) do
     t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource", unique: true
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", unique: true
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
@@ -97,11 +98,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_22_235959) do
     t.integer "age"
     t.string "phone"
     t.text "bio"
+    t.integer "location_type", default: 0
     t.integer "gender"
     t.string "city"
     t.string "state"
     t.string "zip"
-    t.integer "location_type", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
