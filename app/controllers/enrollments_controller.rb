@@ -12,6 +12,16 @@ class EnrollmentsController < ApplicationController
     end
   end
 
+def destroy
+    @enrollment = @event.enrollments.find_by(user: current_user)
+
+    if @enrollment&.destroy
+      puts "Left event successfully."
+    else
+      puts "Error leaving event."
+    end
+  end
+
   private
 
   def set_event
