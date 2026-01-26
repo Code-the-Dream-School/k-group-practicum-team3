@@ -21,7 +21,9 @@
           <%= button_to "Join",
                 event_enrollments_path(@event),
                 method: :post,
-                class: "event-show-link event-show-link-join" %>
+                data: { turbo: false },
+                class: "event-show-link event-show-link-join",
+                form: { class: "event-show-join-form" } %>
         <% end %>
       <% else %>
         <%= link_to "Log in to join", new_user_session_path, class: "event-show-link" %>
