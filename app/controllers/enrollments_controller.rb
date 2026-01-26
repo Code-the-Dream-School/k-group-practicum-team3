@@ -4,6 +4,7 @@ class EnrollmentsController < ApplicationController
 
   def create
     @enrollment = @event.enrollments.build(user: current_user)
+    authorize @enrollment
 
     if @enrollment.save
       puts "Enrolled successfully."

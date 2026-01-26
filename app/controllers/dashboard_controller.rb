@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
     def index
         # TODO: Needs joins table for registrations to display more than one event
         # @events = current_user.events
+        authorize :dashboard
         @events = Event.where(user_id: current_user.id)
     end
 end
