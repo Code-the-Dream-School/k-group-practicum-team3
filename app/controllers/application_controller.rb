@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     added_attrs = [
       :first_name, :last_name, :age, :gender, :bio,
-      :city, :state, :zip, :location_type,
-      :profile_picture
+      :city, :state, :zip,
+      :profile_picture, :requested_role
     ]
 
     devise_parameter_sanitizer.permit(:sign_up, keys: added_attrs)
@@ -23,5 +23,6 @@ class ApplicationController < ActionController::Base
 
   def user_not_authorized
     redirect_to(root_path, alert: "You are not authorized to perform this action.")
+    before_action :configure_permitted_parameters, if: :devise_controller?
   end
 end

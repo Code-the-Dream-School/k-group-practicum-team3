@@ -38,9 +38,14 @@ RSpec.describe Enrollment, type: :model do
     expect(enrollment).to be_valid
   end
 
-
   it "associates user and event" do
     enrollment = build(:enrollment)
     expect(enrollment).to respond_to(:event)
+  end
+
+  it "does not allow the same user to enroll in the same event twice" do
+    described_class.create!(user: user, event: event)
+    duplicate = described_class.new(user: user, event: event)
+    expect(duplicate).not_to be_valid
   end
 end

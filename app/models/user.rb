@@ -9,6 +9,10 @@ class User < ApplicationRecord
   # Rolify
   rolify
 
+  # Virtual attribute (signup only)
+  attr_accessor :requested_role
+  after_create :assign_role_from_signup
+
   # Enums
   enum :location_type, { in_person: 0, online: 1, hybrid: 2 }
   enum :gender, { male: 0, female: 1, non_binary: 2, prefer_not_to_say: 3 }
@@ -60,6 +64,19 @@ class User < ApplicationRecord
 
   def requires_location?
     in_person? || hybrid?
+  end
+
+  def assign_role_from_signup
+    allowed_roles = %w[participant organizer]
+
+    role =
+      if requested_role.present? && allowed_roles.include?(requested_role)
+        requested_role
+      else
+        "participant"
+      end
+
+    add_role(role)
   end
 
   # Returns initials for avatar placeholders.
