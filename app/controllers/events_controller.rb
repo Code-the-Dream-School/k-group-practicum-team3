@@ -11,13 +11,13 @@ class EventsController < ApplicationController
        @already_enrolled = @event.enrollments.exists?(user_id: current_user.id)
       else
       @already_enrolled = false
-    end
+      end
 
       if @event.max_capacity.present?
         @event_full = @event.enrollments.count >= @event.max_capacity
-     else
+      else
       @event_full = false
-    end
+      end
   end
 
   def edit
