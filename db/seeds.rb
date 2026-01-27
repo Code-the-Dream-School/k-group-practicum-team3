@@ -31,9 +31,8 @@ student = User.find_or_create_by!(email: "student@example.com") do |u|
   u.first_name = "Sam"
   u.last_name  = "Student"
   u.password   = "password"
-  student.add_role :student
 end
-
+student.add_role :student
 
 puts "Users seeded."
 
