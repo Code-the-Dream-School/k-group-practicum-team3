@@ -17,7 +17,13 @@
       <% end %>
 
       <% if user_signed_in? %>
-        <% if current_user.id != @event.user_id %>
+        <% if current_user.id == @event.user_id %>
+          <%# organizer: no join UI %>
+        <% elsif @already_enrolled %>
+          <span class="event-show-link event-show-link-joined">You’re already registered</span>
+        <% elsif @event_full %>
+          <span class="event-show-link event-show-link-full">Event is full</span>
+        <% else %>
           <%= button_to "Join",
                 event_enrollments_path(@event),
                 method: :post,
