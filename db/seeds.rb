@@ -14,7 +14,6 @@ admin = User.find_or_create_by!(email: "admin@example.com") do |u|
   u.first_name = "Admin"
   u.last_name  = "User"
   u.password   = "password"
-  u.location_type = :online
 end
 admin.add_role :admin
 
@@ -22,7 +21,6 @@ organizer = User.find_or_create_by!(email: "organizer@example.com") do |u|
   u.first_name = "Olivia"
   u.last_name  = "Organizer"
   u.password   = "password"
-  u.location_type = :in_person
   u.city  = "Raleigh"
   u.state = "NC"
   u.zip   = "27601"
@@ -33,9 +31,9 @@ student = User.find_or_create_by!(email: "student@example.com") do |u|
   u.first_name = "Sam"
   u.last_name  = "Student"
   u.password   = "password"
-  u.location_type = :online
+  student.add_role :student
 end
-student.add_role :student
+
 
 puts "Users seeded."
 

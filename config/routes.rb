@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  resources :users, only: [ :index, :show ], controller: "users"
   devise_for :users
+
+  resources :users, only: [ :index, :show ], controller: "users"
+
   resources :events do
     resources :enrollments, only: [ :create ]
   end

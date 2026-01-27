@@ -10,10 +10,7 @@ class Event < ApplicationRecord
   validates :title, :starts_at, :category, :allowed_gender, :rsvp, presence: true
   validates :min_age, numericality: { only_integer: true, allow_nil: true }
   validates :max_age, numericality: { only_integer: true, allow_nil: true }
-  validates :max_capacity,
-
-            numericality: { only_integer: true, greater_than: 0 },
-            allow_nil: true
+  validates :max_capacity, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
 
   validate :ends_at_after_starts_at
 

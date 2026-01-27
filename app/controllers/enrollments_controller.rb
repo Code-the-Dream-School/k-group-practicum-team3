@@ -6,9 +6,19 @@ class EnrollmentsController < ApplicationController
     @enrollment = @event.enrollments.build(user: current_user)
 
     if @enrollment.save
-      puts "Enrolled successfully."
+      redirect_to @event, notice: "Enrolled successfully."
     else
-      puts "Error Enrolling"
+      redirect_to @event, alert: "Enrollment failed: #{@enrollment.errors.full_messages.to_sentence}"
+    end
+  end
+
+  def destroy
+    @enrollment = @event.enrollments.find_by(user: current_user)
+
+    if @enrollment&.destroy
+      redirect_to @event, notice: "You have left this event."
+    else
+      redirect_to @event, alert: "Unable to leave event."
     end
   end
 
