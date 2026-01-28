@@ -3,9 +3,19 @@ class EnrollmentsController < ApplicationController
   before_action :set_event
 
   def create
+    if @event.past?
+      redirect_to @event, alert: "This event has already ended."
+      return
+    end
+
+    if @event.user_id == current_user.id
+      redirect_to @event, alert: "You can’t join your own event."
+      return
+    end
+
     if @event.enrollments.exists?(user_id: current_user.id)
-    redirect_to @event, alert: "You have already joined this event."
-    return
+      redirect_to @event, alert: "You have already joined this event."
+      return
     end
 
     @enrollment = @event.enrollments.build(user: current_user)
