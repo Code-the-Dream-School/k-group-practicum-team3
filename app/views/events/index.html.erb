@@ -48,8 +48,26 @@
                     : "Unknown" %>
             </div>
           </div>
-
         <% end %>
+        <!-- Favorite button -->
+        <% if user_signed_in? %>
+          <% favorite = current_user.favorites.find_by(event_id: event.id) %>
+
+          <% if favorite %>
+            <%= button_to "❤️",
+                  event_favorite_path(event),
+                  method: :delete,
+                  class: "favorite-btn",
+                  form: { class: "favorite-form" } %>
+          <% else %>
+            <%= button_to "🤍",
+                  event_favorite_path(event),
+                  method: :post,
+                  class: "favorite-btn",
+                  form: { class: "favorite-form" } %>
+          <% end %>
+        <% end %> 
+
       </article>
     <% end %>
   </div>
