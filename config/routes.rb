@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :events do
     resources :enrollments, only: [ :create ]
-    resource :favorite, only: [:create, :destroy]
+    resource :favorite, only: [ :create, :destroy ]
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
