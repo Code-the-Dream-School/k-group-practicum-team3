@@ -19,6 +19,10 @@ class EventPolicy < ApplicationPolicy
     organizer? && owns_record? && not_past?
   end
 
+  def destroy?
+    organizer? && owns_record? && not_past?
+  end
+
   private
 
   def organizer?

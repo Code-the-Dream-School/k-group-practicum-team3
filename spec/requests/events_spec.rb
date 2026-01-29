@@ -66,4 +66,11 @@ RSpec.describe "Events", type: :request do
       expect(response.body).to include("Edit Event")
     end
   end
+
+  describe "event#destroy" do
+    it "removes the record from the database" do
+      first_event.destroy
+      expect { first_event.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

@@ -15,6 +15,19 @@
               class: "event-show-link event-show-link-delete",
               form: { class: "event-show-delete-form" } %>
       <% end %>
+
+      <% if user_signed_in? %>
+        <% if current_user.id != @event.user_id %>
+          <%= button_to "Join",
+                event_enrollments_path(@event),
+                method: :post,
+                data: { turbo: false },
+                class: "event-show-link event-show-link-join",
+                form: { class: "event-show-join-form" } %>
+        <% end %>
+      <% else %>
+        <%= link_to "Log in to join", new_user_session_path, class: "event-show-link" %>
+      <% end %>
     </div>
   </div>
 
