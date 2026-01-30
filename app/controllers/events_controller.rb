@@ -7,6 +7,18 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @participants = @event.participants
+
+    if user_signed_in?
+      @already_enrolled = @event.enrollments.exists?(user_id: current_user.id)
+    else
+      @already_enrolled = false
+    end
+
+    if @event.max_capacity.present?
+      @event_full = @event.enrollments.count >= @event.max_capacity
+    else
+      @event_full = false
+    end
   end
 
   def edit
