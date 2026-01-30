@@ -1,0 +1,176 @@
+<div class="max-w-2xl mx-auto mt-12 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm">
+
+  <!-- Header -->
+  <div class="px-6 py-4 border-b border-gray-300">
+    <h2 class="text-2xl font-semibold">Create an account</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Set up your profile to get started
+    </p>
+  </div>
+
+  <div class="px-6 py-6 space-y-8">
+
+    <!-- ERROR MESSAGE -->
+    <% if resource.errors.any? %>
+      <div class="text-sm text-red-600">
+        <p class="font-medium mb-1">
+          Please fix the errors below:
+        </p>
+        <ul class="list-disc list-inside space-y-1">
+          <% resource.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_for(resource,
+      as: resource_name,
+      url: registration_path(resource_name),
+      html: { multipart: true }) do |f| %>
+
+      <!-- ACCOUNT -->
+      <section class="space-y-4">
+        <h3 class="section-title">Account</h3>
+
+        <div>
+          <%= f.label :email, class: "label" %>
+          <%= f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              class: "input #{'border-red-500' if resource.errors[:email].any?}" %>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="space-y-4">
+        <h3 class="section-title">Profile</h3>
+
+        <div>
+          <%= f.label :profile_picture, class: "label" %>
+          <%= f.file_field :profile_picture,
+              class: "block w-full text-sm" %>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <%= f.label :first_name, class: "label" %>
+            <%= f.text_field :first_name,
+                class: "input #{'border-red-500' if resource.errors[:first_name].any?}" %>
+          </div>
+
+          <div>
+            <%= f.label :last_name, class: "label" %>
+            <%= f.text_field :last_name,
+                class: "input #{'border-red-500' if resource.errors[:last_name].any?}" %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <%= f.label :age, class: "label" %>
+            <%= f.number_field :age,
+                class: "input #{'border-red-500' if resource.errors[:age].any?}" %>
+          </div>
+
+          <div>
+            <%= f.label :gender, class: "label" %>
+            <%= f.select :gender,
+                User.genders.keys.map { |g| [g.humanize, g] },
+                { include_blank: "Select gender" },
+                class: "input #{'border-red-500' if resource.errors[:gender].any?}" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :bio, class: "label" %>
+          <%= f.text_area :bio,
+              rows: 3,
+              class: "input #{'border-red-500' if resource.errors[:bio].any?}" %>
+        </div>
+      </section>
+
+      <!-- LOCATION -->
+      <section class="space-y-4">
+        <h3 class="section-title">Location</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <%= f.label :city, class: "label" %>
+            <%= f.text_field :city,
+                class: "input #{'border-red-500' if resource.errors[:city].any?}" %>
+          </div>
+
+          <div>
+            <%= f.label :state, class: "label" %>
+            <%= f.text_field :state,
+                class: "input #{'border-red-500' if resource.errors[:state].any?}" %>
+          </div>
+
+          <div>
+            <%= f.label :zip, class: "label" %>
+            <%= f.text_field :zip,
+                class: "input #{'border-red-500' if resource.errors[:zip].any?}" %>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROLE -->
+      <section class="space-y-4">
+        <h3 class="section-title">Role</h3>
+
+        <div>
+          <%= f.label :requested_role, "I am signing up as", class: "label" %>
+          <%= f.select :requested_role,
+              [["Participant", "participant"], ["Organizer", "organizer"]],
+              { include_blank: "Select role" },
+              class: "input #{'border-red-500' if resource.errors[:requested_role].any?}" %>
+        </div>
+      </section>
+
+      <!-- SECURITY -->
+      <section class="space-y-4">
+        <h3 class="section-title">Security</h3>
+
+        <div>
+          <%= f.label :password, class: "label" %>
+          <%= f.password_field :password,
+              autocomplete: "new-password",
+              class: "input #{'border-red-500' if resource.errors[:password].any?}" %>
+          <% if @minimum_password_length %>
+            <p class="text-xs text-gray-500 mt-1">
+              Minimum <%= @minimum_password_length %> characters
+            </p>
+          <% end %>
+        </div>
+
+        <div>
+          <%= f.label :password_confirmation, class: "label" %>
+          <%= f.password_field :password_confirmation,
+              autocomplete: "new-password",
+              class: "input #{'border-red-500' if resource.errors[:password_confirmation].any?}" %>
+        </div>
+      </section>
+
+      <!-- ACTION -->
+      <div class="pt-4">
+        <%= f.submit "Create account",
+            class: "w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium" %>
+
+        <p class="text-sm text-center text-gray-600 mt-4">
+          Already have an account?
+          <%= link_to "Log in",
+              new_user_session_path,
+              class: "text-blue-600 hover:underline" %>
+        </p>
+      </div>
+
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .label { @apply block text-sm font-medium text-gray-700 mb-1; }
+  .input { @apply w-full border border-gray-300 rounded-md px-3 py-2 text-sm; }
+  .section-title { @apply text-sm font-semibold text-gray-700 uppercase tracking-wide; }
+</style>
