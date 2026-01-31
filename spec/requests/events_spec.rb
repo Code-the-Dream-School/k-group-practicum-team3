@@ -4,7 +4,7 @@ RSpec.describe "Events", type: :request do
   let(:password) { "password123" }
   let(:user) { create(:user, :with_organizer_role, password: password) }
 
-  let!(:first_event) { create(:event, user: user, title: "Test One", starts_at: 1.day.from_now, location: "online") }
+  let!(:first_event) { create(:event, user: user, title: "Test One", description: "Successful search", starts_at: 1.day.from_now, location: "online") }
 
   def sign_in_via_post!(user, password)
     post user_session_path, params: {
