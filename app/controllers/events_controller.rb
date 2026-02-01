@@ -1,8 +1,18 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
 
+  
+
   def index
     @events = Event.includes(:user).order(starts_at: :asc)
+
+    if params[:location].present? && params[:location] == "online"
+      @events = Event.filter_by_location(params[:location])
+    else
+      # this should only filter when its in person or hybrid (NOT online)
+      @events = Event.filter_by_state(params[:state]) if params[:state].present?
+      @events = Event.filter_by_city(params[:city]) if params[:city].present?
+    end
   end
   def show
     @event = Event.find(params[:id])

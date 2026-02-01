@@ -1,13 +1,56 @@
 <div class="events-page">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
   <!-- Header -->
   <div class="events-header">
+  <% if user_signed_in? %>
     <h1 class="events-title">
       Events near
       <span class="events-location">
-        here City, state
+        <%= "#{current_user.city}, #{current_user.state}" %>
       </span>
-      <span class="events-edit">✎</span>
+      <button command="show-modal" commandfor="dialog" class="rounded-md bg-gray-950/5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10">✎</button>
+      <el-dialog>
+        <dialog id="dialog" aria-labelledby="dialog-title" class="fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent">
+          <el-dialog-backdrop class="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
+
+          <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0">
+            <el-dialog-panel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+              <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3 id="dialog-title" class="text-base font-semibold text-gray-900">Edit Location</h3>
+                
+                <div class="mt-4 sm:col-span-3">
+                  <label class="block text-sm/6 font-medium text-gray-900">City:</label>
+                  <div class="mt-2">
+                    <input type="text" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                  </div>
+                </div>
+
+                <div class="mt-4 sm:col-span-3">
+                    <label class="block text-sm/6 font-medium text-gray-900">State:</label>
+                    <div class="mt-2">
+                      <input type="text" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                    </div>
+                </div>
+
+                <div class="mt-4 space-x-4">
+                    <label><input type="checkbox" id="in_person" name="in_person" value="in_person" class="mr-1"> In Person</label>
+                    <label><input type="checkbox" id="online" name="online" value="online" class="mr-1"> Online</label>
+                    <label><input type="checkbox" id="hybrid" name="hybrid" value="hybrid" class="mr-1"> Hybrid</label>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-4 py-3 space-x-4 justify-left sm:flex sm:px-6">
+                <button type="button" command="close" commandfor="dialog" class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg--500 sm:ml-3 sm:w-auto">Submit</button>
+                <button type="button" command="close" commandfor="dialog" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+              </div>
+            </el-dialog-panel>
+          </div>
+        </dialog>
+      </el-dialog>
     </h1>
+    <% end %>
 
     <%= link_to "See all events", events_path, class: "events-see-all" %>
   </div>

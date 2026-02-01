@@ -17,6 +17,10 @@ class Event < ApplicationRecord
 
   validate :ends_at_after_starts_at
 
+  scope: filter_by_location -> (location) {where("location like ?", "#{location}%")}
+  scope: filter_by_city -> (city) {where("city like ?", "#{city}")}
+  scope: filter_by_state -> (state) {where("state like ?", "#{state}")}
+
   def past?
     (ends_at || starts_at) < Time.current
   end
