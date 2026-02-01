@@ -1,9 +1,9 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: [ :index, :show]
+  before_action :authenticate_user!, except: [ :index, :show ]
 
   def index
     @events = Event.includes(:user).order(starts_at: :asc)
-    @events = @events.filter_by_category(params[:category]) if params[:category].present? 
+    @events = @events.filter_by_category(params[:category]) if params[:category].present?
   end
 
   def show

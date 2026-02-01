@@ -17,7 +17,7 @@ class Event < ApplicationRecord
 
   validate :ends_at_after_starts_at
 
-  scope :filter_by_category, -> (category) { where category: category }
+  scope :filter_by_category, ->(category) { where category: category }
 
   def past?
     (ends_at || starts_at) < Time.current

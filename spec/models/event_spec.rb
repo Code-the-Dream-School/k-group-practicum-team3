@@ -77,4 +77,25 @@ RSpec.describe Event, type: :model do
       expect(event.past?).to be(false)
     end
   end
+
+  describe "filter_by_category(params)" do
+    let(:user) do
+      create(:user, :with_organizer_role)
+    end
+    let(:stem_event) { create(:event, user: user, title: "STEM Event", category: :stem, starts_at: 1.day.from_now, location: "online") }
+    let(:sport_event) { create(:event, user: user, title: "Sport Event", category: :sports, starts_at: 1.day.from_now, location: "online") }
+    let(:sport_event_two) { create(:event, user: user, title: "Sport Event Two", category: :sports, starts_at: 1.day.from_now, location: "online") }
+
+    it 'returns only sports events' do
+      scope = described_class.where(id: [ stem_event.id, sport_event.id, sport_event_two ]).filter_by_category(:sports)
+
+      expect(scope).to contain_exactly(sport_event, sport_event_two)
+    end
+
+    it 'does not return non-sport events' do
+      scope = described_class.where(id: [ stem_event.id, sport_event.id, sport_event_two ]).filter_by_category(:sports)
+
+      expect(scope).not_to include(stem_event)
+    end
+  end
 end

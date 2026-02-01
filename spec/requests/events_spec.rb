@@ -73,4 +73,23 @@ RSpec.describe "Events", type: :request do
       expect { first_event.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe "filters events on the event page" do
+    # STEM filter
+    it "displays events that contain the stem category when filtering for STEM events" do
+      stem_event = create(:event, user: user, title: "STEM Event", category: :stem, starts_at: 1.day.from_now, location: "online")
+      tutoring_event = create(:event, user: user, title: "Tutoring Event", category: :tutoring, starts_at: 1.day.from_now, location: "online")
+
+      get events_path(category: :stem)
+      expect(response.body).to include("STEM Event")
+    end
+
+    it "does not display the non-stem event" do
+      stem_event = create(:event, user: user, title: "STEM Event", category: :stem, starts_at: 1.day.from_now, location: "online")
+      tutoring_event = create(:event, user: user, title: "Tutoring Event", category: :tutoring, starts_at: 1.day.from_now, location: "online")
+
+      get events_path(category: :stem)
+      expect(response.body).not_to include("Tutoring Event")
+    end
+  end
 end
