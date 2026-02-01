@@ -1,9 +1,11 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: [ :index, :show, :search ]
+  before_action :authenticate_user!, except: [ :index, :show]
 
   def index
     @events = Event.includes(:user).order(starts_at: :asc)
+    @events = @events.filter_by_category(params[:category]) if params[:category].present? 
   end
+
   def show
     @event = Event.find(params[:id])
     @participants = @event.participants
@@ -59,14 +61,6 @@ class EventsController < ApplicationController
 
     @event.destroy
     redirect_to root_path
-  end
-
-  def search
-      if params[:search].present?
-        @results = Event.all.where("title LIKE :search OR description LIKE :search", search: "%#{params[:search]}%")
-      else
-        @results = Event.none
-      end
   end
 
   private
