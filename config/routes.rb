@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+  registrations: "users/registrations"
+  }
   resources :users, only: [ :index, :show ], controller: "users"
   resources :events do
     resources :enrollments, only: [ :create, :destroy ]
@@ -17,4 +19,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root "home#index"
+  get "/about", to: "home#about", as: :about
 end
