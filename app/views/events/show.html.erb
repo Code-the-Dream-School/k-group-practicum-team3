@@ -15,6 +15,25 @@
               class: "event-show-link event-show-link-delete",
               form: { class: "event-show-delete-form" } %>
       <% end %>
+
+      <% if user_signed_in? %>
+        <% if current_user.id == @event.user_id %>
+          <%# organizer: no join UI %>
+        <% elsif @already_enrolled %>
+          <span class="event-show-link event-show-link-joined">You’re already registered</span>
+        <% elsif @event_full %>
+          <span class="event-show-link event-show-link-full">Event is full</span>
+        <% else %>
+          <%= button_to "Join",
+                event_enrollments_path(@event),
+                method: :post,
+                data: { turbo: false },
+                class: "event-show-link event-show-link-join",
+                form: { class: "event-show-join-form" } %>
+        <% end %>
+      <% else %>
+        <%= link_to "Log in to join", new_user_session_path, class: "event-show-link" %>
+      <% end %>
     </div>
   </div>
 
@@ -80,6 +99,32 @@
         <% end %>
       </span>
     </div>
+
+    <div class="event-show-row">
+      <span class="event-show-label">Participants</span>
+      <span class="event-show-value"><%= @event.participants.count %></span>
+    </div>
+
+    <% can_view_participants =
+         user_signed_in? &&
+         (current_user.id == @event.user_id || @event.enrollments.exists?(user_id: current_user.id)) %>
+
+    <% if can_view_participants %>
+      <div class="event-show-desc">
+        <div class="event-show-label">Participants list</div>
+        <div class="event-show-value">
+          <% if @participants.any? %>
+            <ul>
+              <% @participants.each do |participant| %>
+                <li><%= [participant.first_name, participant.last_name].compact.join(" ").presence || participant.email %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            No participants yet.
+          <% end %>
+        </div>
+      </div>
+    <% end %>
 
     <% if @event.description.present? %>
       <div class="event-show-desc">
