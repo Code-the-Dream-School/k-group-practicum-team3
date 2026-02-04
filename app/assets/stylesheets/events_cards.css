@@ -20,12 +20,12 @@
 }
 
 .events-location {
-  color: #c6f105; /* purple */
+  color: #fca311;
   font-weight: 800;
 }
 
 .events-edit {
-  color: #1d1c55;
+  color: #14213d;
   font-size: 18px;
   margin-left: 6px;
   vertical-align: middle;
@@ -34,7 +34,7 @@
 .events-see-all {
   font-size: 14px;
   font-weight: 700;
-  color: #6d28d9;
+  color: #14213d;
   text-decoration: none;
 }
 
@@ -68,7 +68,7 @@
 /* Card */
 .event-card {
   position: relative;
-  background: rgb(203, 224, 228);
+  background: #e5e5e5;
   border: 2px solid #e5e7eb;   /* frame */
   border-radius: 26px;
   padding: 10px;
@@ -115,7 +115,7 @@
 
 /* Text under image */
 .event-content {
-  padding: 12px 4px 0;
+  padding: 12px 48px 0 4px;
 }
 
 .event-name {
@@ -123,6 +123,8 @@
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 6px;
+  padding-right: 8px;
+  word-break: break-word;
 }
 
 .event-time {
@@ -219,15 +221,15 @@
 }
 
 .event-show-link-join {
-  background: #6d28d9;
+  background: #14213d;
   color: white;
-  border-color: #6d28d9;
+  border-color: #14213d;
 }
 
 /* main info card */
 
 .event-show-card {
-  background: rgb(203, 224, 228);
+  background: #e5e5e5;
   border: 2px solid #e5e7eb;
   border-radius: 26px;
   padding: 18px;
@@ -258,7 +260,7 @@
 .event-show-value {
   font-size: 15px;
   font-weight: 600;
-  color: #111827;
+  color: #14213d;
   text-align: right;
 }
 
@@ -303,4 +305,49 @@
   .event-show-value {
     text-align: left;
   }
+}
+.saved-events-table-wrap {
+  overflow-x: auto;
+  margin-top: 12px;
+}
+
+.saved-events-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+.saved-events-table th,
+.saved-events-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  font-size: 14px;
+}
+
+.saved-events-table th {
+  font-weight: 800;
+  background: rgba(29, 28, 85, 0.06);
+}
+
+.saved-event-link {
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.saved-actions {
+  text-align: right;
+}
+
+.remove-saved-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  background: #1d1c55;
+  color: #fff;
+  font-weight: 700;
 }

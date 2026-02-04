@@ -23,6 +23,11 @@ class Event < ApplicationRecord
     (ends_at || starts_at) < Time.current
   end
 
+  # Default image based on category (no database changes needed)
+  def default_image_path
+    "categories/#{category || 'other'}.jpg"
+  end
+
   private
 
   def ends_at_after_starts_at
