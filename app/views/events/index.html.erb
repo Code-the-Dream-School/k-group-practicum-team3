@@ -1,56 +1,127 @@
-<div class="events-page">
+<div class="max-w-7xl mx-auto px-4 py-8">
   <!-- Header -->
-  <div class="events-header">
-    <h1 class="events-title">
-      Events near
-      <span class="events-location">
-        here City, state
-      </span>
-      <span class="events-edit">✎</span>
-    </h1>
+  <div class="flex items-start justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-[#14213D]">
+        Upcoming Events
+      </h1>
 
-    <%= link_to "See all events", events_path, class: "events-see-all" %>
+      <div class="mt-1 text-sm text-gray-500 flex items-center gap-1">
+        <span>Near</span>
+        <button
+          class="font-medium text-[#14213D] hover:text-[#FCA311] transition-colors">
+          Hillsborough, NC ▾
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-6">
+      <%= link_to "See all events",
+        events_path,
+        class: "text-sm font-medium text-[#14213D] hover:text-[#FCA311] transition-colors" %>
+
+      <% if user_signed_in? && current_user.has_role?(:organizer) %>
+        <%= link_to new_event_path,
+          class: "px-5 py-2.5 bg-[#FCA311] hover:bg-[#FCA311]/90 text-black font-semibold rounded-lg transition-colors" do %>
+          Create Event
+        <% end %>
+      <% end %>
+    </div>
   </div>
 
   <!-- Grid -->
-  <div class="events-grid">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
     <% @events.each do |event| %>
-      <article class="event-card">
-        <%= link_to event_path(event), class: "event-card-link" do %>
+      <article class="group bg-white border border-[#E5E5E5] rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+        <%= link_to event_path(event), class: "block" do %>
 
-          <div class="event-image-wrap">
-            <% if Rails.root.join("app/assets/images/event-placeholder.jpg").exist? %>
-              <%= image_tag "event-placeholder.jpg",
-                    class: "event-image",
-                    alt: event.title %>
+          <!-- Image Carousel -->
+          <div class="relative h-48 overflow-hidden bg-gray-100">
+            <% if event.media_files.attached? && event.media_files.any? %>
+              <!-- Images Container -->
+              <div class="flex overflow-x-auto snap-x snap-mandatory h-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <% event.media_files.each do |file| %>
+                  <div class="flex-none w-full h-full snap-start">
+                    <%= image_tag file, class: "w-full h-full object-cover", alt: event.title, loading: "lazy" %>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- Dots Indicator -->
+              <% if event.media_files.count > 1 %>
+                <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+                  <% event.media_files.count.times do |i| %>
+                    <% dot_class = i == 0 ? "bg-white" : "bg-white/60" %>
+                    <div class="w-1.5 h-1.5 rounded-full <%= dot_class %>"></div>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <% if Rails.root.join("app/assets/images/soccer_event.jpeg").exist? %>
+                <%= image_tag "soccer_event.jpeg", class: "w-full h-full object-cover", alt: event.title, loading: "lazy" %>
+              <% else %>
+                <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                  <span class="text-gray-400 text-sm">No image</span>
+                </div>
+              <% end %>
             <% end %>
 
-            <span class="event-badge">
-              <%= event.price.present? ? "$#{event.price}" : "Free" %>
-            </span>
+            <!-- Price Badge -->
+            <% if event.price.present? %>
+              <span class="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-md bg-[#14213D] text-white shadow-md">
+                $<%= event.price %>
+              </span>
+            <% else %>
+              <span class="absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-md bg-[#FCA311] text-black shadow-md">
+                FREE
+              </span>
+            <% end %>
           </div>
 
-          <div class="event-content">
-            <h2 class="event-name"><%= event.title %></h2>
+          <!-- Content -->
+          <div class="p-4 space-y-2">
+            <h3 class="text-base font-semibold text-[#14213D] leading-tight line-clamp-2 group-hover:text-[#FCA311] transition-colors">
+              <%= event.title %>
+            </h3>
 
-            <div class="event-time">
-              <% if event.starts_at.present? %>
-                <%= event.starts_at.strftime("%a, %b %-d · %-I:%M %p %Z") %>
-              <% else %>
-                Date & time TBD
-              <% end %>
+            <div class="flex items-center gap-2 text-xs text-gray-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>
+                <% if event.starts_at.present? %>
+                  <%= event.starts_at.strftime("%b %-d, %Y") %>
+                <% else %>
+                  Date TBD
+                <% end %>
+              </span>
             </div>
 
-            <div class="event-by">
-              by
-              <%= event.user.present? ?
-                    [event.user.first_name, event.user.last_name].compact.join(" ").presence || event.user.email
-                    : "Unknown" %>
+            <div class="flex items-center gap-2 text-xs text-gray-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="truncate">
+                <%= event.location.presence || "Location TBA" %>
+              </span>
             </div>
+
+            <% if event.user.present? %>
+              <div class="flex items-center gap-2 text-xs text-gray-400 pt-1 border-t border-gray-100">
+                <span>by <%= [event.user.first_name, event.user.last_name].compact.join(" ").presence || event.user.email %></span>
+              </div>
+            <% end %>
           </div>
 
         <% end %>
       </article>
     <% end %>
   </div>
+
+  <% if @events.empty? %>
+    <div class="text-center py-12">
+      <p class="text-gray-500 text-lg">No events found</p>
+    </div>
+  <% end %>
 </div>
