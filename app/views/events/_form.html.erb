@@ -1,16 +1,17 @@
 <div class="event-form-card">
   <%= form_with(model: @event) do |form|%>
-    <div class="space-y-12">
-      <% if event.errors.any? %>
-          <div style="color: red">
-              <h2><%= pluralize(event.errors.count, "error") %> prevented this event from being saved:</h2>
-              <ul>
-                  <% event.errors.each do |error| %>
-                  <li><%= error.full_message %></li>
-                  <% end %>
-              </ul>
-          </div>
-      <% end %>
+    <%= hidden_field_tag :from, params[:from] if params[:from].present? %>
+      <div class="space-y-12">
+        <% if event.errors.any? %>
+            <div style="color: red">
+                <h2><%= pluralize(event.errors.count, "error") %> prevented this event from being saved:</h2>
+                <ul>
+                    <% event.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
 
       <div class="border-b border-gray-900/10 pb-12">
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
