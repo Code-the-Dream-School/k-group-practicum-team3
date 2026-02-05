@@ -37,9 +37,19 @@ class EventsController < ApplicationController
   end
 
   def update
-    # authorize @event
+    authorize @event
 
-    if @event.update(event_params)
+    filtered_params = event_params.dup
+
+    if filtered_params[:media_files].present?
+      filtered_params[:media_files].reject!(&:blank?)
+    end
+
+    if filtered_params[:media_files].blank?
+      filtered_params.delete(:media_files)
+    end
+
+    if @event.update(filtered_params)
       redirect_to @event, notice: "Event updated successfully"
     else
       render :edit, status: :unprocessable_entity

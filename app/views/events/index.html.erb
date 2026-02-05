@@ -10,7 +10,7 @@
         <span>Near</span>
         <button
           class="font-medium text-[#14213D] hover:text-[#FCA311] transition-colors">
-          Hillsborough, NC ▾
+          City, State ▾
         </button>
       </div>
     </div>
@@ -57,13 +57,7 @@
                 </div>
               <% end %>
             <% else %>
-              <% if Rails.root.join("app/assets/images/soccer_event.jpeg").exist? %>
-                <%= image_tag "soccer_event.jpeg", class: "w-full h-full object-cover", alt: event.title, loading: "lazy" %>
-              <% else %>
-                <div class="w-full h-full flex items-center justify-center bg-gray-200">
-                  <span class="text-gray-400 text-sm">No image</span>
-                </div>
-              <% end %>
+              <%= image_tag event_default_image(event), class: "w-full h-full object-cover", alt: event.title %>
             <% end %>
 
             <!-- Price Badge -->

@@ -41,13 +41,7 @@
         </div>
       <% end %>
     <% else %>
-      <% if Rails.root.join("app/assets/images/soccer_event.jpeg").exist? %>
-        <%= image_tag "soccer_event.jpeg", class: "w-full h-full object-cover", alt: @event.title %>
-      <% else %>
-        <div class="w-full h-full bg-linear-to-br from-[#14213D] to-[#FCA311] flex items-center justify-center">
-          <span class="text-white text-xl font-semibold">No image available</span>
-        </div>
-      <% end %>
+      <%= image_tag event_default_image(@event), class: "w-full h-full object-cover", alt: @event.title %>
     <% end %>
 
     <!-- Overlay -->
