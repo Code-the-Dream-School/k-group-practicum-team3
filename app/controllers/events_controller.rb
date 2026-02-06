@@ -27,7 +27,7 @@ class EventsController < ApplicationController
     flash[:alert] = "Past events cannot be edited."
     redirect_to dashboard_path
     return
-  end
+    end
     authorize @event
   end
 

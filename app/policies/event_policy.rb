@@ -8,7 +8,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def edit?
-    organizer? && owns_record?
+    organizer? && owns_record? && not_past?
   end
 
   def update?
