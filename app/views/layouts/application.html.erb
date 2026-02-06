@@ -7,14 +7,6 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
-    <% end %>
-
-
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
@@ -58,13 +50,13 @@
           <li>
             <!-- TODO: Delete or link to About page -->
             <div class="rounded px-3 py-2 hover:bg-gray-100">
-              <%= link_to "About", "#" %>
+              <%= link_to "About", about_path %>
             </div>
           </li>
           <li>
             <!-- TODO: Link/delete based on categories -->
             <div class="rounded px-3 py-2 hover:bg-gray-100">
-              <%= link_to "Browse", "#" %>
+              <%= link_to "Browse", events_path %>
             </div>
             <!-- Browse by category instead  -->
             <ul>
@@ -87,15 +79,15 @@
                 <%= link_to "Dashboard", dashboard_path %>
               </div>
             </li>
-            <li>
-              <div class="rounded px-3 py-2 hover:bg-gray-100">
-                  <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %>
-              </div>
-            </li>
+            <%= button_to "Sign out",
+      destroy_user_session_path,
+      method: :delete,
+      class: "rounded px-3 py-2 hover:bg-gray-100 bg-transparent border-0 cursor-pointer" %>
+
             <li>
               <!-- TODO: Link to current user profile -->
               <div class="rounded px-3 py-2 hover:bg-gray-100">
-                  <%= link_to "Account", "#" %>
+                  <%= link_to "Account", user_path(current_user) %>
               </div>
             </li>
             <% else %>
@@ -113,6 +105,22 @@
         </ul>
       </nav>
     </header>
+
+    <% if notice.present? || alert.present? %>
+      <div class="container mx-auto mt-6 px-5">
+        <% if notice.present? %>
+         <div class="mb-3 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-800">
+          <%= notice %>
+        </div>
+       <% end %>
+
+        <% if alert.present? %>
+         <div class="mb-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800">
+           <%= alert %>
+         </div>
+        <% end %>
+      </div>
+    <% end %>
 
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
