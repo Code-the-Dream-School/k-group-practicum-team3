@@ -17,13 +17,16 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: added_attrs)
   end
 
+  def after_sign_in_path_for(_resource)
+    dashboard_path
+  end
+
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   private
 
   def user_not_authorized
     redirect_to(root_path, alert: "You are not authorized to perform this action.")
-    before_action :configure_permitted_parameters, if: :devise_controller?
   end
 
   def after_sign_in_path_for(_resource)

@@ -13,8 +13,6 @@ class User < ApplicationRecord
   attr_accessor :requested_role
   after_create :assign_role_from_signup
 
-  # Enums
-  enum :location_type, { in_person: 0, online: 1, hybrid: 2 }
   enum :gender, { male: 0, female: 1, non_binary: 2, prefer_not_to_say: 3 }
 
   # Active Storage
@@ -26,7 +24,6 @@ class User < ApplicationRecord
 
   # As participant
   has_many :event_registrations, dependent: :destroy
-  has_many :registered_events, through: :event_registrations, source: :event
 
   # Favorites
   has_many :favorites, dependent: :destroy
@@ -48,8 +45,6 @@ class User < ApplicationRecord
             allow_blank: true
 
   validates :bio, length: { maximum: 5000 }, allow_blank: true
-
-  validates :city, :state, :zip, presence: true, if: :requires_location?
 
   # Instance methods
   def full_name

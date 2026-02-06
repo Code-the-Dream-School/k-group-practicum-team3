@@ -21,6 +21,13 @@ class Event < ApplicationRecord
     (ends_at || starts_at) < Time.current
   end
 
+  def saved?
+    # TODO: implement saved logic
+    #
+    # For now, return false
+    false
+  end
+
   private
 
   def ends_at_after_starts_at
