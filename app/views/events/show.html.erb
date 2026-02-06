@@ -3,7 +3,7 @@
     <h1 class="event-show-title"><%= @event.title %></h1>
 
     <div class="event-show-actions">
-      <%= link_to "Back to Dashboard", dashboard_path, class: "event-show-link" %>
+      <%= link_to "Back to Events", events_path, class: "event-show-link" %>
 
       <% if current_user&.admin? || current_user&.id == @event.user_id %>
         <%= link_to "Edit", edit_event_path(@event), class: "event-show-link event-show-link-edit" %>
