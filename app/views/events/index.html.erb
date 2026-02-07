@@ -70,24 +70,30 @@
                 FREE
               </span>
             <% end %>
-            <!-- Favorite button -->
-            <% if user_signed_in? %>
-              <% favorite = current_user.favorites.find_by(event_id: event.id) %>
 
+            <!-- Favorite Button -->
+            <% if user_signed_in? %>
+            <% favorite = current_user.favorites.exists?(event: event) %>
+
+            <div class="absolute top-3 right-3 z-30">
               <% if favorite %>
-                <%= button_to "❤️",
+                <%= link_to "❤️",
                       event_favorite_path(event),
-                      method: :delete,
-                      class: "favorite-btn",
-                      form: { class: "favorite-form" } %>
+                      data: {
+                        turbo_method: :delete,
+                        turbo_confirm: "Remove from saved events?"
+                      },
+                      class: "text-xl hover:scale-110 transition-transform",
+                      aria: { label: "Remove from favorites" } %>
               <% else %>
-                <%= button_to "🤍",
+                <%= link_to "🤍",
                       event_favorite_path(event),
-                      method: :post,
-                      class: "favorite-btn",
-                      form: { class: "favorite-form" } %>
+                      data: { turbo_method: :post },
+                      class: "text-xl hover:scale-110 transition-transform",
+                      aria: { label: "Save event" } %>
               <% end %>
-            <% end %> 
+            </div>
+          <% end %>
           </div>
 
           <!-- Content -->
@@ -126,7 +132,7 @@
             <% end %>
           </div>
         <% end %>
-       
+
       </article>
     <% end %>
   </div>
