@@ -102,6 +102,7 @@ RSpec.describe EventPolicy, type: :policy do
 
   it "denies organizers from editing past events even if they own them" do
     event.user = organizer
+    event.starts_at = 2.days.ago
     event.ends_at = 1.day.ago
 
     policy = described_class.new(organizer, event)
@@ -110,6 +111,7 @@ RSpec.describe EventPolicy, type: :policy do
 
   it "denies organizers from updating past events even if they own them" do
     event.user = organizer
+    event.starts_at = 2.days.ago
     event.ends_at = 1.day.ago
 
     policy = described_class.new(organizer, event)
@@ -118,6 +120,7 @@ RSpec.describe EventPolicy, type: :policy do
 
   it "denies organizers from destroying past events even if they own them" do
     event.user = organizer
+    event.starts_at = 2.days.ago
     event.ends_at = 1.day.ago
 
     policy = described_class.new(organizer, event)
@@ -132,5 +135,10 @@ RSpec.describe EventPolicy, type: :policy do
   it "denies non-organizers from updating events" do
     policy = described_class.new(non_organizer, event)
     expect(policy.update?).to be(false)
+  end
+
+  it "denies non-organizers from destroying events" do
+    policy = described_class.new(non_organizer, event)
+    expect(policy.destroy?).to be(false)
   end
 end
