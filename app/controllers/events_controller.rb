@@ -25,6 +25,11 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    if @event.starts_at.past?
+    flash[:alert] = "Past events cannot be edited."
+    redirect_to dashboard_path
+    return
+    end
     authorize @event
   end
 
@@ -60,7 +65,7 @@ class EventsController < ApplicationController
     authorize @event
 
     @event.destroy
-    redirect_to root_path
+    redirect_to dashboard_path, notice: "Event deleted"
   end
 
   private
