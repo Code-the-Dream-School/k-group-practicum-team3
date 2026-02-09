@@ -9,6 +9,7 @@ class EnrollmentsController < ApplicationController
     end
 
     @enrollment = @event.enrollments.build(user: current_user)
+    authorize @enrollment
 
     if @enrollment.save
       redirect_to @event, notice: "You have joined the event."

@@ -74,11 +74,10 @@
                 <%= link_to "Dashboard", dashboard_path %>
               </div>
             </li>
-            <%= button_to "Sign out",
+             <%= button_to "Sign out",
       destroy_user_session_path,
       method: :delete,
       class: "rounded px-3 py-2 hover:bg-gray-100 bg-transparent border-0 cursor-pointer" %>
-
             <li>
               <!-- TODO: Link to current user profile -->
               <div class="rounded px-3 py-2 hover:bg-gray-100">
