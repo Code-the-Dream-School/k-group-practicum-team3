@@ -2,6 +2,8 @@ class Event < ApplicationRecord
   belongs_to :user
   has_many :enrollments, dependent: :destroy
   has_many :participants, through: :enrollments, source: :user
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_by_users, through: :favorites, source: :user
 
   enum :category, { sports: 0, tutoring: 1, music: 2, arts: 3, dance: 4, language: 5, stem: 6, outdoor: 7, other: 8 }
   enum :allowed_gender, { any: 0, male_only: 1, female_only: 2 }
@@ -19,6 +21,11 @@ class Event < ApplicationRecord
 
   def past?
     (ends_at || starts_at) < Time.current
+  end
+
+  # Default image based on category (no database changes needed)
+  def default_image_path
+    "categories/#{category || 'other'}.jpg"
   end
 
   private
