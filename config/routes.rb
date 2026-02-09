@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-  registrations: "users/registrations"
-  }
+  devise_for :users
+
   resources :users, only: [ :index, :show ], controller: "users"
+
   resources :events do
     resource :favorite, only: [ :create, :destroy ]
     resources :enrollments, only: [ :create, :destroy ]
