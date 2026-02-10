@@ -6,6 +6,7 @@ class EventsController < ApplicationController
     @events = Event
       .includes(:user, media_files_attachments: :blob)
       .with_open_registration
+      .filter_by_category(params[:category])
       .order(starts_at: :asc)
   end
 

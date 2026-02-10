@@ -20,7 +20,10 @@ class Event < ApplicationRecord
   validate :acceptable_media
   validate :media_file_count
 
-  scope :filter_by_category, ->(category) { where category: category }
+  scope :filter_by_category, ->(category) {
+    category.present? && categories.key?(category.to_s) ? where(category:) : all
+  }
+
 
   def past?
     (ends_at || starts_at) < Time.current
