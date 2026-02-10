@@ -1,16 +1,17 @@
 <div class="event-form-card">
   <%= form_with(model: @event) do |form|%>
-    <div class="space-y-12">
-      <% if event.errors.any? %>
-          <div style="color: red">
-              <h2><%= pluralize(event.errors.count, "error") %> prevented this event from being saved:</h2>
-              <ul>
-                  <% event.errors.each do |error| %>
-                  <li><%= error.full_message %></li>
-                  <% end %>
-              </ul>
-          </div>
-      <% end %>
+    <%= hidden_field_tag :from, params[:from] if params[:from].present? %>
+      <div class="space-y-12">
+        <% if event.errors.any? %>
+            <div style="color: red">
+                <h2><%= pluralize(event.errors.count, "error") %> prevented this event from being saved:</h2>
+                <ul>
+                    <% event.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                    <% end %>
+                </ul>
+            </div>
+        <% end %>
 
       <div class="border-b border-gray-900/10 pb-12">
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -56,7 +57,7 @@
           <div class="sm:col-span-3">
             <%= form.label :location, class:"block text-sm/6 font-medium text-gray-900" %>
             <div class="mt-2 grid grid-cols-1">
-              <%= form.select :location, options_for_select([['Online','online'],['In-person','in-person'],['Hybrid','hybrid']]), class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
+              <%= form.select :location, options_for_select([['Online','online'],['In-person','in-person'],['Hybrid','hybrid']], form.object.location),{},class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %> 
             </div>
           </div>
 
@@ -125,7 +126,7 @@
     </div>
 
     <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
+      <%= link_to "Cancel", dashboard_path, class: "text-sm/6 font-semibold text-gray-900" %>
       <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
     </div>
   <% end %>

@@ -38,9 +38,13 @@ class EventsController < ApplicationController
     authorize @event
 
     if @event.update(event_params)
-      redirect_to @event, notice: "Event updated successfully"
+      if params[:from] == "dashboard"
+        redirect_to dashboard_path, notice: "Event updated successfully"
+      else
+        redirect_to @event, notice: "Event updated successfully"
+      end
     else
-      render :edit
+     render :edit, status: :unprocessable_entity
     end
   end
 
