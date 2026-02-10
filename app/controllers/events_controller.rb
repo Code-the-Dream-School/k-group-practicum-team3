@@ -15,6 +15,7 @@ class EventsController < ApplicationController
     if params[:city].present?
       @events = @events.filter_by_city(params[:city]) if params[:city].present?
     end
+    @events = @events.filter_by_category(params[:category]) if params[:category].present?
   end
 
   def show
@@ -36,6 +37,11 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    if @event.starts_at.past?
+    flash[:alert] = "Past events cannot be edited."
+    redirect_to dashboard_path
+    return
+    end
     authorize @event
   end
 
@@ -71,7 +77,7 @@ class EventsController < ApplicationController
     authorize @event
 
     @event.destroy
-    redirect_to root_path
+    redirect_to dashboard_path, notice: "Event deleted"
   end
 
   private

@@ -1,4 +1,4 @@
-<div class="max-w-2xl mx-auto mt-12 bg-white text-gray-900 border border-gray-300 rounded-md shadow-sm">
+<div class="max-w-2xl mx-auto mt-12 bg-white text-[#14213D] border border-[#E5E5E5] rounded-2xl shadow-md overflow-hidden">
 
   <!-- Header -->
   <div class="px-6 py-4 border-b border-gray-300">
@@ -30,39 +30,39 @@
       html: { multipart: true }) do |f| %>
 
       <!-- ACCOUNT -->
-      <section class="space-y-4">
-        <h3 class="section-title">Account</h3>
-
+      <section class="space-y-4 rounded-xl bg-gray-50 p-3 border border-gray-200">
+        <h3 class="text-xs font-semibold text-slate-800 uppercase tracking-wider">Account</h3>
         <div>
           <%= f.label :email, class: "label" %>
           <%= f.email_field :email,
               autofocus: true,
               autocomplete: "email",
-              class: "input #{'border-red-500' if resource.errors[:email].any?}" %>
+              class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
         </div>
       </section>
 
       <!-- PROFILE -->
-      <section class="space-y-4">
-        <h3 class="section-title">Profile</h3>
+      <section class="space-y-4 rounded-xl bg-gray-50 p-3 border border-gray-200">
+        <h3 class="text-xs font-semibold text-slate-800 uppercase tracking-wider">Profile</h3>
 
         <div>
           <%= f.label :profile_picture, class: "label" %>
           <%= f.file_field :profile_picture,
-              class: "block w-full text-sm" %>
+          class: "block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border file:border-slate-300 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200" %>
+
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <%= f.label :first_name, class: "label" %>
             <%= f.text_field :first_name,
-                class: "input #{'border-red-500' if resource.errors[:first_name].any?}" %>
+                class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           </div>
 
           <div>
             <%= f.label :last_name, class: "label" %>
             <%= f.text_field :last_name,
-                class: "input #{'border-red-500' if resource.errors[:last_name].any?}" %>
+                class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           </div>
         </div>
 
@@ -70,7 +70,7 @@
           <div>
             <%= f.label :age, class: "label" %>
             <%= f.number_field :age,
-                class: "input #{'border-red-500' if resource.errors[:age].any?}" %>
+                class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           </div>
 
           <div>
@@ -78,7 +78,7 @@
             <%= f.select :gender,
                 User.genders.keys.map { |g| [g.humanize, g] },
                 { include_blank: "Select gender" },
-                class: "input #{'border-red-500' if resource.errors[:gender].any?}" %>
+                class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           </div>
         </div>
 
@@ -86,57 +86,57 @@
           <%= f.label :bio, class: "label" %>
           <%= f.text_area :bio,
               rows: 3,
-              class: "input #{'border-red-500' if resource.errors[:bio].any?}" %>
+              class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
         </div>
       </section>
 
       <!-- LOCATION -->
-      <section class="space-y-4">
-        <h3 class="section-title">Location</h3>
+      <section class="space-y-4 rounded-xl bg-gray-50 p-3 border border-gray-200">
+        <h3 class="text-xs font-semibold text-slate-800 uppercase tracking-wider">Location</h3>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <%= f.label :city, class: "label" %>
             <%= f.text_field :city,
-                class: "input #{'border-red-500' if resource.errors[:city].any?}" %>
+                class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           </div>
 
           <div>
             <%= f.label :state, class: "label" %>
             <%= f.text_field :state,
-                class: "input #{'border-red-500' if resource.errors[:state].any?}" %>
+               class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           </div>
 
           <div>
             <%= f.label :zip, class: "label" %>
             <%= f.text_field :zip,
-                class: "input #{'border-red-500' if resource.errors[:zip].any?}" %>
+                class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           </div>
         </div>
       </section>
 
       <!-- ROLE -->
-      <section class="space-y-4">
-        <h3 class="section-title">Role</h3>
+      <section class="space-y-4 rounded-xl bg-gray-50 p-3 border border-gray-200">
+        <h3 class="text-xs font-semibold text-slate-800 uppercase tracking-wider">Role</h3>
 
         <div>
           <%= f.label :requested_role, "I am signing up as", class: "label" %>
           <%= f.select :requested_role,
               [["Participant", "participant"], ["Organizer", "organizer"]],
               { include_blank: "Select role" },
-              class: "input #{'border-red-500' if resource.errors[:requested_role].any?}" %>
+             class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
         </div>
       </section>
 
       <!-- SECURITY -->
-      <section class="space-y-4">
-        <h3 class="section-title">Security</h3>
+      <section class="space-y-4 rounded-xl bg-gray-50 p-3 border border-gray-200">
+        <h3 class="text-xs font-semibold text-slate-800 uppercase tracking-wider">Security</h3>
 
         <div>
           <%= f.label :password, class: "label" %>
           <%= f.password_field :password,
               autocomplete: "new-password",
-              class: "input #{'border-red-500' if resource.errors[:password].any?}" %>
+              class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
           <% if @minimum_password_length %>
             <p class="text-xs text-gray-500 mt-1">
               Minimum <%= @minimum_password_length %> characters
@@ -148,20 +148,20 @@
           <%= f.label :password_confirmation, class: "label" %>
           <%= f.password_field :password_confirmation,
               autocomplete: "new-password",
-              class: "input #{'border-red-500' if resource.errors[:password_confirmation].any?}" %>
+             class: "w-full appearance-none bg-white border-2 border-gray-300 rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:border-[#FCA311]" %>
         </div>
       </section>
 
       <!-- ACTION -->
       <div class="pt-4">
         <%= f.submit "Create account",
-            class: "w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium" %>
+            class: "w-full px-4 py-3 bg-[#14213D] text-white rounded-md hover:bg-[#0f1a30] text-sm font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FCA311]/40" %>
 
         <p class="text-sm text-center text-gray-600 mt-4">
           Already have an account?
           <%= link_to "Log in",
               new_user_session_path,
-              class: "text-blue-600 hover:underline" %>
+              class: "text-[#FCA311] hover:underline font-medium" %>
         </p>
       </div>
 
@@ -169,8 +169,6 @@
   </div>
 </div>
 
-<style>
-  .label { @apply block text-sm font-medium text-gray-700 mb-1; }
-  .input { @apply w-full border border-gray-300 rounded-md px-3 py-2 text-sm; }
-  .section-title { @apply text-sm font-semibold text-gray-700 uppercase tracking-wide; }
-</style>
+
+
+

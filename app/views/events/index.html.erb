@@ -14,6 +14,13 @@
         </h1>
       <% end %>
     <% end %>
+    <h1 class="events-title">
+      Events near
+      <span class="events-location">
+        here City, state
+      </span>
+    </h1>
+
     <%= link_to "See all events", events_path, class: "events-see-all" %>
   </div>
 
@@ -23,16 +30,14 @@
       <article class="event-card">
         <%= link_to event_path(event), class: "event-card-link" do %>
 
-          <div class="event-image-wrap">
-            <% if Rails.root.join("app/assets/images/event-placeholder.jpg").exist? %>
-              <%= image_tag "event-placeholder.jpg",
+            <div class="event-image-wrap">
+              <%= image_tag event.default_image_path,
                     class: "event-image",
                     alt: event.title %>
-            <% end %>
 
-            <span class="event-badge">
-              <%= event.price.present? ? "$#{event.price}" : "Free" %>
-            </span>
+              <span class="event-badge">
+                <%= event.price.present? ? "$#{event.price}" : "Free" %>
+              </span>
           </div>
 
           <div class="event-content">
@@ -53,8 +58,26 @@
                     : "Unknown" %>
             </div>
           </div>
-
         <% end %>
+        <!-- Favorite button -->
+        <% if user_signed_in? %>
+          <% favorite = current_user.favorites.find_by(event_id: event.id) %>
+
+          <% if favorite %>
+            <%= button_to "❤️",
+                  event_favorite_path(event),
+                  method: :delete,
+                  class: "favorite-btn",
+                  form: { class: "favorite-form" } %>
+          <% else %>
+            <%= button_to "🤍",
+                  event_favorite_path(event),
+                  method: :post,
+                  class: "favorite-btn",
+                  form: { class: "favorite-form" } %>
+          <% end %>
+        <% end %> 
+
       </article>
     <% end %>
   </div>

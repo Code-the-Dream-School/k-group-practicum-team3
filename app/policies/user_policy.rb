@@ -1,4 +1,12 @@
 class UserPolicy < ApplicationPolicy
+  def index?
+    user.has_role?(:admin)
+  end
+
+  def show?
+    record.id == user.id || user.has_role?(:admin)
+  end
+
   def edit?
     owner?
   end

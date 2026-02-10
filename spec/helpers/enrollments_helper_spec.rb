@@ -2,9 +2,9 @@ require "rails_helper"
 
 RSpec.describe EnrollmentsHelper, type: :helper do
   let!(:organizer) { User.create!(email: "org@example.com", password: "test123", first_name: "org",
-    last_name: "lastname", city: "Chicago", state: "IL", zip: "60601", location_type: :online) }
+    last_name: "lastname", city: "Chicago", state: "IL", zip: "60601") }
   let!(:user) { User.create!(email: "user@example.com", password: "test123", first_name: "firstname",
-    last_name: "lastname", city: "Chicago", state: "IL", zip: "60601", location_type: :online) }
+    last_name: "lastname", city: "Chicago", state: "IL", zip: "60601") }
 
 
   let!(:event) do
@@ -70,12 +70,12 @@ RSpec.describe EnrollmentsHelper, type: :helper do
     it "returns false if event is full (when max capacity exists)" do
       event.update!(max_capacity: 1)
       Enrollment.create!(event: event, user: user)
-      another_user = User.create!(email: "u2@example.com", password: "password123", first_name: "U2", last_name: "User", city: "Chicago", state: "IL", zip: "60601", location_type: :online)
+      another_user = User.create!(email: "u2@example.com", password: "password123", first_name: "U2", last_name: "User", city: "Chicago", state: "IL", zip: "60601")
       expect(helper.can_enroll?(event, another_user)).to be(false)
     end
 
     it "returns true when user is not organizer, not enrolled, and event not full" do
-      another_user = User.create!(email: "u2@example.com", password: "password123", first_name: "U2", last_name: "User", city: "Chicago", state: "IL", zip: "60601", location_type: :online)
+      another_user = User.create!(email: "u2@example.com", password: "password123", first_name: "U2", last_name: "User", city: "Chicago", state: "IL", zip: "60601")
       expect(helper.can_enroll?(event, another_user)).to be(true)
     end
   end

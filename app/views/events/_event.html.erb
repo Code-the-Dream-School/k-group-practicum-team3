@@ -1,0 +1,18 @@
+<div class="card">
+    <h1 class="font-bold"><%= link_to "#{event.title}", event_path(event) %></h1>
+        <ul>
+            <li> <%= event.description %> </li>
+            <li> 
+                <% if event.starts_at.present? %>
+                    <%= event.starts_at.strftime("%a, %b %-d · %-I:%M %p %Z") %>
+                <% else %>
+                    Date & time TBD
+                <% end %>
+            <li>
+            <li> by
+                <%= event.user.present? ?
+                    [event.user.first_name, event.user.last_name].compact.join(" ").presence || event.user.email
+                    : "Unknown" %>
+            </li>
+        </ul>
+</div>

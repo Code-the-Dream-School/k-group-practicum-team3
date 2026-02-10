@@ -9,9 +9,7 @@
         <%= image_tag @user.profile_picture,
           class: "rounded-full border border-gray-300 w-32 h-32 object-cover" %>
       <% else %>
-        <div class="w-32 h-32 bg-gray-100 border border-gray-300 rounded-full flex items-center justify-center text-sm text-gray-500">
-          No Image
-        </div>
+        <%= image_tag "default_profile.png", class: "rounded-full border border-gray-300 w-32 h-32 object-cover" %>
       <% end %>
 
       <div>
