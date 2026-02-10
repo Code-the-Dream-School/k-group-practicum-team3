@@ -16,6 +16,9 @@ class Event < ApplicationRecord
 
   validate :ends_at_after_starts_at
 
+  scope :filter_by_location, ->(location) { where(location: location) }
+  scope :filter_by_city, ->(city) { where(city: city) }
+  scope :filter_by_state, ->(state) { where(state: state) }
   scope :filter_by_category, ->(category) { where category: category }
 
   def past?
