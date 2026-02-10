@@ -3,7 +3,9 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.includes(:user).order(starts_at: :asc)
+    @events = @events.filter_by_category(params[:category]) if params[:category].present?
   end
+
   def show
     @event = Event.find(params[:id])
     @participants = @event.participants
@@ -23,6 +25,11 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    if @event.starts_at.past?
+    flash[:alert] = "Past events cannot be edited."
+    redirect_to dashboard_path
+    return
+    end
     authorize @event
   end
 
@@ -62,7 +69,7 @@ class EventsController < ApplicationController
     authorize @event
 
     @event.destroy
-    redirect_to root_path
+    redirect_to dashboard_path, notice: "Event deleted"
   end
 
   private

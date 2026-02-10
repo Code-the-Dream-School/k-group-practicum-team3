@@ -6,8 +6,7 @@ RSpec.describe EventPolicy, type: :policy do
       first_name: "Org",
       last_name: "User",
       email: "org@test.com",
-      password: "pass123",
-      location_type: :online
+      password: "pass123"
     )
   end
 
@@ -16,8 +15,7 @@ RSpec.describe EventPolicy, type: :policy do
       first_name: "Non",
       last_name: "Org",
       email: "non@test.com",
-      password: "pass123",
-      location_type: :online
+      password: "pass123"
     )
   end
 
@@ -26,8 +24,7 @@ RSpec.describe EventPolicy, type: :policy do
       first_name: "Owner",
       last_name: "User",
       email: "owner@test.com",
-      password: "pass123",
-      location_type: :online
+      password: "pass123"
     )
   end
 
