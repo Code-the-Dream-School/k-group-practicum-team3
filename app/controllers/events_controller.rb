@@ -33,6 +33,12 @@ class EventsController < ApplicationController
   end
 
   def edit
+    @event = Event.find(params[:id])
+    if @event.starts_at.past?
+    flash[:alert] = "Past events cannot be edited."
+    redirect_to dashboard_path
+    return
+    end
     authorize @event
   end
 

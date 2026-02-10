@@ -14,14 +14,13 @@ class Event < ApplicationRecord
   validate :registration_deadline_before_start
   validates :min_age, numericality: { only_integer: true, allow_nil: true }
   validates :max_age, numericality: { only_integer: true, allow_nil: true }
-  validates :max_capacity,
-
-            numericality: { only_integer: true, greater_than: 0 },
-            allow_nil: true
+  validates :max_capacity, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
 
   validate :ends_at_after_starts_at
   validate :acceptable_media
   validate :media_file_count
+
+  scope :filter_by_category, ->(category) { where category: category }
 
   def past?
     (ends_at || starts_at) < Time.current

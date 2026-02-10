@@ -48,8 +48,8 @@ RSpec.describe UsersHelper, type: :helper do
       expect(helper.display_role(user)).to eq("Admin")
     end
 
-    it "returns empty string if user has no role" do
-      expect(helper.display_role(user)).to eq("")
+    it "returns default role student when none is selected" do
+      expect(helper.display_role(user)).to eq("Student")
     end
   end
 end

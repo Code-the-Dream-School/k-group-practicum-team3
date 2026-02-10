@@ -59,11 +59,10 @@
             <% end %>
           </div>
 
-          <div>
-            <%= form.label :price, class: "block text-sm font-medium text-[#14213D]" %>
-            <div class="mt-2">
-              <%= form.text_field :price,
-                    class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+          <div class="sm:col-span-3">
+            <%= form.label :location, class:"block text-sm/6 font-medium text-gray-900" %>
+            <div class="mt-2 grid grid-cols-1">
+              <%= form.select :location, options_for_select([['Online','online'],['In-person','in-person'],['Hybrid','hybrid']]), class:"col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
             </div>
           </div>
 
@@ -107,11 +106,10 @@
             </div>
           </div>
 
-          <div>
-            <%= form.label :ends_at, class: "block text-sm font-medium text-[#14213D]" %>
+          <div class="sm:col-span-2">
+            <%= form.label :max_capacity, class:"block text-sm/6 font-medium text-gray-900" %>
             <div class="mt-2">
-              <%= form.datetime_field :ends_at,
-                    class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+              <%= form.number_field :max_capacity, class:"block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" %>
             </div>
           </div>
 

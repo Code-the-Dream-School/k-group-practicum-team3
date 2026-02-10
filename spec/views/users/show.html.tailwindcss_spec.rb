@@ -8,7 +8,6 @@ RSpec.describe "users/show.html.erb", type: :view do
       email: "john@example.com",
       password: "password",
       password_confirmation: "password",
-      location_type: :online,
       gender: :male
     )
   end
