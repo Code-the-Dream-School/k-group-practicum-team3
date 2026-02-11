@@ -34,7 +34,7 @@ class Event < ApplicationRecord
   end
 
   def saved?
-    #todo add logic but for now just return false
+    # Todo add logic but for now just return false
     false
   end
 
