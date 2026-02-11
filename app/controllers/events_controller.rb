@@ -6,21 +6,12 @@ class EventsController < ApplicationController
     @events = Event
       .includes(:user, media_files_attachments: :blob)
       .with_open_registration
-      .filter_by_category(params[:category])
       .order(starts_at: :asc)
 
-    if params[:location].present?
-      @events = @events.filter_by_location(params[:location])
-    end
-
-    if params[:state].present?
-      @events = @events.filter_by_state(params[:state]) if params[:state].present?
-    end
-
-    if params[:city].present?
-      @events = @events.filter_by_city(params[:city]) if params[:city].present?
-    end
     @events = @events.filter_by_category(params[:category]) if params[:category].present?
+    @events = @events.filter_by_location(params[:location]) if params[:location].present?
+    @events = @events.filter_by_state(params[:state]) if params[:state].present?
+    @events = @events.filter_by_city(params[:city]) if params[:city].present?
   end
 
   def show
@@ -35,9 +26,13 @@ class EventsController < ApplicationController
 
     if user_signed_in?
       @already_enrolled = @event.enrollments.exists?(user_id: current_user.id)
+      @can_view_participants = current_user.id == @event.user_id || @already_enrolled
     else
       @already_enrolled = false
+      @can_view_participants = false
     end
+
+    @event_full = @event.max_capacity.present? && @event.enrollments.count >= @event.max_capacity
 
     if @event.max_capacity.present?
       @event_full = @event.enrollments.count >= @event.max_capacity
@@ -48,11 +43,11 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
-    if @event.starts_at.past?
-    flash[:alert] = "Past events cannot be edited."
-    redirect_to dashboard_path
-    return
-    end
+      if @event.starts_at.past?
+      flash[:alert] = "Past events cannot be edited."
+      redirect_to dashboard_path
+      return
+      end
     authorize @event
   end
 
@@ -65,22 +60,16 @@ class EventsController < ApplicationController
       filtered_params[:media_files].reject!(&:blank?)
     end
 
-    if filtered_params[:media_files].blank?
-      filtered_params.delete(:media_files)
-    end
+    filtered_params.delete(:media_files) if filtered_params[:media_files].blank?
 
     if @event.update(filtered_params)
-      redirect_to @event, notice: "Event updated successfully"
-    else
-      render :edit, status: :unprocessable_entity
-    if @event.update(event_params)
       if params[:from] == "dashboard"
         redirect_to dashboard_path, notice: "Event updated successfully"
       else
         redirect_to @event, notice: "Event updated successfully"
       end
     else
-     render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 
