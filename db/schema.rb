@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_22_235959) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_04_174134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,7 +71,18 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_22_235959) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "registration_deadline"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_favorites_on_event_id"
+    t.index ["user_id", "event_id"], name: "index_favorites_on_user_id_and_event_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -80,7 +91,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_22_235959) do
     t.bigint "resource_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource", unique: true
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", unique: true
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
@@ -98,7 +108,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_22_235959) do
     t.integer "age"
     t.string "phone"
     t.text "bio"
-    t.integer "location_type", default: 0
     t.integer "gender"
     t.string "city"
     t.string "state"
@@ -120,6 +129,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_22_235959) do
   add_foreign_key "enrollments", "events"
   add_foreign_key "enrollments", "users"
   add_foreign_key "events", "users"
+  add_foreign_key "favorites", "events"
+  add_foreign_key "favorites", "users"
   add_foreign_key "users_roles", "roles"
   add_foreign_key "users_roles", "users"
 end
