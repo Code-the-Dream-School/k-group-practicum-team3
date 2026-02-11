@@ -2,6 +2,8 @@ class Event < ApplicationRecord
   belongs_to :user
   has_many :enrollments, dependent: :destroy
   has_many :participants, through: :enrollments, source: :user
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_by_users, through: :favorites, source: :user
 
   enum :category, { sports: 0, tutoring: 1, music: 2, arts: 3, dance: 4, language: 5, stem: 6, outdoor: 7, other: 8 }
   enum :allowed_gender, { any: 0, male_only: 1, female_only: 2 }
@@ -10,15 +12,22 @@ class Event < ApplicationRecord
   validates :title, :starts_at, :category, :allowed_gender, :rsvp, presence: true
   validates :min_age, numericality: { only_integer: true, allow_nil: true }
   validates :max_age, numericality: { only_integer: true, allow_nil: true }
-  validates :max_capacity,
-
-            numericality: { only_integer: true, greater_than: 0 },
-            allow_nil: true
+  validates :max_capacity, allow_nil: true, numericality: { only_integer: true, greater_than: 0 }
 
   validate :ends_at_after_starts_at
 
+  scope :filter_by_location, ->(location) { where(location: location) }
+  scope :filter_by_city, ->(city) { where(city: city) }
+  scope :filter_by_state, ->(state) { where(state: state) }
+  scope :filter_by_category, ->(category) { where category: category }
+
   def past?
     (ends_at || starts_at) < Time.current
+  end
+
+  # Default image based on category (no database changes needed)
+  def default_image_path
+    "categories/#{category || 'other'}.jpg"
   end
 
   private
