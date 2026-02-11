@@ -1,6 +1,6 @@
 module UsersHelper
   def organizer?(user)
-    user.has_role?(:organizer)
+    user.present? && user.has_role?(:organizer)
   end
 
   def student?(user)

@@ -9,8 +9,7 @@ RSpec.describe Enrollment, type: :model do
       last_name: "User",
       city: "Chicago",
       state: "IL",
-      zip: "60601",
-      location_type: :online
+      zip: "60601"
     )
   end
 
@@ -22,8 +21,7 @@ RSpec.describe Enrollment, type: :model do
       last_name: "User",
       city: "Chicago",
       state: "IL",
-      zip: "60601",
-      location_type: :online
+      zip: "60601"
     )
   end
 

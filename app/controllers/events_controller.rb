@@ -3,7 +3,21 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.includes(:user).order(starts_at: :asc)
+
+    if params[:location].present?
+      @events = @events.filter_by_location(params[:location])
+    end
+
+    if params[:state].present?
+      @events = @events.filter_by_state(params[:state]) if params[:state].present?
+    end
+
+    if params[:city].present?
+      @events = @events.filter_by_city(params[:city]) if params[:city].present?
+    end
+    @events = @events.filter_by_category(params[:category]) if params[:category].present?
   end
+
   def show
     @event = Event.find(params[:id])
     @participants = @event.participants
@@ -23,6 +37,11 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    if @event.starts_at.past?
+    flash[:alert] = "Past events cannot be edited."
+    redirect_to dashboard_path
+    return
+    end
     authorize @event
   end
 
@@ -31,9 +50,13 @@ class EventsController < ApplicationController
     authorize @event
 
     if @event.update(event_params)
-      redirect_to @event, notice: "Event updated successfully"
+      if params[:from] == "dashboard"
+        redirect_to dashboard_path, notice: "Event updated successfully"
+      else
+        redirect_to @event, notice: "Event updated successfully"
+      end
     else
-      render :edit
+     render :edit, status: :unprocessable_entity
     end
   end
 
@@ -58,7 +81,7 @@ class EventsController < ApplicationController
     authorize @event
 
     @event.destroy
-    redirect_to root_path
+    redirect_to dashboard_path, notice: "Event deleted"
   end
 
   private

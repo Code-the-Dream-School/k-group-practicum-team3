@@ -1,0 +1,52 @@
+<div class="events-page">
+  <div class="events-header">
+    <h1 class="events-title">Saved Events</h1>
+  </div>
+
+  <% if @events.any? %>
+    <div class="events-grid">
+      <% @events.each do |event| %>
+        <article class="event-card">
+
+          <%= link_to event_path(event), class: "event-card-link" do %>
+
+            <div class="event-image-wrap">
+              <%= image_tag event.default_image_path,
+                    class: "event-image",
+                    alt: event.title %>
+
+              <span class="event-badge">
+                <%= event.price.present? ? "$#{event.price}" : "Free" %>
+              </span>
+            </div>
+
+            <div class="event-content">
+              <h2 class="event-name"><%= event.title %></h2>
+
+              <div class="event-time">
+                <%= event.starts_at.strftime("%a, %b %-d · %-I:%M %p") if event.starts_at %>
+              </div>
+
+              <div class="event-by">
+                by
+                <%= event.user.present? ?
+                      [event.user.first_name, event.user.last_name].compact.join(" ").presence || event.user.email
+                      : "Unknown" %>
+              </div>
+            </div>
+
+          <% end %>
+
+          <%= button_to "❤️",
+                event_favorite_path(event),
+                method: :delete,
+                class: "favorite-btn",
+                form: { class: "favorite-form" } %>
+
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-500 mt-4">You haven’t saved any events yet.</p>
+  <% end %>
+</div>

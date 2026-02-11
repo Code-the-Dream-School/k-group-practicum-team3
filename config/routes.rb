@@ -13,7 +13,9 @@ Rails.application.routes.draw do
 
   resource :dashboard, only: [ :show ]
   resources :users, only: [ :index, :show ], controller: "users"
+
   resources :events do
+    resource :favorite, only: [ :create, :destroy ]
     resources :enrollments, only: [ :create, :destroy ]
   end
 
@@ -22,7 +24,12 @@ Rails.application.routes.draw do
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # page to view your favorites list
+  get "/favorites", to: "favorites#index", as: :favorites
+
   get "up" => "rails/health#show", as: :rails_health_check
+  get "/dashboard", to: "dashboard#index"
+  get "/search", to: "events#search"
 
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

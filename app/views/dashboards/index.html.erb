@@ -30,8 +30,7 @@
         <% else %>
             <% @events.each do |event| %>
             <tr>
-                <!-- TODO: Add proper link once other branches are merged -->
-                <td><%= link_to "#{event.title}", "#", class: "text-blue-600 hover:underline" %></td>
+                <td><%= link_to event.title, event_path(event), class: "text-blue-600 hover:underline" %></td>
                 <td><%= event.category&.titleize %></td>
 
                 <td>
@@ -65,7 +64,7 @@
                 <td><%= event.max_capacity || "Unlimited" %></td>
                 <td><%= event.rsvp&.humanize || "N/A" %></td>
                 <td><%= event.accessible ? "Yes" : "No" %></td>
-                <td><%= link_to "Edit", edit_event_path(event), class:"inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" %></td>
+                <td><%= link_to "Edit", edit_event_path(event, from: "dashboard"), class:"inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" %></td>
                 <td><%= link_to "Delete", event_path(event), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class:"inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" %></td>
             </tr>
             <% end %>
