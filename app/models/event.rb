@@ -33,6 +33,11 @@ class Event < ApplicationRecord
     (ends_at || starts_at) < Time.current
   end
 
+  def saved?
+    #todo add logic but for now just return false
+    false
+  end
+
   def registration_open?
     return false if past?
     return true if registration_deadline.nil?
