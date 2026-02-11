@@ -8,6 +8,19 @@ class EventsController < ApplicationController
       .with_open_registration
       .filter_by_category(params[:category])
       .order(starts_at: :asc)
+
+    if params[:location].present?
+      @events = @events.filter_by_location(params[:location])
+    end
+
+    if params[:state].present?
+      @events = @events.filter_by_state(params[:state]) if params[:state].present?
+    end
+
+    if params[:city].present?
+      @events = @events.filter_by_city(params[:city]) if params[:city].present?
+    end
+    @events = @events.filter_by_category(params[:category]) if params[:category].present?
   end
 
   def show
@@ -60,6 +73,14 @@ class EventsController < ApplicationController
       redirect_to @event, notice: "Event updated successfully"
     else
       render :edit, status: :unprocessable_entity
+    if @event.update(event_params)
+      if params[:from] == "dashboard"
+        redirect_to dashboard_path, notice: "Event updated successfully"
+      else
+        redirect_to @event, notice: "Event updated successfully"
+      end
+    else
+     render :edit, status: :unprocessable_entity
     end
   end
 

@@ -1,4 +1,24 @@
 <div class="max-w-5xl mx-auto px-4 py-6 space-y-10">
+<div class="event-show-page">
+  <div class="event-show-header">
+    <h1 class="event-show-title"><%= @event.title %></h1>
+
+    <div class="event-show-actions">
+      <% if organizer?(current_user) %>
+        <%= link_to "Back to Dashboard", dashboard_path, class: "event-show-link" %>
+      <% else %>
+        <%= link_to "Back to Events", events_path, class: "event-show-link" %>
+      <% end %>
+      <% if current_user&.admin? || current_user&.id == @event.user_id %>
+        <%= link_to "Edit", edit_event_path(@event), class: "event-show-link event-show-link-edit" %>
+
+        <%= button_to "Delete",
+              event_path(@event),
+              method: :delete,
+              data: { turbo_confirm: "Are you sure you want to delete this event?" },
+              class: "event-show-link event-show-link-delete",
+              form: { class: "event-show-delete-form" } %>
+      <% end %>
 
   <!-- HERO IMAGE SECTION -->
   <div class="relative w-full h-[420px] rounded-xl overflow-hidden shadow-xl" data-controller="carousel">

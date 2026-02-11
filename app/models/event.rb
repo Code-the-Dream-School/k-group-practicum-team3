@@ -24,6 +24,10 @@ class Event < ApplicationRecord
     category.present? && categories.key?(category.to_s) ? where(category:) : all
   }
 
+  scope :filter_by_location, ->(location) { where(location: location) }
+  scope :filter_by_city, ->(city) { where(city: city) }
+  scope :filter_by_state, ->(state) { where(state: state) }
+  scope :filter_by_category, ->(category) { where category: category }
 
   def past?
     (ends_at || starts_at) < Time.current
