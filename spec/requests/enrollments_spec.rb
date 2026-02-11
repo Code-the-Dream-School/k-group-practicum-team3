@@ -55,6 +55,27 @@ RSpec.describe "Enrollments", type: :request do
         post event_enrollments_path(event)
       }.to change(Enrollment, :count).by(1)
     end
+
+    it "does not create a duplicate enrollment for the same user and event" do
+      post event_enrollments_path(event)
+      expect {
+        post event_enrollments_path(event)
+      }.not_to change(Enrollment, :count)
+    end
+
+    it "does not allow joining a past event" do
+      event.update!(starts_at: 2.days.ago, ends_at: 1.day.ago)
+      expect {
+        post event_enrollments_path(event)
+        }.not_to change(Enrollment, :count)
+    end
+
+    it "does not allow the organizer to join their own event" do
+      sign_in organizer
+      expect {
+        post event_enrollments_path(event)
+      }.not_to change(Enrollment, :count)
+    end
   end
 
   describe "DELETE /events/:event_id/enrollments/:id" do

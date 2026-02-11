@@ -30,6 +30,6 @@ class EventPolicy < ApplicationPolicy
   end
 
   def not_past?
-    !record.past?
+    !record.past? && record.registration_open?
   end
 end

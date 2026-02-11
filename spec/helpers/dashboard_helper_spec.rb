@@ -9,8 +9,7 @@ RSpec.describe DashboardHelper, type: :helper do
         last_name: "lastname",
         city: "Chicago",
         state: "IL",
-        zip: "60601",
-        location_type: :online
+        zip: "60601"
         )
     }
 
