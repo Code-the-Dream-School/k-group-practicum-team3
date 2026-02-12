@@ -1,0 +1,7 @@
+<section class="min-h-screen bg-[#F9FAFB] pb-24 font-display">
+  <% if current_user.has_role?(:organizer) %>
+    <%= render "organizer", events: @events %>
+  <% else %>
+    <%= render "participant", enrolled_events: @enrolled_events %>
+  <% end %>
+</section>

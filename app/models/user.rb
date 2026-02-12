@@ -23,6 +23,9 @@ class User < ApplicationRecord
   # As organizer
   has_many :organized_events, class_name: "Event", foreign_key: "user_id", dependent: :destroy
 
+  # As participant
+  has_many :event_registrations, dependent: :destroy
+
   # Favorites
   has_many :favorites, dependent: :destroy
   has_many :favorited_events, through: :favorites, source: :event
