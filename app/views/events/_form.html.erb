@@ -1,5 +1,5 @@
-<div class="max-w-4xl mx-auto px-4 py-8">
-  <div class="bg-white border border-[#E5E5E5] rounded-xl p-6 sm:p-8"><%= form_with(model: @event) do |form| %>
+<div class="bg-white border border-[#E5E5E5] rounded-xl p-6 sm:p-8 mt-6">
+  <%= form_with(model: @event) do |form| %>
 
       <div class="space-y-10">
 
@@ -31,9 +31,10 @@
           <div>
             <%= form.label :description, class: "block text-sm font-medium text-[#14213D]" %>
             <div class="mt-2">
-              <%= form.text_field :description,
-                    placeholder: "Write a few sentences about the event!",
-                    class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black placeholder:text-gray-400 focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+              <%= form.text_area :description,
+                  rows: 4,
+                  placeholder: "Write a few sentences about the event!",
+                  class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black placeholder:text-gray-400 focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
             </div>
           </div>
 
@@ -43,7 +44,11 @@
               <%= form.file_field :media_files,
                     multiple: true,
                     accept: "image/*",
-                    class:"block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+                    class: "block w-full text-sm text-slate-600
+                      file:mr-3 file:rounded-md file:border file:border-slate-300
+                      file:bg-slate-100 file:px-3 file:py-2
+                      file:text-sm file:font-medium file:text-slate-700
+                      hover:file:bg-slate-200"%>
               <p class="mt-1 text-xs text-gray-500">PNG, JPG, GIF, WEBP up to 10MB each</p>
             </div>
 
@@ -61,12 +66,13 @@
 
           <div>
             <%= form.label :price, class: "block text-sm font-medium text-[#14213D]" %>
-            <div class="mt-2">
-              <%= form.text_field :price,
+              <div class="mt-2 max-w-xs">
+                <%= form.number_field :price,
+                    step: 0.01,
+                    placeholder: "0.00",
                     class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
-            </div>
+             </div>
           </div>
-
         </div>
 
         <!-- LOCATION & TIME -->
@@ -90,14 +96,16 @@
             </div>
           </div>
 
-          <div>
-            <%= form.label :location, class: "block text-sm font-medium text-[#14213D]" %>
+         <div>
+          <%= form.label :location, class: "block text-sm font-medium text-[#14213D]" %>
             <div class="mt-2">
               <%= form.select :location,
-                    options_for_select([["Online","online"],["In-person","in-person"],["Hybrid","hybrid"]]),
-                    class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+                  options_for_select([["Online","online"],["In-person","in-person"],["Hybrid","hybrid"]], @event.location),
+                  { include_blank: "Select location" },
+                  class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
             </div>
-          </div>
+        </div>
+
 
           <div>
             <%= form.label :starts_at, class: "block text-sm font-medium text-[#14213D]" %>
@@ -151,26 +159,36 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
 
           <div>
-            <%= form.label :allowed_gender, class: "block text-sm font-medium text-[#14213D]" %>
-            <%= form.select :allowed_gender,
+           <%= form.label :allowed_gender, class: "block text-sm font-medium text-[#14213D]" %>
+            <div class="mt-2">
+               <%= form.select :allowed_gender,
                   Event.allowed_genders.keys.map { |k| [k.humanize.titleize, k] },
-                  class: "mt-2 block w-full rounded-md border border-[#E5E5E5] px-3 py-2 text-sm focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+                  {},
+                  class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+            </div>
           </div>
+
 
           <div>
             <%= form.label :rsvp, class: "block text-sm font-medium text-[#14213D]" %>
-            <%= form.select :rsvp,
+              <div class="mt-2">
+                <%= form.select :rsvp,
                   Event.rsvps.keys.map { |k| [k.humanize.titleize, k] },
-                  class: "mt-2 block w-full rounded-md border border-[#E5E5E5] px-3 py-2 text-sm focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+                  {},
+                  class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+              </div>
           </div>
+
 
           <div>
             <%= form.label :category, class: "block text-sm font-medium text-[#14213D]" %>
-            <%= form.select :category,
-                  Event.categories.keys.map { |k| [k.humanize.titleize, k] },
-                  class: "mt-2 block w-full rounded-md border border-[#E5E5E5] px-3 py-2 text-sm focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+            <div class="mt-2">
+              <%= form.select :category,
+                Event.categories.keys.map { |k| [k.humanize.titleize, k] },
+                { include_blank: "Select category" },
+                class: "block w-full rounded-md border border-[#E5E5E5] bg-white px-3 py-2 text-sm text-black focus:border-[#14213D] focus:ring-1 focus:ring-[#14213D]" %>
+            </div>
           </div>
-
         </div>
 
         <!-- ACCESSIBILITY -->
@@ -193,4 +211,3 @@
 
     <% end %>
   </div>
-</div>
