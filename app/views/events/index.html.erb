@@ -1,25 +1,10 @@
-<div class="events-page">
-<script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
+<div class="max-w-7xl mx-auto px-4 py-8">
   <!-- Header -->
-  <div class="events-header">
-  <% if user_signed_in? %>
-      <% if current_user.location_type == 'online' %>
-        <%= link_to "Search for Online Events", events_path(location: 'online') %>
-      <% else %>
-        <h1 class="events-title">
-          Filter for events near
-          <span class="events-location">
-            <%= link_to "#{current_user.city}, #{current_user.state}", events_path(city: current_user.city, state: current_user.state) %>
-          </span>
-        </h1>
-      <% end %>
-    <% end %>
-    <h1 class="events-title">
-      Events near
-      <span class="events-location">
-        here City, state
-      </span>
-    </h1>
+  <div class="flex items-start justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-[#14213D]">
+        Upcoming Events
+      </h1>
 
       <div class="mt-1 text-sm text-gray-500 flex items-center gap-1">
         <span>Near</span>
