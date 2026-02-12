@@ -70,6 +70,37 @@ RSpec.describe "Events", type: :request do
     end
   end
 
+  describe "event#search" do
+    it "gets returns https okay for the search route" do
+      get "/search"
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "shows matching results when the search param for a title is provided" do
+      get "/search", params: { search: "Test" }
+
+      expect(response.body).to include("Test One")
+    end
+
+    it "shows matching results when a search param for a description is provided" do
+      get "/search", params: { search: "Successful search" }
+
+      expect(response.body).to include("Test One")
+    end
+
+    it "shows no events found when search param does not have any matches" do
+      get "/search", params: { search: "This test works now!" }
+
+      expect(response.body).to include("No events found")
+    end
+
+    it "shows no events found when search param is an empty string" do
+      get "/search", params: { search: "" }
+
+      expect(response.body).to include("No events found")
+    end
+  end
+
   describe "filter by location, city, state" do
     skip "test temporarily skipped"
     # rubocop:disable RSpec/ExampleLength

@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [ :index, :show, :search ]
   before_action :set_event, only: [ :show, :edit, :update, :destroy ]
 
   def index
@@ -94,6 +94,16 @@ class EventsController < ApplicationController
 
     @event.destroy
     redirect_to events_path, notice: "Event deleted successfully"
+  end
+
+  def search
+    if params[:search].present?
+      @events = Event.where("title LIKE :search OR description LIKE :search", search: "%#{params[:search]}%")
+    else
+      @events = []
+    end
+
+    render :index
   end
 
   private
