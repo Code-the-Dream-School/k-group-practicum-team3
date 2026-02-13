@@ -6,8 +6,7 @@ RSpec.describe EventPolicy, type: :policy do
       first_name: "Org",
       last_name: "User",
       email: "org@test.com",
-      password: "pass123",
-      location_type: :online
+      password: "pass123"
     )
   end
 
@@ -16,8 +15,7 @@ RSpec.describe EventPolicy, type: :policy do
       first_name: "Non",
       last_name: "Org",
       email: "non@test.com",
-      password: "pass123",
-      location_type: :online
+      password: "pass123"
     )
   end
 
@@ -26,8 +24,7 @@ RSpec.describe EventPolicy, type: :policy do
       first_name: "Owner",
       last_name: "User",
       email: "owner@test.com",
-      password: "pass123",
-      location_type: :online
+      password: "pass123"
     )
   end
 
@@ -102,6 +99,7 @@ RSpec.describe EventPolicy, type: :policy do
 
   it "denies organizers from editing past events even if they own them" do
     event.user = organizer
+    event.starts_at = 2.days.ago
     event.ends_at = 1.day.ago
 
     policy = described_class.new(organizer, event)
@@ -110,6 +108,7 @@ RSpec.describe EventPolicy, type: :policy do
 
   it "denies organizers from updating past events even if they own them" do
     event.user = organizer
+    event.starts_at = 2.days.ago
     event.ends_at = 1.day.ago
 
     policy = described_class.new(organizer, event)
@@ -118,9 +117,25 @@ RSpec.describe EventPolicy, type: :policy do
 
   it "denies organizers from destroying past events even if they own them" do
     event.user = organizer
+    event.starts_at = 2.days.ago
     event.ends_at = 1.day.ago
 
     policy = described_class.new(organizer, event)
+    expect(policy.destroy?).to be(false)
+  end
+
+  it "denies non-organizers from editing events" do
+    policy = described_class.new(non_organizer, event)
+    expect(policy.edit?).to be(false)
+  end
+
+  it "denies non-organizers from updating events" do
+    policy = described_class.new(non_organizer, event)
+    expect(policy.update?).to be(false)
+  end
+
+  it "denies non-organizers from destroying events" do
+    policy = described_class.new(non_organizer, event)
     expect(policy.destroy?).to be(false)
   end
 end

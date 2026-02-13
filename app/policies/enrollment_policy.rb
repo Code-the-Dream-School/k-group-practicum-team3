@@ -1,47 +1,31 @@
 class EnrollmentPolicy < ApplicationPolicy
-    def new?
-        if user && !owns_record?
-            !enrolled? && not_past?
-        else
-            false
-        end
-    end
+  def create?
+    return false if user.nil?
+    return false if event_owner?
+    return false if already_enrolled?
+    return false if event_full?
 
-    def create?
-        if user && !owns_record?
-            !enrolled? && not_past?
-        else
-            false
-        end
-    end
+    true
+  end
 
-    def destroy?
-        if user
-            enrolled? && not_past?
-        else
-            false
-        end
-    end
+  private
 
-    private
+  def event
+    record.event
+  end
 
-    def organizer?
-        user.present? && user.has_role?(:organizer)
-    end
+  def event_owner?
+    event.user_id == user.id
+  end
 
-    def participant?
-        user.present? && user.has_role(:participant)
-    end
+  def already_enrolled?
+    event.enrollments.exists?(user_id: user.id)
+  end
 
-    def not_past?
-        !record.event.past?
-    end
+  def event_full?
+    return false if event.nil?
+    return false if event.max_capacity.nil?
 
-    def enrolled?
-        record.user_id == user.id
-    end
-
-    def owns_record?
-        record.user_id == user.id
-    end
+    event.enrollments.count >= event.max_capacity
+  end
 end

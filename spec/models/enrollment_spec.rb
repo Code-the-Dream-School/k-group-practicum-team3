@@ -1,5 +1,49 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Enrollment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:organizer) do
+    User.create!(
+      email: "org@example.com",
+      password: "test123",
+      first_name: "Org",
+      last_name: "User",
+      city: "Chicago",
+      state: "IL",
+      zip: "60601"
+    )
+  end
+
+  let!(:user) do
+    User.create!(
+      email: "user@example.com",
+      password: "test123",
+      first_name: "Test",
+      last_name: "User",
+      city: "Chicago",
+      state: "IL",
+      zip: "60601"
+    )
+  end
+
+  let!(:event) do
+    attrs = { user: organizer, title: "Test Event", category: :other }
+    attrs[:starts_at] = 1.day.from_now if Event.new.respond_to?(:starts_at)
+    Event.create!(attrs)
+  end
+
+  it "is valid with a user and an event" do
+    enrollment = described_class.new(user: user, event: event)
+    expect(enrollment).to be_valid
+  end
+
+  it "associates user and event" do
+    enrollment = build(:enrollment)
+    expect(enrollment).to respond_to(:event)
+  end
+
+  it "does not allow the same user to enroll in the same event twice" do
+    described_class.create!(user: user, event: event)
+    duplicate = described_class.new(user: user, event: event)
+    expect(duplicate).not_to be_valid
+  end
 end

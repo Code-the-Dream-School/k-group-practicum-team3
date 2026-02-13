@@ -7,21 +7,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
-    <% end %>
-
-
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" if Rails.env.development? %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
     <%= javascript_importmap_tags %>
@@ -36,7 +28,7 @@
 
         <!-- Search bar -->
         <div class="flex w-full max-w-md flex-1">
-          <form class="flex w-full items-center gap-2" action="#" method="get" role="search" aria-label="Site search">
+          <form class="flex w-full items-center gap-2", name = "search-form", action="/search" method="get" role="search" aria-label="Site search">
             <label class="sr-only" for="nav-search">Search</label>
             <input
               id="nav-search"
@@ -56,20 +48,22 @@
 
         <ul class="flex flex-wrap items-center justify-end gap-2 text-sm font-medium text-black">
           <li>
-            <!-- TODO: Delete or link to About page -->
-            <div class="rounded px-3 py-2 hover:bg-gray-100">
-              <%= link_to "About", "#" %>
-            </div>
-          </li>
-          <li>
-            <!-- TODO: Link/delete based on categories -->
-            <div class="rounded px-3 py-2 hover:bg-gray-100">
-              <%= link_to "Browse", "#" %>
-            </div>
-            <!-- Browse by category instead  -->
-            <ul>
-              <!-- TODO: Link to pages with the filter applied -->
-            </ul>
+          <el-dropdown class="inline-block">
+            <button class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50">
+              Browse
+              <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="-mr-1 size-5 text-gray-400">
+                <path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
+              </svg>
+            </button>
+
+            <el-menu anchor="bottom end" popover class="w-56 origin-top-right rounded-md bg-white shadow-lg outline-1 outline-black/5 transition transition-discrete [--anchor-gap:--spacing(2)] data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
+              <div class="py-1">
+                <% Event.categories.keys.each do | key | %>
+                  <%= link_to key.humanize, events_path(category: key), class:"block px-4 py-2 text-sm text-gray-700 focus:bg-gray-100 focus:text-gray-900 focus:outline-hidden" %>
+                <% end %>
+              </div>
+            </el-menu>
+          </el-dropdown>
           </li>
           <li>
             <div class="rounded px-3 py-2 hover:bg-gray-100">
@@ -78,20 +72,23 @@
           </li>
           <% if user_signed_in? %>
             <li>
-              <!-- TODO: Link to user dashboard -->
               <div class="rounded px-3 py-2 hover:bg-gray-100">
-                <%= link_to "Dashboard", "#" %>
+                <%= link_to "Saved Events", favorites_path %>
               </div>
             </li>
             <li>
               <div class="rounded px-3 py-2 hover:bg-gray-100">
-                  <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %>
+                <%= link_to "Dashboard", dashboard_path %>
               </div>
             </li>
+             <%= button_to "Sign out",
+      destroy_user_session_path,
+      method: :delete,
+      class: "rounded px-3 py-2 hover:bg-gray-100 bg-transparent border-0 cursor-pointer" %>
             <li>
               <!-- TODO: Link to current user profile -->
               <div class="rounded px-3 py-2 hover:bg-gray-100">
-                  <%= link_to "Account", "#" %>
+                  <%= link_to "Account", user_path(current_user) %>
               </div>
             </li>
             <% else %>
@@ -110,7 +107,23 @@
       </nav>
     </header>
 
-    <main class="container mx-auto mt-28 px-5 flex">
+    <% if notice.present? || alert.present? %>
+      <div class="container mx-auto mt-6 px-5">
+        <% if notice.present? %>
+         <div class="mb-3 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-green-800">
+          <%= notice %>
+        </div>
+       <% end %>
+
+        <% if alert.present? %>
+         <div class="mb-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800">
+           <%= alert %>
+         </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <main class="container mx-auto mt-28 px-5">
       <%= yield %>
     </main>
   </body>
