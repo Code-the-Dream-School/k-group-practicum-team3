@@ -6,13 +6,22 @@
         Upcoming Events
       </h1>
 
-      <div class="mt-1 text-sm text-gray-500 flex items-center gap-1">
-        <span>Near</span>
-        <button
-          class="font-medium text-[#14213D] hover:text-[#FCA311] transition-colors">
-          City, State ▾
-        </button>
-      </div>
+      <% if user_signed_in? %>
+        <div class="mt-1 text-sm text-gray-500 flex items-center gap-1">
+          <% if current_user.location_type == 'online' %>
+            <button
+              class="font-medium text-[#14213D] hover:text-[#FCA311] transition-colors">
+              <%= link_to "Search for online events ▾", events_path(location: 'online') %>
+            </button>
+          <% else %>
+            <span>Near</span>
+            <button
+              class="font-medium text-[#14213D] hover:text-[#FCA311] transition-colors">
+              <%= link_to "#{current_user.city}, #{current_user.state} ▾",events_path(city: current_user.city, state: current_user.state) %> 
+            </button>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
     <div class="flex items-center gap-6">
