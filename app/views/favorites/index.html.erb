@@ -10,10 +10,30 @@
 
           <%= link_to event_path(event), class: "event-card-link" do %>
 
-            <div class="event-image-wrap">
-             <%= image_tag event_default_image(event),
-             class: "event-image",
-             alt: event.title %>
+            <!-- Image Carousel -->
+          <div class="relative h-48 overflow-hidden bg-gray-100">
+            <% if event.media_files.attached? && event.media_files.any? %>
+              <!-- Images Container -->
+              <div class="flex overflow-x-auto snap-x snap-mandatory h-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <% event.media_files.each do |file| %>
+                  <div class="flex-none w-full h-full snap-start">
+                    <%= image_tag file, class: "w-full h-full object-cover", alt: event.title, loading: "lazy" %>
+                  </div>
+                <% end %>
+              </div>
+
+              <!-- Dots Indicator -->
+              <% if event.media_files.count > 1 %>
+                <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 pointer-events-none">
+                  <% event.media_files.count.times do |i| %>
+                    <% dot_class = i == 0 ? "bg-white" : "bg-white/60" %>
+                    <div class="w-1.5 h-1.5 rounded-full <%= dot_class %>"></div>
+                  <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              <%= image_tag event_default_image(event), class: "w-full h-full object-cover", alt: event.title %>
+            <% end %>
 
               <span class="event-badge">
                 <%= event.price.present? ? "$#{event.price}" : "Free" %>
