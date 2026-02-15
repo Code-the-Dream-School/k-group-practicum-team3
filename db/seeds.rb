@@ -86,8 +86,6 @@ events << Event.find_or_create_by!(title: "Coding Club", user: organizer1) do |e
   e.city = nil
   e.state = nil
   e.price = 25
-
-
 end
 
 events << Event.find_or_create_by!(title: "Soccer Practice", user: organizer1) do |e|
@@ -104,8 +102,6 @@ events << Event.find_or_create_by!(title: "Soccer Practice", user: organizer1) d
   e.city = "Raleigh"
   e.state = "NC"
   e.price = 45
-
-
 end
 
 events << Event.find_or_create_by!(title: "Robotics Workshop", user: organizer1) do |e|
@@ -119,7 +115,6 @@ events << Event.find_or_create_by!(title: "Robotics Workshop", user: organizer1)
   e.max_age = 15
   e.max_capacity = 20
   e.price = 40
-
 end
 
 events << Event.find_or_create_by!(title: "Creative Art Studio", user: organizer2) do |e|
@@ -136,8 +131,6 @@ events << Event.find_or_create_by!(title: "Creative Art Studio", user: organizer
   e.city = "Raleigh"
   e.state = "NC"
   e.price = 25
-
-
 end
 
 events << Event.find_or_create_by!(title: "Beginner Basketball Clinic", user: organizer2) do |e|
@@ -154,8 +147,6 @@ events << Event.find_or_create_by!(title: "Beginner Basketball Clinic", user: or
   e.city = "Durham"
   e.state = "NC"
   e.price = 50
-
-
 end
 
 events << Event.find_or_create_by!(title: "Guitar Basics for Teens", user: organizer2) do |e|
@@ -172,7 +163,6 @@ events << Event.find_or_create_by!(title: "Guitar Basics for Teens", user: organ
   e.city = "Raleigh"
   e.state = "NC"
   e.price = 32
-
 end
 
 events << Event.find_or_create_by!(title: "Homework Help Hour", user: organizer1) do |e|
@@ -189,8 +179,6 @@ events << Event.find_or_create_by!(title: "Homework Help Hour", user: organizer1
   e.city = nil
   e.state = nil
   e.price = 14
-
-
 end
 
 events << Event.find_or_create_by!(title: "Chess Club Meetup", user: organizer1) do |e|
@@ -230,7 +218,6 @@ events << Event.find_or_create_by!(title: "Teen Writing Circle", user: organizer
   e.location = "In-person"
   e.city = "Raleigh"
   e.state = "NC"
-
 end
 
 puts "Events seeded (#{events.size})."
