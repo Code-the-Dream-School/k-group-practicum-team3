@@ -17,14 +17,38 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
     <%= javascript_importmap_tags %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    .brand-logo {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 28px;         
+      letter-spacing: -0.02em;  
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    .brand-logo .dot {
+      color: #FBBF24;
+      margin-left: 2px;
+    }
+  </style>
+
   </head>
 
-  <body>
+  <body class="min-h-screen bg-white text-gray-900 flex flex-col">
     <header>
-      <nav class="flex items-center justify-between gap-4 border-b-2 border-gray-300 bg-white px-4 py-3 sm:px-6">
-        <a href="/" class="shrink-0">
-          <span class="inline-flex items-center rounded border border-black px-3 py-2 text-sm font-semibold text-black">Logo</span>
-        </a>
+      <nav class="flex items-center justify-between gap-4 border-b-2 border-gray-200 bg-white px-4 py-3 sm:px-6">
+        <%= link_to root_path, class: "shrink-0 flex items-center" do %>
+          <span class="brand-logo text-gray-900">
+          Gather<span class="dot">.</span>
+        </span>
+      <% end %>
+
 
         <!-- Search bar -->
         <div class="flex w-full max-w-md flex-1">
@@ -123,8 +147,26 @@
       </div>
     <% end %>
 
-    <main class="container mx-auto mt-28 px-5">
+    <main class="container mx-auto mt-28 px-5 flex-1">
       <%= yield %>
     </main>
+    
+    <footer class="mt-16 border-t border-gray-200 bg-gray-50">
+      <div class="container mx-auto px-5 py-5">
+
+        <div class="text-xl font-bold tracking-wide text-gray-900">
+          GATHER<span class="text-yellow-400">.</span>
+        </div>
+
+        <div class="mt-2 text-sm text-gray-600">
+         Bringing families, organizers, and teens together through meaningful events.
+        </div>
+
+        <div class="mt-6 border-t border-gray-200 pt-4 text-sm text-gray-500 flex flex-col md:flex-row md:justify-between gap-4">
+        <div>© <%= Time.current.year %> GATHER</div>
+          <div>Built with Ruby on Rails by Team 6 - Code the Dream Practicum</div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
