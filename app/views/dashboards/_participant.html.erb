@@ -112,9 +112,15 @@
 
             <!-- Image Carousel -->
             <div class="relative h-48 overflow-hidden bg-gray-100">
-              <div class="flex items-center justify-center h-full text-sm text-gray-400">
-                No image available
-              </div>
+              <% if event.media_files.attached? %>
+                <%= image_tag url_for(event.media_files.first),
+                class: "w-full h-full object-cover",
+                alt: event.title %>
+              <% else %>
+                <%= image_tag "categories/#{event.category}.jpg",
+                 class: "w-full h-full object-cover",
+                 alt: event.title %>
+              <% end %>
             </div>
 
             <!-- Content -->
